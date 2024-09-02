@@ -1,5 +1,2 @@
-<<<<<<< HEAD
 ✈️ GlobalNomard 🌏
-=======
-# GlobalNomard-7
->>>>>>> 8d2e363 (Initial commit)
+💙웹 후크 잘 동작 하는지 확인💙
