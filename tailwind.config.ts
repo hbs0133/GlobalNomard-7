@@ -11,10 +11,11 @@ const config: Config = {
       // },
       colors: {
         black: '#1B1B1B',
-        'black-nomad': '#333236',
+        'black-nomad': '#112211',
         gray: {
           '4b': '#4B4B4B',
           '79': '#79747E',
+          a1: 'A1A1A1',
           a4: '#A4A1AA',
           ad: '#ADAEB8',
           cb: '#CBC9CF',
@@ -24,11 +25,12 @@ const config: Config = {
         },
         green: {
           '0B': '#0B3B2D',
-          f1: '#F1EFFD',
+          ce: '#CED8D5',
           '00': '#00AC07',
         },
         red: {
           ff4: '#FF472E',
+          ffc: 'FFC2BA',
           ffe: 'FFE4E0',
         },
         orange: {
