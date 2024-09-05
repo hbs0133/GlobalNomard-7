@@ -34,6 +34,11 @@ import IconVisibilityOn from './ic_visibility_on.svg';
 import IconX40px from './ic_x_40px.svg';
 import IconXBold from './ic_x_bold_24px.svg';
 import IconXMedium from './ic_x_medium_24px.svg';
+import IconPen from './ic_pen.svg';
+import IconTextBoxCheckOutlineGray from './ic_text-box-check-outline-gray.svg';
+import IconCalendarCheckOutlineGray from './ic_calendar-check-outline-gray.svg';
+import IconCogGray from './ic_cog-gray.svg';
+import IconAccountCheckoutOutlineGray from './ic_account-check-outline-gray.svg';
 
 export {
   IconAccountCheckOutline,
@@ -72,4 +77,9 @@ export {
   IconX40px,
   IconXBold,
   IconXMedium,
+  IconPen,
+  IconTextBoxCheckOutlineGray,
+  IconCalendarCheckOutlineGray,
+  IconCogGray,
+  IconAccountCheckoutOutlineGray,
 };
