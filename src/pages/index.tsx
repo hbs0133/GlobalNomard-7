@@ -1,5 +1,5 @@
 import React from 'react';
-import MyReservations from './page';
+import MyReservations from '../components/SideNavCard/page';
 
 const Home: React.FC = () => {
   return (

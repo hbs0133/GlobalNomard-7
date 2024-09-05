@@ -1,7 +1,9 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 interface ButtonHoverProps {
   children?: React.ReactNode;
@@ -20,12 +22,8 @@ const ButtonHover = ({
   const [isActive, setIsActive] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (pathname === href) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
+  useLayoutEffect(() => {
+    setIsActive(pathname === href);
   }, [pathname, href]);
 
   const activeClass =

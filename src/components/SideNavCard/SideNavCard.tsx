@@ -1,10 +1,12 @@
+'use client';
+
 import {
-  IconAccountCheckOutline,
-  IconCalendarCheck,
-  IconCog,
-  IconTextBoxCheck,
   IconImageRegister,
-} from '@/assets/icons/index';
+  IconAccountCheckOutline,
+  IconTextBoxCheck,
+  IconCog,
+  IconCalendarCheck,
+} from '@/assets/icons';
 import Image from 'next/image';
 import React from 'react';
 import ButtonHover from './ButtonHover';
@@ -12,8 +14,8 @@ import ProfileImage from './ProfileImage';
 
 function SideNavCard(): React.JSX.Element {
   return (
-    <div className="hidden h-[432px] w-[251px] gap-6 rounded-2xl border border-solid border-gray-dd bg-white drop-shadow-sm md:flex-col xl:h-[432px] xl:w-[384px]">
-      <div className="relative mx-auto mt-6 items-center justify-center">
+    <div className="flex h-[432px] w-[251px] gap-6 rounded-2xl border border-solid border-gray-dd bg-white drop-shadow-sm md:flex-col xl:h-[432px] xl:w-[384px]">
+      <div className="relative mx-auto mt-6 flex items-center justify-center">
         <ProfileImage />
       </div>
       <Image
@@ -23,7 +25,7 @@ function SideNavCard(): React.JSX.Element {
         height={44}
         alt="연필"
       />
-      <div className="text-gray-a1 mx-auto flex flex-col gap-2 xl:h-[200px] xl:w-[336px]">
+      <div className="mx-auto flex flex-col gap-2 text-gray-a1 xl:h-[200px] xl:w-[336px]">
         <ButtonHover
           href={'/myprofile'}
           defaultIcon={IconAccountCheckOutline}
