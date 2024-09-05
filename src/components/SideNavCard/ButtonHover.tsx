@@ -32,7 +32,7 @@ const ButtonHover = ({
   return (
     <Link href={href}>
       <button
-        className={`${activeClass} flex h-[44px] w-[203px] cursor-pointer items-center rounded-2xl pl-4 text-lg xl:w-[336px]`}
+        className={`${activeClass} flex h-[44px] w-[203px] cursor-pointer items-center rounded-2xl pl-4 text-lg font-bold xl:w-[336px]`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

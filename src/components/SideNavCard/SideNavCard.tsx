@@ -1,11 +1,15 @@
 'use client';
 
 import {
-  IconImageRegister,
   IconAccountCheckOutline,
   IconTextBoxCheck,
   IconCog,
   IconCalendarCheck,
+  IconPen,
+  IconTextBoxCheckOutlineGray,
+  IconCalendarCheckOutlineGray,
+  IconCogGray,
+  IconAccountCheckoutOutlineGray,
 } from '@/assets/icons';
 import Image from 'next/image';
 import React from 'react';
@@ -20,7 +24,7 @@ function SideNavCard(): React.JSX.Element {
       </div>
       <Image
         className="absolute right-14 top-[140px] xl:right-32"
-        src={IconImageRegister}
+        src={IconPen}
         width={44}
         height={44}
         alt="연필"
@@ -28,28 +32,28 @@ function SideNavCard(): React.JSX.Element {
       <div className="mx-auto flex flex-col gap-2 text-gray-a1 xl:h-[200px] xl:w-[336px]">
         <ButtonHover
           href={'/myprofile'}
-          defaultIcon={IconAccountCheckOutline}
+          defaultIcon={IconAccountCheckoutOutlineGray}
           hoverIcon={IconAccountCheckOutline}
         >
           내 정보
         </ButtonHover>
         <ButtonHover
           href={'/myreservations'}
-          defaultIcon={IconTextBoxCheck}
+          defaultIcon={IconTextBoxCheckOutlineGray}
           hoverIcon={IconTextBoxCheck}
         >
           예약 내역
         </ButtonHover>
         <ButtonHover
           href={'/myactivities'}
-          defaultIcon={IconCog}
+          defaultIcon={IconCogGray}
           hoverIcon={IconCog}
         >
           내 체험 관리
         </ButtonHover>
         <ButtonHover
           href={'/reservation-schedule'}
-          defaultIcon={IconCalendarCheck}
+          defaultIcon={IconCalendarCheckOutlineGray}
           hoverIcon={IconCalendarCheck}
         >
           예약 현황

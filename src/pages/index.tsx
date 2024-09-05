@@ -1,8 +1,11 @@
 import React from 'react';
-import MyReservations from '../components/SideNavCard/page';
-
+import MyReservations from '@/components/SideNavCard/page';
 const Home: React.FC = () => {
-  return <></>;
+  return (
+    <>
+      <MyReservations />
+    </>
+  );
 };
 
 export default Home;
