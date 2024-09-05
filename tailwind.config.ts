@@ -15,6 +15,7 @@ const config: Config = {
         gray: {
           '4b': '#4B4B4B',
           '79': '#79747E',
+          a1: '#A1A1A1',
           a4: '#A4A1AA',
           ad: '#ADAEB8',
           cb: '#CBC9CF',
@@ -26,6 +27,7 @@ const config: Config = {
           '0B': '#0B3B2D',
           f1: '#F1EFFD',
           '00': '#00AC07',
+          ce: '#CED8D5',
         },
         red: {
           ff4: '#FF472E',
