@@ -21,8 +21,15 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
     "@typescript-eslint/camelcase": "off",
-    "import/extensions": ["error", "ignorePackages"],
-    "no-console": "error"
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      { "ts": "never", "tsx": "never" }
+    ],
+
+    "no-console": "error",
+    "react/jsx-props-no-spreading": 0
+    //prop spred 제한하는 속성, 코드의 가독성과 유지보수를 위해서 어떤prop을 내려주는지 명시하는것이 좋다. but 공통컴포넌트에 rest파라미터 사용을 위해 속성추가. 대안을 찾아보겠습니다!
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
