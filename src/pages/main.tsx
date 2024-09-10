@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import bgImg from '@/assets/images/main_bg.png';
+import Search from '@/components/Main/Search';
 
 const Main = () => {
   return (
@@ -9,7 +10,8 @@ const Main = () => {
         <Image
           src={bgImg}
           alt="메인 헤더 배경이미지"
-          layout="fill"
+          priority
+          fill
           objectFit="cover"
           objectPosition="center"
         />
@@ -23,6 +25,7 @@ const Main = () => {
           </p>
         </div>
       </div>
+      <Search />
     </>
   );
 };
