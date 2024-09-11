@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState, useContext } from 'react';
-import SideNavCard from '@/components/SideNavCard/SideNavCard';
 import { ILoginResponse } from '@/types/auth';
 
 function LoginPage() {
-    const [email, setEmail] = useState<string>('');  // 상태 변수에 타입 추가
-    const [password, setPassword] = useState<string>('');  // 상태 변수에 타입 추가
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const router = useRouter();
 
     const login = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,7 +38,6 @@ function LoginPage() {
                 <input type="password" placeholder="비밀번호" onChange={(e) => setPassword(e.target.value)} />
                 <button type="submit">로그인</button>
             </form>
-            <SideNavCard />
         </>
     );
 }
