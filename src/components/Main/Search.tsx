@@ -14,7 +14,7 @@ const Search = () => {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex w-full flex-col">
         <p className="text-lg font-bold text-black-nomad">
           무엇을 체험하고 싶으신가요?
         </p>

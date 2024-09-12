@@ -61,6 +61,9 @@ const config: Config = {
         'main-gradient':
           'linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%)',
       },
+      boxShadow: {
+        sm: '0 4px 16px 0px rgba(17, 34, 17, 0.05)',
+      },
     },
   },
   plugins: [],
