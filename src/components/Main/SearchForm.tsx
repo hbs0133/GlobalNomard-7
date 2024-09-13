@@ -21,6 +21,7 @@ const SearchForm = ({ Value, handleInputChange, handleSubmit }) => {
             <button
               type="submit"
               className="bold h-[56px] w-[60%] max-w-[136px] rounded-[4px] bg-black-nomad text-lg text-white"
+              onSubmit={handleSubmit}
             >
               검색하기
             </button>
