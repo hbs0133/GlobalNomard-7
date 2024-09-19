@@ -4,6 +4,7 @@ import SearchForm from '@/components/Main/SearchForm';
 import { useState } from 'react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import mockData from '@/components/Main/mockData';
 
 const Main = () => {
   const BASE_URL = 'https://sp-globalnomad-api.vercel.app/7-7';
@@ -37,7 +38,7 @@ const Main = () => {
   return (
     <>
       <div className="h-screen w-screen bg-gray-fa">
-        <div className="relative h-[240px] w-screen sm:h-[550px]">
+        <div className="relative h-[240px] sm:h-[550px]">
           <div className="absolute inset-0 z-10 bg-main-gradient" />
           <Image
             src={bgImg}
@@ -47,17 +48,19 @@ const Main = () => {
             objectFit="cover"
             objectPosition="center"
           />
-          <div className="absolute left-[18%] top-[29%] z-10 flex flex-col gap-2 xl:gap-5">
-            <h1 className="text-2xl font-bold text-white sm:text-main-md xl:text-main-lg">
-              함께 배우면 즐거운
-              <br /> 스트릿 댄스
-            </h1>
-            <p className="text-md font-bold text-white sm:text-xl xl:text-2xl">
-              1월의 인기 체험 BEST 🔥
-            </p>
+          <div className="absolute top-[29%] z-10 flex w-full justify-center">
+            <div className="mx-auto flex w-[91%] max-w-[1200px] flex-col gap-2 xl:gap-5">
+              <h1 className="text-2xl font-bold text-white sm:text-main-md xl:text-main-lg">
+                함께 배우면 즐거운
+                <br /> 스트릿 댄스
+              </h1>
+              <p className="text-md font-bold text-white sm:text-xl xl:text-2xl">
+                1월의 인기 체험 BEST 🔥
+              </p>
+            </div>
           </div>
-          <div className="absolute top-[180px] z-20 flex w-screen justify-center sm:top-[490px]">
-            <div className="flex w-[91%] max-w-[1200px] items-center justify-center rounded-[16px] bg-white px-[24px] py-[16px] shadow-sm sm:px-[32px] sm:py-[24px]">
+          <div className="absolute top-[180px] z-20 flex w-full sm:top-[490px]">
+            <div className="mx-auto flex w-[91%] max-w-[1200px] items-center rounded-[16px] bg-white px-[24px] py-[16px] shadow-sm sm:px-[32px] sm:py-[24px]">
               <div className="flex w-full flex-col">
                 <p className="text-lg font-bold text-black-nomad sm:text-xl">
                   무엇을 체험하고 싶으신가요?
@@ -69,6 +72,11 @@ const Main = () => {
                 />
               </div>
             </div>
+          </div>
+        </div>
+        <div className="mt-[93px] flex sm:mt-[142px] 2xl:mt-[158px]">
+          <div className="mx-auto w-[91%] max-w-[1200px]">
+            <p className="text-2lg">🔥 인기 체험</p>
           </div>
         </div>
       </div>
