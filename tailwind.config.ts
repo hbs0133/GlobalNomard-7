@@ -4,11 +4,6 @@ const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
-      // backgroundImage: {
-      //   'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-      //   'gradient-conic':
-      //     'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      // },
       colors: {
         black: '#1B1B1B',
         'black-nomad': '#112211',
@@ -30,8 +25,8 @@ const config: Config = {
         },
         red: {
           ff4: '#FF472E',
-          ffc: 'FFC2BA',
-          ffe: 'FFE4E0',
+          ffc: '#FFC2BA',
+          ffe: '#FFE4E0',
         },
         orange: {
           ff7: '#FF7C1D',
