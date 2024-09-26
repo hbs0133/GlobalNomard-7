@@ -1,3 +1,13 @@
+interface IModal {
+  isModalOpen: boolean;
+  setOpenModal: () => void;
+  setCloseModal: () => void;
+}
+
+interface IModalPortal {
+  children: ReactNode;
+}
+
 interface IBaseModal {
   size: 'alert' | 'cancel' | 'review' | 'reservation' | 'notice';
   titleContent?: null | string;

@@ -4,6 +4,7 @@ import { IconX40px } from '@/assets/icons/index';
 import Button from '@/components/Button/Button';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
+import ModalPortal from './ModalPortal';
 
 function BaseModal({
   titleContent,
@@ -61,7 +62,7 @@ function BaseModal({
   };
 
   return (
-    <div>
+    <ModalPortal>
       {isModalOpen && (
         <div
           className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.5)]"
@@ -100,7 +101,7 @@ function BaseModal({
           </div>
         </div>
       )}
-    </div>
+    </ModalPortal>
   );
 }
 
