@@ -15,3 +15,5 @@ interface IBaseModal {
   footerButton: null | 1 | 2;
   children: ReactNode;
 }
+
+type IAlertModal = Omit<IBaseModal, 'title'>;
