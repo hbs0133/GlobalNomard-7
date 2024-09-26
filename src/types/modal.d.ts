@@ -17,3 +17,5 @@ interface IBaseModal {
 }
 
 type IAlertModal = Omit<IBaseModal, 'title'>;
+
+type ICancelModal = Omit<IBaseModal, 'title'>;

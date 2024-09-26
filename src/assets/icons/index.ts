@@ -39,6 +39,8 @@ import IconTextBoxCheckOutlineGray from './ic_text-box-check-outline-gray.svg';
 import IconCalendarCheckOutlineGray from './ic_calendar-check-outline-gray.svg';
 import IconCogGray from './ic_cog-gray.svg';
 import IconAccountCheckoutOutlineGray from './ic_account-check-outline-gray.svg';
+import IconEllipse from './ic_ellipse.svg';
+import IconCheck from './ic_check.png';
 
 export {
   IconAccountCheckOutline,
@@ -82,4 +84,6 @@ export {
   IconCalendarCheckOutlineGray,
   IconCogGray,
   IconAccountCheckoutOutlineGray,
+  IconEllipse,
+  IconCheck,
 };
