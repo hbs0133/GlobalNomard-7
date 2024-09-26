@@ -9,13 +9,14 @@ interface IModalPortal {
 }
 
 interface IBaseModal {
-  size: 'alert' | 'cancel' | 'review' | 'reservation' | 'notice';
+  size: 'alert' | 'confirm' | 'review' | 'reservation' | 'notice';
   titleContent?: null | string;
   tStyle?: 'review' | 'reservation' | 'notice';
+  xStyle?: 'review' | 'reservation' | 'notice';
   footerButton: null | 1 | 2;
   children: ReactNode;
 }
 
 type IAlertModal = Omit<IBaseModal, 'title'>;
 
-type ICancelModal = Omit<IBaseModal, 'title'>;
+type IConfirmModal = Omit<IBaseModal, 'title'>;

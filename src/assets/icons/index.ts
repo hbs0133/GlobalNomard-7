@@ -41,6 +41,8 @@ import IconCogGray from './ic_cog-gray.svg';
 import IconAccountCheckoutOutlineGray from './ic_account-check-outline-gray.svg';
 import IconEllipse from './ic_ellipse.svg';
 import IconCheck from './ic_check.png';
+import IconEllipseBlue from './ic_ellipse_blue.svg';
+import IconEllipseRed from './ic_ellipse_red.svg';
 
 export {
   IconAccountCheckOutline,
@@ -86,4 +88,6 @@ export {
   IconAccountCheckoutOutlineGray,
   IconEllipse,
   IconCheck,
+  IconEllipseBlue,
+  IconEllipseRed,
 };

@@ -1,8 +1,13 @@
-import Image from 'next/image';
 import { IconCheck, IconEllipse } from '@/assets/icons';
+import Image from 'next/image';
 import BaseModal from './BaseModal';
 
-function CancelModal({ size, footerButton, children, ...props }: ICancelModal) {
+function ConfirmModal({
+  size,
+  footerButton,
+  children,
+  ...props
+}: IConfirmModal) {
   return (
     <BaseModal size={size} footerButton={footerButton}>
       <div className="relative flex h-full flex-col items-center">
@@ -18,4 +23,4 @@ function CancelModal({ size, footerButton, children, ...props }: ICancelModal) {
   );
 }
 
-export default CancelModal;
+export default ConfirmModal;

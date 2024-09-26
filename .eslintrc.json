@@ -34,6 +34,10 @@
       {
         "endOfLine": "auto"
       }
+    ],
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": ["arrow-function", "function-declaration"] }
     ]
     //prop spred 제한하는 속성, 코드의 가독성과 유지보수를 위해서 어떤prop을 내려주는지 명시하는것이 좋다. but 공통컴포넌트에 rest파라미터 사용을 위해 속성추가. 대안을 찾아보겠습니다!
   },

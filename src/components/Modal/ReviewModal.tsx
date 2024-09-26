@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import { IconStarOn, IconStarOff } from '@/assets/icons/index';
 import ImgTest from '@/assets/images/img_empty.png';
+import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import Button from '@/components/Button/Button';
 import BaseModal from './BaseModal';

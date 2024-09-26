@@ -1,6 +1,6 @@
+import { IconX40px } from '@/assets/icons/index';
 import { MouseEvent } from 'react';
 import { useModalStore } from '@/stores/modalStore';
-import { IconX40px } from '@/assets/icons/index';
 import Button from '@/components/Button/Button';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
@@ -9,6 +9,7 @@ import ModalPortal from './ModalPortal';
 function BaseModal({
   titleContent,
   tStyle,
+  xStyle,
   children,
   footerButton,
   size,
@@ -18,7 +19,7 @@ function BaseModal({
 
   const sizeStyle = {
     alert: 'w-[540px] h-[250px] mobile:w-[327px] mobile:h-[220px]',
-    cancel: 'w-[298px] h-[184px]',
+    confirm: 'w-[298px] h-[184px]',
     review: 'w-[480px] h-[750px] mobile:w-[375px] mobile:h-[777px]',
     reservation: 'w-[429px] h-[697px] mobile:w-[375px] mobile:h-[777px]',
     notice: 'mobile:h-[812px]',
@@ -27,7 +28,13 @@ function BaseModal({
   const titleStyle = {
     review: '',
     reservation: '',
-    notice: 'text-xl font-bold mobile:mt-[40px]',
+    notice: 'text-xl font-bold mobile:mt-[30px] mobile:text-xl ',
+  };
+
+  const xButtonStyle = {
+    review: '',
+    reservation: '',
+    notice: 'w-[26px] h-[26px] mobile:mt-[30px]',
   };
 
   let button;
@@ -84,15 +91,13 @@ function BaseModal({
                   {titleContent}
                 </span>
                 <button
-                  className="cursor-pointer hover:opacity-80"
+                  className={twMerge(
+                    `"h-[40px] w-[40px]" cursor-pointer hover:opacity-80 ${xButtonStyle[xStyle]}`,
+                  )}
                   type="button"
                   onClick={setCloseModal}
                 >
-                  <Image
-                    className="h-[40px] w-[40px]"
-                    src={IconX40px}
-                    alt="닫기버튼"
-                  />
+                  <Image src={IconX40px} alt="닫기버튼" />
                 </button>
               </div>
             )}
