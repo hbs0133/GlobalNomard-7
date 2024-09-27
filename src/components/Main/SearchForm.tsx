@@ -12,7 +12,7 @@ function SearchForm({ value, handleInputChange, handleSubmit }) {
         />
         <div className="mt-[15px] flex gap-[12px] sm:mt-[32px]">
           <input
-            className="h-[56px] w-[100%] rounded-[4px] border border-gray-79 pl-[48px] text-md"
+            className="h-[56px] w-[100%] rounded-[4px] border border-gray-79 pl-[48px] text-md sm:text-lg"
             value={value}
             onChange={handleInputChange}
             placeholder="내가 원하는 체험은"

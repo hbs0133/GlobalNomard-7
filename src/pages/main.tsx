@@ -1,15 +1,26 @@
 import Image from 'next/image';
 import bgImg from '@/assets/images/main_bg.png';
-import axios from 'axios';
-import mockData from '@/components/Main/mockData';
 import MostReview from '@/components/Main/MostReview';
 import Search from '@/components/Main/Search';
+import axios from 'axios';
+import mockData from '@/components/Main/mockData';
 
 function Main() {
   const BASE_URL = 'https://sp-globalnomad-api.vercel.app/7-7';
 
+  const fetchActivities = async (
+    method = 'offset',
+    category = '',
+    sort = '',
+  ) => {
+    const res = await axios.get(`
+  ${BASE_URL}/activities?method=${method}${category}${sort}&page=1&size=20`);
+    return mockData;
+    // return res.data;
+  };
+
   return (
-    <div className="h-screen w-screen bg-gray-fa">
+    <div className="w-screen bg-gray-fa">
       <div className="relative h-[240px] sm:h-[550px]">
         <div className="absolute inset-0 z-10 bg-main-gradient" />
         <Image
@@ -33,7 +44,7 @@ function Main() {
         </div>
         <Search BASE_URL={BASE_URL} />
       </div>
-      <MostReview />
+      <MostReview fetchActivities={fetchActivities} />
     </div>
   );
 }
