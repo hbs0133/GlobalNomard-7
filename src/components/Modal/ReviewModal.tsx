@@ -40,6 +40,7 @@ function ReviewModal() {
       type="modal"
       size="review"
       titleContent="후기 작성"
+      tStyle="review"
       footerButton={null}
     >
       <div className="mt-[41px] mobile:mt-[35px]">
