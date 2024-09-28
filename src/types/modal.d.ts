@@ -9,7 +9,14 @@ interface IModalPortal {
 }
 
 interface IBaseModal {
-  size: 'alert' | 'confirm' | 'review' | 'reservation' | 'notice';
+  type: 'modal' | 'nonModal';
+  size:
+    | 'alert'
+    | 'confirm'
+    | 'review'
+    | 'reservationLarge'
+    | 'reservationMedium'
+    | 'notice';
   titleContent?: null | string;
   tStyle?: 'review' | 'reservation' | 'notice';
   xStyle?: 'review' | 'reservation' | 'notice';
@@ -20,3 +27,7 @@ interface IBaseModal {
 type IAlertModal = Omit<IBaseModal, 'title'>;
 
 type IConfirmModal = Omit<IBaseModal, 'title'>;
+
+interface ITabContent {
+  options: { label: string; value: string }[];
+}

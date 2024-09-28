@@ -9,7 +9,7 @@ function ConfirmModal({
   ...props
 }: IConfirmModal) {
   return (
-    <BaseModal size={size} footerButton={footerButton}>
+    <BaseModal type="modal" size={size} footerButton={footerButton}>
       <div className="relative flex h-full flex-col items-center">
         <Image
           className="absolute top-[8px]"

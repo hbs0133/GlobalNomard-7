@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 function NoticeCard() {
   return (
-    <div className="mb-[8px] mt-[16px] w-[328px] rounded-[5px] border-[1px] border-gray-cb px-[12px] py-[16px]">
+    <div className="mb-[8px] mt-[16px] w-[328px] rounded-[5px] border-[1px] border-gray-cb bg-white px-[12px] py-[16px]">
       <div>
         <div className="flex items-center justify-between">
           <Image src={IconEllipseBlue} alt="예약 승인 아이콘" />
