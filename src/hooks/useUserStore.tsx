@@ -3,24 +3,41 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// 상태와 액션의 타입 정의
+interface User {
+    id: number;
+    email: string;
+    nickname: string;
+    profileImageUrl: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
+
 interface UserState {
-    user: string;
+    user: User | null;
+    accessToken: string | null;
+    loading: boolean;
+    error: string | null;
+    setUser: (user: User, accessToken: string) => void;
+    clearUser: () => void;
+    setLoading: (loading: boolean) => void;
+    setError: (error: string | null) => void;
 }
 
-interface UserAction {
-    setUser: (user: string) => void;
-}
-
-// Zustand 상태 관리와 persist 설정
-export const useUserStore = create<UserState & UserAction>()(
+export const useUserStore = create<UserState>()(
     persist(
         (set) => ({
-            user: "",
-            setUser: (user: string) => set({ user }),
+            user: null,
+            accessToken: null,
+            loading: false,
+            error: null,
+            setUser: (user: User, accessToken: string) =>
+                set({ user, accessToken, loading: false, error: null }),
+            clearUser: () => set({ user: null, accessToken: null }),
+            setLoading: (loading: boolean) => set({ loading }),
+            setError: (error: string | null) => set({ error, loading: false }),
         }),
         {
-            name: 'user-storage', // 로컬 스토리지의 키 이름
+            name: 'user-storage',
         }
     )
 );
