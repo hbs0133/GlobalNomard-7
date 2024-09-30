@@ -1,5 +1,8 @@
+'use client';
+
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { useUserStore } from '@/hooks/useUserStore';
 import React, { useEffect, useState } from 'react'
 
 function SignupPage() {
@@ -8,6 +11,14 @@ function SignupPage() {
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const router = useRouter();
+    const { user, setUser } = useUserStore();
+
+    //로그인 돼있을 때 회원가입 창으로 못 들어가게 막음
+    useEffect(() => {
+        if (user) {
+            router.push('/');
+        }
+    }, [user])
 
     const signUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -24,12 +35,6 @@ function SignupPage() {
                 console.log(res.response.data.message);
             });
     };
-
-    useEffect(() => {
-        if (localStorage.getItem('accessToken')) {
-            router.push('/')
-        }
-    }, [router]);
 
 
     return (

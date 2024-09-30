@@ -1,13 +1,14 @@
-"use client";
+'use client';
 import axios from 'axios';
-import { useUserStore } from "@/hooks/useUserStore";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useUserStore } from '@/hooks/useUserStore';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { ILoginResponse } from '@/types/auth';
+import PwdInput from '@/components/Input/PwdInput';
 
 const Login = () => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+    const [email, setEmail] = useState<string | null>(null);
+    const [password, setPassword] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +18,7 @@ const Login = () => {
     //로그인 돼있을 때 로그인창으로 못 들어가게 막음
     useEffect(() => {
         if (user) {
-            router.push("/");
+            router.push('/');
         }
     }, [user])
 
@@ -47,14 +48,14 @@ const Login = () => {
             setUser(user, accessToken);
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
-            router.push("/");
+            router.push('/');
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
                 alert('로그인 실패');
                 //로그인 실패 모달 띄워야함
             } else {
-                setError("알 수 없는 오류가 발생했습니다.");
+                setError('알 수 없는 오류가 발생했습니다.');
             }
         } finally {
             setLoading(false);
@@ -64,21 +65,21 @@ const Login = () => {
     return (
         <>
             <input
-                type="email"
-                placeholder="이메일"
-                value={email}
+                type='email'
+                placeholder='이메일을 입력해 주세요'
+                value={email ? email : ""}
                 onChange={(e) => setEmail(e.target.value)}
             />
-            <input
-                type="password"
-                placeholder="비밀번호"
-                value={password}
+            <PwdInput
+                id='password'
+                placeholder='비밀번호를 입력해주세요'
+                value={password ? password : ""}
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button onClick={onSubmit} disabled={loading}>
-                {loading ? "로그인 중..." : "로그인"}
+                {loading ? '로그인 중...' : '로그인 하기'}
             </button>
-            {error && <div style={{ color: "red" }}>{error}</div>}
+            {error && <div style={{ color: 'red' }}>{error}</div>}
         </>
     );
 };
