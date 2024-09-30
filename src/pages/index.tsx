@@ -1,7 +1,7 @@
 import React from 'react';
 import MyReservations from '@/components/SideNavCard/page';
 const Home: React.FC = () => {
-  return <></>;
+  return <MyReservations></MyReservations>;
 };
 
 export default Home;
