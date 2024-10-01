@@ -2,14 +2,9 @@ import { IconCheck, IconEllipse } from '@/assets/icons';
 import Image from 'next/image';
 import BaseModal from './BaseModal';
 
-function ConfirmModal({
-  size,
-  footerButton,
-  children,
-  ...props
-}: IConfirmModal) {
+function ConfirmModal({ children }: IConfirmModal) {
   return (
-    <BaseModal type="modal" size={size} footerButton={footerButton}>
+    <BaseModal type="modal" size="confirm" footerButton={2}>
       <div className="relative flex h-full flex-col items-center">
         <Image
           className="absolute top-[8px]"

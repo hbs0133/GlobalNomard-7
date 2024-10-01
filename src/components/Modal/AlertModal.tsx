@@ -1,8 +1,8 @@
 import BaseModal from './BaseModal';
 
-function AlertModal({ size, footerButton, children }: IAlertModal) {
+function AlertModal({ children }: IAlertModal) {
   return (
-    <BaseModal type="modal" size={size} footerButton={footerButton}>
+    <BaseModal type="modal" size="alert" footerButton={1}>
       <div className="flex h-full flex-col items-center justify-end">
         <p className="text-center text-lg font-medium">{children}</p>
       </div>

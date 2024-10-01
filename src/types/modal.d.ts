@@ -24,9 +24,9 @@ interface IBaseModal {
   children: ReactNode;
 }
 
-type IAlertModal = Omit<IBaseModal, 'title'>;
+type IAlertModal = Pick<IBaseModal, 'children'>;
 
-type IConfirmModal = Omit<IBaseModal, 'title'>;
+type IConfirmModal = Pick<IBaseModal, 'children'>;
 
 interface ITabContent {
   options: { label: string; value: string }[];
