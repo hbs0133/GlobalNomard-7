@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import bgImg from '@/assets/images/main_bg.png';
-import MostReview from '@/components/Main/MostReview';
-import Search from '@/components/Main/Search';
 import axios from 'axios';
 import mockData from '@/components/Main/mockData';
+import MostReview from '@/components/Main/MostReview';
+import Search from '@/components/Main/Search';
 
 function Main() {
   const BASE_URL = 'https://sp-globalnomad-api.vercel.app/7-7';
