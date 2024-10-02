@@ -16,6 +16,9 @@ function Button({
     large: 'w-[350px] h-[48px] text-lg font-bold',
     medium: 'w-[144px] h-[48px] text-lg font-bold',
     small: 'w-[108px] h-[38px] text-md font-bold',
+    largeModal: 'w-full h-[54px] text-lg font-bold',
+    mediumModal: 'w-[128px] h-[48px] text-lg font-medium',
+    smallModal: 'w-[80px] h-[38px] text-md font-bold',
   };
 
   const statusStyle = {
