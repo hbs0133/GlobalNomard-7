@@ -1,34 +1,44 @@
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import Pagination from 'react-js-pagination';
 import ItemCard from './ItemCard';
 
 function Category({ fetchActivities }) {
   const [categoryValue, setCategoryValue] = useState('');
   const [sortValue, setSortValue] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
 
   const { isLoading, error, data } = useQuery({
-    queryKey: ['category', categoryValue, sortValue],
+    queryKey: ['category', categoryValue, sortValue, currentPage],
     queryFn: () =>
       fetchActivities(
         'offset',
         sortValue ? `&sort=${sortValue}` : '',
         categoryValue ? `&category=${categoryValue}` : '',
+        currentPage,
         '8',
       ),
     staleTime: 60000,
   });
 
-  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSortChange = (event) => {
     setSortValue(event.target.value);
   };
 
-  const handleCategoryClick = (category: string) => {
-    if (categoryValue === category) {
-      setCategoryValue('');
-    } else {
-      setCategoryValue(category);
-    }
+  const handleCategoryClick = (category) => {
+    setCategoryValue((prev) => (prev === category ? '' : category));
   };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    if (data) {
+      setTotalItems(data.totalCount);
+    }
+  }, [data]);
 
   return (
     <div className="mt-[40px] flex sm:mt-[60px]">
@@ -74,11 +84,27 @@ function Category({ fetchActivities }) {
         {isLoading && <p>로딩 중...</p>}
         {error && <p>에러가 발생했습니다. {error.message}</p>}
 
-        {/* grid 레이아웃 설정 */}
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 2xl:grid-cols-4 2xl:gap-8">
           {data?.activities.map((item) => (
             <ItemCard key={item.id} item={item} />
           ))}
+        </div>
+
+        <div className="mt-6">
+          <Pagination
+            activePage={currentPage}
+            itemsCountPerPage={8}
+            totalItemsCount={totalItems}
+            pageRangeDisplayed={5}
+            onChange={handlePageChange}
+            itemClass="inline-block px-3 py-1 border rounded"
+            activeClass="bg-green-700 text-white"
+            hideDisabled={false}
+            hideFirstLastPages={true}
+            prevPageText="‹"
+            nextPageText="›"
+            disabledClass="opacity-50 cursor-not-allowed"
+          />
         </div>
       </div>
     </div>

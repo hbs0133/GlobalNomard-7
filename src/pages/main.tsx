@@ -13,10 +13,11 @@ function Main() {
     method = 'offset',
     category = '',
     sort = '',
-    size = '20',
+    page = '1',
+    pageSize = '20',
   ) => {
     const res = await axios.get(`
-  ${BASE_URL}/activities?method=${method}${category}${sort}&page=1&size=${size}`);
+  ${BASE_URL}/activities?method=${method}${category}${sort}&page=${page}&size=${pageSize}`);
     // return mockData;
     return res.data;
   };

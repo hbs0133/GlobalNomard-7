@@ -10,7 +10,8 @@ import Image from 'next/image';
 function BestActivities({ fetchActivities }) {
   const { isLoading, error, data } = useQuery({
     queryKey: ['BestActivities'],
-    queryFn: () => fetchActivities('offset', '', '&sort=most_reviewed', '20'),
+    queryFn: () =>
+      fetchActivities('offset', '', '&sort=most_reviewed', '1', '20'),
     staleTime: 60000,
   });
 
