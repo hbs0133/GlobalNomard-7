@@ -7,10 +7,10 @@ import prevBtn from '@/assets/icons/ic_arrow_left_black_48px.svg';
 import 'swiper/css';
 import Image from 'next/image';
 
-function MostReview({ fetchActivities }) {
+function BestActivities({ fetchActivities }) {
   const { isLoading, error, data } = useQuery({
-    queryKey: ['most-reviews'],
-    queryFn: () => fetchActivities('offset', '', ''),
+    queryKey: ['BestActivities'],
+    queryFn: () => fetchActivities('offset', '', '&sort=most_reviewed', '20'),
     staleTime: 60000,
   });
 
@@ -63,7 +63,7 @@ function MostReview({ fetchActivities }) {
           {data?.activities.map((item) => (
             <SwiperSlide key={item.id}>
               <div className="swiper-slide-content relative">
-                <div className="relative h-[186px] w-[186px] sm:h-[384px] sm:w-[384px]">
+                <div className="h-[186px] w-[186px] sm:h-[384px] sm:w-[384px]">
                   <Image
                     src={item.bannerImageUrl}
                     alt={item.title}
@@ -98,7 +98,7 @@ function MostReview({ fetchActivities }) {
                     </p>
                     <div className="flex items-center gap-[5px]">
                       <p className="text-lg font-bold sm:text-xl">
-                        ₩ {item.price}
+                        ₩ {item.price.toLocaleString()}
                       </p>
                       <p className="text-md text-gray-a1">/ 인</p>
                     </div>
@@ -113,4 +113,4 @@ function MostReview({ fetchActivities }) {
   );
 }
 
-export default MostReview;
+export default BestActivities;
