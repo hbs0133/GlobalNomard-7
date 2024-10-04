@@ -4,6 +4,8 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useUserStore } from '@/hooks/useUserStore';
 import React, { useEffect, useState } from 'react'
+import Input from '@/components/Input/Input';
+import PwdInput from '@/components/Input/PwdInput';
 
 function SignupPage() {
     const [email, setEmail] = useState('')
@@ -39,12 +41,34 @@ function SignupPage() {
 
     return (
         <form onSubmit={signUp}>
-            <input type="email" placeholder="이메일" onChange={(e) => setEmail(e.target.value)} />
-            <input type="text" placeholder="닉네임" onChange={(e) => setNickname(e.target.value)} />
-            <input type="password" placeholder="비밀번호" onChange={(e) => setPassword(e.target.value)} />
-            <input type="password" placeholder="비밀번호 확인" onChange={(e) => setPasswordConfirm(e.target.value)} />
+            <Input
+                id='email'
+                placeholder='이메일을 입력해 주세요'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)} // 이메일 상태 업데이트
+            />
+            <Input
+                id='nickname'
+                placeholder='닉네임을 입력해 주세요'
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)} // 닉네임 상태 업데이트
+            />
+            <PwdInput
+                id='password'
+                placeholder='8자 이상 입력해 주세요'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} // 비밀번호 상태 업데이트
+            />
+            <PwdInput
+                id='passwordConfirm'
+                placeholder='비밀번호를 한 번 더 입력해 주세요'
+                value={passwordConfirm}
+                onChange={(e) => setPasswordConfirm(e.target.value)} // 비밀번호 확인 상태 업데이트
+                correct={password}
+            />
             <button type="submit">회원가입</button>
         </form>
+
     )
 }
 
