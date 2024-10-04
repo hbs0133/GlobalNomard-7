@@ -55,11 +55,14 @@ const config: Config = {
         medium: '500',
         regular: '400',
       },
-      screens: {
-        mobile: { min: '320px', max: '767px' },
-        tablet: { min: '768px', max: '1024px' },
-        dektop: { min: '1025px' },
+      borderRadius: {
+        'custom-top': '4px 4px 0px 0px',
       },
+    },
+    screens: {
+      mobile: { min: '320px', max: '767px' },
+      tablet: { min: '768px', max: '1024px' },
+      dektop: { min: '1025px' },
     },
   },
   plugins: [],
