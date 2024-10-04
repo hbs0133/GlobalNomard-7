@@ -40,6 +40,10 @@ import IconCalendarCheckOutlineGray from './ic_calendar-check-outline-gray.svg';
 import IconCogGray from './ic_cog-gray.svg';
 import IconAccountCheckoutOutlineGray from './ic_account-check-outline-gray.svg';
 import IconArrowDown from './ic_arrow_down.svg';
+import IconEllipse from './ic_ellipse.svg';
+import IconCheck from './ic_check.png';
+import IconEllipseBlue from './ic_ellipse_blue.svg';
+import IconEllipseRed from './ic_ellipse_red.svg';
 
 export {
   IconAccountCheckOutline,
@@ -84,4 +88,8 @@ export {
   IconCogGray,
   IconAccountCheckoutOutlineGray,
   IconArrowDown,
+  IconEllipse,
+  IconCheck,
+  IconEllipseBlue,
+  IconEllipseRed,
 };
