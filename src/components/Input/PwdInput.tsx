@@ -30,7 +30,7 @@ function PwdInput({ id, placeholder, error, className = '', correct = '', ...inp
         }
         else if (id === "passwordConfirm") {
             if (pwd !== correct) {
-                setPwdConfirmError('불일치');
+                setPwdConfirmError('비밀번호가 일치하지 않습니다.');
             } else {
                 setPwdConfirmError(null)
             }

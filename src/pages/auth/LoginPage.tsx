@@ -8,8 +8,8 @@ import Input from '@/components/Input/Input';
 import PwdInput from '@/components/Input/PwdInput';
 
 const Login = () => {
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<{ general?: string } | null>(null); // 에러 상태
     const { user, setUser } = useUserStore();
@@ -60,10 +60,14 @@ const Login = () => {
             <Input
                 id='email'
                 placeholder='이메일을 입력해 주세요'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
             />
             <PwdInput
                 id='password'
                 placeholder='비밀번호를 입력해주세요'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
             />
             <button onClick={onSubmit} disabled={loading}>
                 {loading ? '로그인 중...' : '로그인 하기'}
