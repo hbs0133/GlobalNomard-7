@@ -18,3 +18,9 @@ export interface IUserContextType {
     setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
     setTokens: React.Dispatch<React.SetStateAction<IAuthTokens | null>>;
 }
+
+export interface IUserInforEdit {
+    nickname: string;
+    profileImageUrl: string;
+    newPassword: string;
+}
