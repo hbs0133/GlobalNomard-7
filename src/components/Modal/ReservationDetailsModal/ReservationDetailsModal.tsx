@@ -39,11 +39,13 @@ function ReservationDetailsModal() {
     <BaseModal
       type="nonModal"
       size={
-        activeTab === 'requestTab' ? 'reservationLarge' : 'reservationMedium'
+        activeTab === 'requestTab'
+          ? 'reservationDetailLarge'
+          : 'reservationDetailMedium'
       }
       titleContent="예약 정보"
-      tStyle="reservation"
-      xStyle="reservation"
+      tStyle="reservationDetail"
+      xStyle="reservationDetail"
       footerButton={null}
     >
       <div className="mx-[-24px] my-[27px] border-b-[1px] border-gray-dd pb-[10px] mobile:mx-[-15px]">
