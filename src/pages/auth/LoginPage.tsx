@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { ILoginResponse } from '@/types/auth';
 import Input from '@/components/Input/Input';
 import PwdInput from '@/components/Input/PwdInput';
+import Button from '@/components/Button/Button';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -27,18 +28,15 @@ const Login = () => {
         setError(null);
 
         try {
-            // 로그인 API 요청
             const response = await axios.post<ILoginResponse>('https://sp-globalnomad-api.vercel.app/7-7/auth/login', {
                 email: email,
                 password: password,
             });
 
-            // 사용자 정보와 액세스 토큰을 받아옴
             const data = response.data;
             console.log(data);
             const { user, accessToken, refreshToken } = data;
 
-            // 상태 설정
             setUser(user, accessToken);
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
@@ -61,6 +59,7 @@ const Login = () => {
                 id='email'
                 placeholder='이메일을 입력해 주세요'
                 value={email}
+                inputsize='large'
                 onChange={(e) => setEmail(e.target.value)}
             />
             <PwdInput
@@ -74,6 +73,10 @@ const Login = () => {
             </button>
 
             {error?.general && <div style={{ color: 'red' }}>{error.general}</div>} {/* 일반 에러 표시 */}
+
+            <Button onClick={onSubmit} size='large' status={loading || email.length == 0 || password.length == 0 ? 'inactive' : 'active'} >
+                {loading ? '로그인 중...' : '로그인 하기'}
+            </Button>
         </>
     );
 };

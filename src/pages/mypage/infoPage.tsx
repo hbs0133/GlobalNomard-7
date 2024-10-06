@@ -4,7 +4,7 @@ import axios from 'axios'
 import { IUser, IUserInforEdit } from '@/types/user'
 import { useRouter } from 'next/router'
 import { useUserStore } from '@/hooks/useUserStore'
-import React, { use, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '@/components/Input/Input';
 
 function InfoPage() {
