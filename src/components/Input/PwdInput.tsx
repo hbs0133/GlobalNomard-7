@@ -5,6 +5,7 @@ import Image from 'next/image';
 import IconVisibilityOff from '@/assets/icons/ic_visibility_off.svg';
 import IconVisibilityOn from '@/assets/icons/ic_visibility_on.svg';
 import React from 'react';
+import Button from '@/components/Button/Button';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     id: string;
@@ -39,9 +40,9 @@ function PwdInput({ id, placeholder, error, className = '', correct = '', ...inp
 
     return (
         <div>
-            <div>
+            <div className='relative w-full'>
                 <input
-                    style={{ backgroundColor: 'skyblue' }}
+                    className='bg-[#ebfffa] w-full h-[58px] text-[16px] text-black rounded-[5px] px-5 ${className}'
                     type={type}
                     id={id}
                     placeholder={placeholder}
@@ -51,7 +52,9 @@ function PwdInput({ id, placeholder, error, className = '', correct = '', ...inp
                     autoComplete="new-password"
                     {...inputProps}
                 />
-                <button type="button" onClick={() => setVisible(!visible)}>
+
+                <button type="button" onClick={() => setVisible(!visible)}
+                    className='bg-[#f3f8b9] absolute top-1/2 -translate-y-1/2 right-5'>
                     {visible ? (
                         <Image src={IconVisibilityOff} alt="Show" />
                     ) : (
@@ -59,9 +62,11 @@ function PwdInput({ id, placeholder, error, className = '', correct = '', ...inp
                     )}
                 </button>
             </div>
-            {pwdError && <p style={{ color: 'red' }}>{pwdError}</p>} {/* 비밀번호 에러 표시 */}
-            {PwdConfirmError && <p style={{ color: 'red' }}>{PwdConfirmError}</p>} {/* 비밀번호 에러 표시 */}
-        </div>
+
+            {pwdError && <p className='bg-[#ffebeb] text-[12px] text-red-ff4 rounded-[5px] px-2 pt-2 ${className}'>{pwdError}</p>}
+            {PwdConfirmError && <p className='bg-[#ffebeb] text-[12px] text-red-ff4 rounded-[5px] px-2 pt-2 ${className}'>{PwdConfirmError}</p>}
+
+        </div >
     );
 }
 

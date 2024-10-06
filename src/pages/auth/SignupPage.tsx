@@ -6,6 +6,7 @@ import { useUserStore } from '@/hooks/useUserStore';
 import React, { useEffect, useState } from 'react'
 import Input from '@/components/Input/Input';
 import PwdInput from '@/components/Input/PwdInput';
+import Button from '@/components/Button/Button';
 
 function SignupPage() {
     const [email, setEmail] = useState('')
@@ -66,7 +67,13 @@ function SignupPage() {
                 onChange={(e) => setPasswordConfirm(e.target.value)} // 비밀번호 확인 상태 업데이트
                 correct={password}
             />
-            <button type="submit">회원가입</button>
+
+            <Button
+                type="submit"
+                size='large'
+                status={email.length === 0 || password.length === 0 ? 'inactive' : 'active'}>
+                회원가입
+            </Button>
         </form>
 
     )

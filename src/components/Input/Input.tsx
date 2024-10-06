@@ -1,17 +1,15 @@
 'use client';
 
-import { twMerge } from 'tailwind-merge';
 import { useState } from 'react';
 import React from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     id: string;
     placeholder: string;
-    inputsize: | 'large' | 'medium' | 'small'
     error?: string;
 }
 
-function Input({ id, placeholder, error, inputsize, className = '', ...inputProps }: InputProps) {
+function Input({ id, placeholder, error, className = '', ...inputProps }: InputProps) {
     const [value, setValue] = useState<string | null>(null);
     const [emailError, setEmailError] = useState<string | null>(null);
 
@@ -30,17 +28,11 @@ function Input({ id, placeholder, error, inputsize, className = '', ...inputProp
         }
     };
 
-    const style = {
-        large: 'w-[640px] h-[58px] text-[16px] text-black',
-        medium: 'w-[100%] h-[58px] text-[16px] text-black',
-        small: 'w-[100%] h-[58px] text-[16px] text-black'
-    };
-
     return (
         <div>
             <div>
                 <input
-                    style={{ backgroundColor: 'pink' }}
+                    className={`bg-[#ebf2ff] w-full h-[58px] text-[16px] text-black rounded-[5px] px-5 ${className}`}
                     id={id}
                     placeholder={placeholder}
                     value={value || ''}
@@ -48,14 +40,10 @@ function Input({ id, placeholder, error, inputsize, className = '', ...inputProp
                     onBlur={(e) => handleBlur(e.target.value)}
                     autoComplete="new-password"
                     {...inputProps}
-
-                    className={twMerge(
-                        ` ${style[inputsize]}`
-                    )}
                 />
             </div>
-            {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
-        </div>
+            {emailError && <p className={`bg-[#ffebeb] text-[12px] text-red-ff4 rounded-[5px] px-2 pt-2 ${className}`}>{emailError}</p>}
+        </div >
     );
 }
 

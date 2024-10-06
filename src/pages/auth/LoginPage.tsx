@@ -59,7 +59,7 @@ const Login = () => {
                 id='email'
                 placeholder='이메일을 입력해 주세요'
                 value={email}
-                inputsize='large'
+                // inputsize='large'
                 onChange={(e) => setEmail(e.target.value)}
             />
             <PwdInput
@@ -68,11 +68,6 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={onSubmit} disabled={loading}>
-                {loading ? '로그인 중...' : '로그인 하기'}
-            </button>
-
-            {error?.general && <div style={{ color: 'red' }}>{error.general}</div>} {/* 일반 에러 표시 */}
 
             <Button onClick={onSubmit} size='large' status={loading || email.length == 0 || password.length == 0 ? 'inactive' : 'active'} >
                 {loading ? '로그인 중...' : '로그인 하기'}
