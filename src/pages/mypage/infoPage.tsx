@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { IUser, IUserInforEdit } from '@/types/user'
 import { useRouter } from 'next/router'
-import { useUserStore } from '@/hooks/useUserStore'
+import { useUserStore, getAccessTokenWithRefresh } from '@/hooks/useUserStore'
 import React, { useEffect, useState } from 'react'
 import Input from '@/components/Input/Input';
 
@@ -14,12 +14,14 @@ function InfoPage() {
     const [passwordConfirm, setPasswordConfirm] = useState('')
     const [profileImageUrl, setProfileImageUrl] = useState('https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/7-7_1119_1728047280262.jpeg')
     const router = useRouter();
-    const { user, accessToken, setUser } = useUserStore();
+    const { user, setUser } = useUserStore();
 
     useEffect(() => {
         const myInfo = async () => {
             try {
-                console.log(accessToken)
+                const accessToken = await getAccessTokenWithRefresh()
+
+                console.log(accessToken);
                 const response = await axios.get<IUser>('https://sp-globalnomad-api.vercel.app/7-7/users/me', {
                     headers: { Authorization: `Bearer ${accessToken}`, },
                 });
@@ -37,7 +39,7 @@ function InfoPage() {
 
     const edit = async () => {
         try {
-            console.log(accessToken)
+            const accessToken = await getAccessTokenWithRefresh()
             const response = await axios.patch<IUserInforEdit>(
                 'https://sp-globalnomad-api.vercel.app/7-7/users/me',
                 {
