@@ -1,16 +1,22 @@
 import '@/styles/globals.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { useState } from 'react';
+import ReactQueryProviders from '@/hooks/useReactQuery';
+import Script from 'next/script';
 
-function App({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(() => new QueryClient());
+const queryClient = new QueryClient();
 
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    // QueryClientProvider로 전체 애플리케이션을 감싸기
-    <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
-    </QueryClientProvider>
+    <>
+      <Script
+        src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"
+        strategy="afterInteractive"
+      />
+      <ReactQueryProviders>
+        <Component {...pageProps} />
+      </ReactQueryProviders>
+    </>
   );
 }
 

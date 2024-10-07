@@ -23,3 +23,9 @@
       sans-serif;
   }
 }
+
+@layer components {
+  .swiper-button-disabled {
+    @apply pointer-events-none opacity-50;
+  }
+}
