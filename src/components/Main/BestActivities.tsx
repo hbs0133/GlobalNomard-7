@@ -6,25 +6,34 @@ import nextBtn from '@/assets/icons/ic_arrow_right_black_48px.svg';
 import prevBtn from '@/assets/icons/ic_arrow_left_black_48px.svg';
 import 'swiper/css';
 import Image from 'next/image';
+import fetchActivities from '@/services/fetchActivities'; // fetchActivities 함수 import
+import { Activity, FetchActivitiesResponse } from '@/services/fetchActivities'; // Activity 타입 import
 
-function BestActivities({ fetchActivities }) {
-  const { isLoading, error, data } = useQuery({
+function BestActivities() {
+  const { isLoading, error, data } = useQuery<FetchActivitiesResponse>({
     queryKey: ['BestActivities'],
     queryFn: () =>
-      fetchActivities('offset', '', '&sort=most_reviewed', '1', '20'),
+      fetchActivities({
+        method: 'offset',
+        sort: 'most_reviewed',
+        page: '1',
+        size: '20',
+      }),
     staleTime: 60000,
   });
 
-  if (error) return <div>에러가 발생했습니다: {error.message}</div>;
+  if (isLoading) return <div>로딩 중입니다...</div>;
+  if (error instanceof Error)
+    return <div>에러가 발생했습니다: {error.message}</div>;
 
   return (
-    <div className="sm:mt-[142px] 2xl:mt-[158px] mt-[93px] flex">
-      <div className="sm:pl-8 xl:pl-0 mx-auto w-[100%] max-w-[1200px] pl-4">
-        <div className="sm:mb-8 mb-4 flex justify-between">
-          <p className="sm:text-3xl flex items-center text-2lg font-bold">
+    <div className="mt-[93px] flex sm:mt-[142px] 2xl:mt-[158px]">
+      <div className="mx-auto w-[100%] max-w-[1200px] pl-4 sm:pl-8 xl:pl-0">
+        <div className="mb-4 flex justify-between sm:mb-8">
+          <p className="flex items-center text-2lg font-bold sm:text-3xl">
             🔥 인기 체험
           </p>
-          <div className="lg:flex hidden">
+          <div className="hidden lg:flex">
             <div className="swiper-button-prev">
               <Image src={prevBtn} alt="이전버튼" />
             </div>
@@ -60,10 +69,10 @@ function BestActivities({ fetchActivities }) {
             },
           }}
         >
-          {data?.activities.map((item) => (
+          {data?.activities.map((item: Activity) => (
             <SwiperSlide key={item.id}>
-              <div className="swiper-slide-content sm:h-[384px] sm:w-[384px] relative h-[186px] w-[186px]">
-                <div className="sm:h-[384px] sm:w-[384px] relative h-[186px] w-[186px]">
+              <div className="swiper-slide-content relative h-[186px] w-[186px] sm:h-[384px] sm:w-[384px]">
+                <div className="relative h-[186px] w-[186px] sm:h-[384px] sm:w-[384px]">
                   <Image
                     src={item.bannerImageUrl}
                     alt={item.title}
@@ -78,8 +87,8 @@ function BestActivities({ fetchActivities }) {
                         'linear-gradient(180deg, rgba(0, 0, 0, 0) 33.33%, rgba(0, 0, 0, 0.8) 91.67%)',
                     }}
                   />
-                  <div className="sm:py-[30px] absolute inset-0 flex flex-col justify-end px-5 py-6 text-white">
-                    <div className="sm:mb-[20px] mb-[6px] flex items-center">
+                  <div className="absolute inset-0 flex flex-col justify-end px-5 py-6 text-white sm:py-[30px]">
+                    <div className="mb-[6px] flex items-center sm:mb-[20px]">
                       <Image
                         src={starIcon}
                         alt="별 아이콘"
@@ -93,11 +102,11 @@ function BestActivities({ fetchActivities }) {
                         ({item.reviewCount})
                       </p>
                     </div>
-                    <p className="sm:mb-5 sm:h-[84px] sm:w-[251px] sm:text-3xl mb-[6px] h-[52px] w-[146px] text-2lg font-bold">
+                    <p className="mb-[6px] h-[52px] w-[146px] text-2lg font-bold sm:mb-5 sm:h-[84px] sm:w-[251px] sm:text-3xl">
                       {item.title}
                     </p>
                     <div className="flex items-center gap-[5px]">
-                      <p className="sm:text-xl text-lg font-bold">
+                      <p className="text-lg font-bold sm:text-xl">
                         ₩ {item.price.toLocaleString()}
                       </p>
                       <p className="text-md text-gray-a1">/ 인</p>
