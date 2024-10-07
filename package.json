@@ -23,12 +23,11 @@
     "react-dom": "^18",
     "react-js-pagination": "^3.0.3",
     "swiper": "^11.1.14",
-    "tailwind-merge": "^2.5.2"
+    "tailwind-merge": "^2.5.2",
     "react-hook-form": "^7.53.0",
     "zustand": "^5.0.0-rc.2",
     "react-query": "^3.39.3",
-    "tailwind-merge": "^2.5.2"
-    "zod": "^3.23.8",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.9.0",

@@ -6,7 +6,7 @@ import Script from 'next/script';
 
 const queryClient = new QueryClient();
 
-export default function App({ Component, pageProps }: AppProps) {
+export function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Script
