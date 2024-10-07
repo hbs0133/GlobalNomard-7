@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ButtonHoverProps {
   children?: React.ReactNode;
@@ -22,12 +22,16 @@ const ButtonHover = ({
   const [isActive, setIsActive] = useState(false);
   const pathname = usePathname();
 
-  useLayoutEffect(() => {
-    setIsActive(pathname === href);
+  useEffect(() => {
+    if (pathname === href) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   }, [pathname, href]);
 
   const activeClass =
-    isHovered || isActive ? 'bg-green-ce text-black-nomad' : '';
+    isHovered || isActive ? 'bg-green-100 text-black-100' : '';
 
   return (
     <Link href={href}>
