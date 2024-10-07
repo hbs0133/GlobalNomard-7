@@ -32,6 +32,7 @@ function DropDown({
     small: 'w-[127px] mobile:w-[90px] tablet:w-[120px]',
     medium: 'w-[160px] mobile:w-[130px] tablet:w-[140px]',
     large: 'w-[792px] mobile:w-[343px] tablet:w-[429px]',
+    full: 'w-full',
   };
   const textStyle = {
     green: 'text-green-8b',
