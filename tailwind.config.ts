@@ -17,6 +17,8 @@ const config: Config = {
           dd: '#DDDDDD',
           ee: '#EEEEEE',
           fa: '#FAFAFA',
+          '96': '#969696',
+          e8: '#E8E8E8',
         },
         green: {
           '0B': '#0B3B2D',
@@ -64,6 +66,14 @@ const config: Config = {
       boxShadow: {
         sm: '0 4px 16px 0px rgba(17, 34, 17, 0.05)',
       },
+      borderRadius: {
+        'custom-top': '4px 4px 0px 0px',
+      },
+    },
+    screens: {
+      mobile: { min: '320px', max: '767px' },
+      tablet: { min: '768px', max: '1024px' },
+      dektop: { min: '1025px' },
     },
   },
   plugins: [],

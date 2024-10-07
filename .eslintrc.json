@@ -5,7 +5,12 @@
     "node": true,
     "es6": true
   },
-  "plugins": ["import", "@typescript-eslint", "react", "prettier"],
+  "plugins": [
+    "import",
+    "@typescript-eslint",
+    "react",
+    "prettier"
+  ],
   "extends": [
     "airbnb",
     "airbnb-typescript",
@@ -19,16 +24,36 @@
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
     "@typescript-eslint/camelcase": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
-      { "ts": "never", "tsx": "never" }
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
     ],
-
     "no-console": "error",
-    "react/jsx-props-no-spreading": 0
+    "react/jsx-props-no-spreading": 0,
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": ["arrow-function", "function-declaration"] }
+    ]
     //prop spred 제한하는 속성, 코드의 가독성과 유지보수를 위해서 어떤prop을 내려주는지 명시하는것이 좋다. but 공통컴포넌트에 rest파라미터 사용을 위해 속성추가. 대안을 찾아보겠습니다!
   },
   "parser": "@typescript-eslint/parser",
@@ -40,5 +65,15 @@
     },
     "project": "./tsconfig.json"
   },
-  "ignorePatterns": ["build", "dist", "public"]
+  "ignorePatterns": [
+    "build",
+    "dist",
+    "public"
+  ],
+  "prettier/prettier": [
+    "error",
+    {
+      "endOfLine": "off"
+    }
+  ]
 }
