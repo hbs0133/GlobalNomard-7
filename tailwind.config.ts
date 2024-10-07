@@ -42,6 +42,8 @@ const config: Config = {
         },
       },
       fontSize: {
+        'main-lg': ['68px', { lineHeight: '81px' }],
+        'main-md': ['54px', { lineHeight: '64px' }],
         '3xl': ['32px', { lineHeight: '42px' }],
         '2xl': ['24px', { lineHeight: '32px' }],
         xl: ['20px', { lineHeight: '32px' }],
@@ -56,6 +58,13 @@ const config: Config = {
         semibold: '600',
         medium: '500',
         regular: '400',
+      },
+      backgroundImage: {
+        'main-gradient':
+          'linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%)',
+      },
+      boxShadow: {
+        sm: '0 4px 16px 0px rgba(17, 34, 17, 0.05)',
       },
       borderRadius: {
         'custom-top': '4px 4px 0px 0px',
