@@ -17,6 +17,8 @@ const config: Config = {
           dd: '#DDDDDD',
           ee: '#EEEEEE',
           fa: '#FAFAFA',
+          '96': '#969696',
+          e8: '#E8E8E8',
         },
         green: {
           '0B': '#0B3B2D',

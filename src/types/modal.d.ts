@@ -14,12 +14,13 @@ interface IBaseModal {
     | 'alert'
     | 'confirm'
     | 'review'
-    | 'reservationLarge'
-    | 'reservationMedium'
+    | 'reservation'
+    | 'reservationDetailLarge'
+    | 'reservationDetailMedium'
     | 'notice';
   titleContent?: null | string;
-  tStyle?: 'review' | 'reservation' | 'notice';
-  xStyle?: 'review' | 'reservation' | 'notice';
+  tStyle?: 'review' | 'reservationDetail' | 'notice';
+  xStyle?: 'review' | 'reservationDetail' | 'notice';
   footerButton: null | 1 | 2;
   children: ReactNode;
 }

@@ -44,6 +44,10 @@ import IconEllipse from './ic_ellipse.svg';
 import IconCheck from './ic_check.png';
 import IconEllipseBlue from './ic_ellipse_blue.svg';
 import IconEllipseRed from './ic_ellipse_red.svg';
+import IconCalendarPrev from './ic_calendar_prev.svg';
+import IconCalendarNext from './ic_calendar_next.svg';
+import IconSubtract from './ic_subtract.svg';
+import IconAdd from './ic_add.svg';
 
 export {
   IconAccountCheckOutline,
@@ -92,4 +96,8 @@ export {
   IconCheck,
   IconEllipseBlue,
   IconEllipseRed,
+  IconCalendarPrev,
+  IconCalendarNext,
+  IconSubtract,
+  IconAdd,
 };
