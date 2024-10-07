@@ -53,7 +53,7 @@ function BestActivities({ fetchActivities }) {
             },
             600: {
               slidesPerView: 2,
-              spaceBetween: 100,
+              spaceBetween: 150,
             },
             1024: {
               slidesPerView: 3,
@@ -63,8 +63,8 @@ function BestActivities({ fetchActivities }) {
         >
           {data?.activities.map((item) => (
             <SwiperSlide key={item.id}>
-              <div className="swiper-slide-content relative">
-                <div className="h-[186px] w-[186px] sm:h-[384px] sm:w-[384px]">
+              <div className="swiper-slide-content relative h-[186px] w-[186px] sm:h-[384px] sm:w-[384px]">
+                <div className="">
                   <Image
                     src={item.bannerImageUrl}
                     alt={item.title}
