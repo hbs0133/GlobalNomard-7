@@ -1,4 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  FormEvent,
+  ChangeEvent,
+} from 'react';
 import { debounce } from 'lodash';
 import SearchForm from '@/components/Main/SearchForm';
 
@@ -9,7 +15,7 @@ interface SearchProps {
 function Search({ setSearchValue }: SearchProps) {
   const [searchValue, setSearchValueLocal] = useState<string>('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValueLocal(e.target.value);
     debouncedSetSearchValue(e.target.value);
   };
@@ -37,7 +43,7 @@ function Search({ setSearchValue }: SearchProps) {
           <SearchForm
             value={searchValue}
             handleInputChange={handleInputChange}
-            handleSubmit={(e: Event) => e.preventDefault()}
+            handleSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}
           />
         </div>
       </div>
