@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import bgImg from '@/assets/images/main_bg.png';
 import axios from 'axios';
-import mockData from '@/components/Main/mockData';
 import BestActivities from '@/components/Main/BestActivities';
 import Search from '@/components/Main/Search';
 import Category from '@/components/Main/Category';
@@ -18,13 +17,12 @@ function Main() {
   ) => {
     const res = await axios.get(`
   ${BASE_URL}/activities?method=${method}${category}${sort}&page=${page}&size=${pageSize}`);
-    // return mockData;
     return res.data;
   };
 
   return (
-    <div className="w-screen bg-gray-fa">
-      <div className="relative h-[240px] sm:h-[550px]">
+    <div className="w-screen overflow-x-hidden bg-gray-fa">
+      <div className="sm:h-[550px] relative h-[240px]">
         <div className="absolute inset-0 z-10 bg-main-gradient" />
         <Image
           src={bgImg}
@@ -35,12 +33,12 @@ function Main() {
           objectPosition="center"
         />
         <div className="absolute top-[29%] z-10 flex w-full justify-center">
-          <div className="mx-auto flex w-[91%] max-w-[1200px] flex-col gap-2 xl:gap-5">
-            <h1 className="text-2xl font-bold text-white sm:text-main-md xl:text-main-lg">
+          <div className="xl:gap-5 mx-auto flex w-[91%] max-w-[1200px] flex-col gap-2">
+            <h1 className="sm:text-main-md xl:text-main-lg text-2xl font-bold text-white">
               함께 배우면 즐거운
               <br /> 스트릿 댄스
             </h1>
-            <p className="text-md font-bold text-white sm:text-xl xl:text-2xl">
+            <p className="sm:text-xl xl:text-2xl text-md font-bold text-white">
               1월의 인기 체험 BEST 🔥
             </p>
           </div>
