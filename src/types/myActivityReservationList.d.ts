@@ -8,7 +8,8 @@ export interface IMyReservation {
   id: number;
   teamId: string;
   userId: number;
-  activity: IMyActivity;
+  activity?: IMyActivity;
+  activityId: number;
   scheduleId: number;
   status: string;
   reviewSubmitted: boolean;
@@ -19,4 +20,27 @@ export interface IMyReservation {
   endTime: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ReservationDatas {
+  activity: any;
+  cusorId?: number;
+  reservation: IMyReservation[];
+  totalCount: number;
+}
+
+export interface PatchReservation extends IMyReservation {
+  activityId: number;
+}
+
+export interface PostReservations {
+  deletedAt: string;
+  updatedAt: string;
+  createdAt: string;
+  content: string;
+  rating: number;
+  userId: number;
+  activityId: number;
+  teamId: string;
+  id: number;
 }
