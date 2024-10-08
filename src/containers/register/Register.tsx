@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import 'react-datepicker/dist/react-datepicker.css';
+import { useForm, FieldError } from 'react-hook-form';
 import axiosInstance from '@/services/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Button from '@/components/Button/Button';
@@ -12,23 +9,19 @@ import InputField from './InputField';
 import TextAreaField from './TextAreaField';
 import ScheduleInput from './Scheduleinput';
 import ImageUploadField from './ImageUploadField';
-import { IconPlusTime, IconMinusTime } from '@/assets/icons';
+import { IconMinusTime } from '@/assets/icons';
 import Image from 'next/image';
-
-const schema = z.object({
-  title: z.string().nonempty({ message: '제목을 입력해주세요!' }),
-  description: z.string().nonempty({ message: '설명을 입력해주세요!' }),
-  price: z.number().positive({ message: '가격을 입력해주세요!' }),
-});
-
-type FormData = z.infer<typeof schema>;
 
 const Register = () => {
   const [availableTimes, setAvailableTimes] = useState<
-    { date: Date; startTime: string; endTime: string }[]
+    { date: Date | null; startTime: string; endTime: string }[]
   >([]);
-  const [selectedTime, setSelectedTime] = useState({
-    date: new Date(),
+  const [selectedTime, setSelectedTime] = useState<{
+    date: Date | null;
+    startTime: string;
+    endTime: string;
+  }>({
+    date: null,
     startTime: '',
     endTime: '',
   });
@@ -39,6 +32,9 @@ const Register = () => {
     useState<string>('카테고리를 선택해주세요');
   const [address, setAddress] = useState<string>('');
   const [isPostcodeOpen, setIsPostcodeOpen] = useState<boolean>(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [scheduleError, setScheduleError] = useState<string>('');
+
   const categoryOptions = [
     { label: '문화 예술', value: '문화 예술' },
     { label: '식음료', value: '식음료' },
@@ -52,9 +48,7 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
+  } = useForm();
 
   const queryClient = useQueryClient();
 
@@ -81,14 +75,14 @@ const Register = () => {
     },
   });
 
-  //제출 mutation
   const submitDataMutation = useMutation({
-    mutationFn: async (formData: FormData) => {
+    mutationFn: async (formData: any) => {
       const response = await axiosInstance.post('/activities', formData);
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['activities']);
+      queryClient.invalidateQueries({ queryKey: ['activities'] });
+      setIsSubmitted(false);
     },
     onError: (error) => {
       console.error('Activity registration error:', error);
@@ -113,7 +107,9 @@ const Register = () => {
       const urls = await Promise.all(
         Array.from(files).map((file) => uploadImageMutation.mutateAsync(file)),
       );
-      setSubImageUrls(urls);
+
+      const newSubImageUrls = [...subImageUrls, ...urls].slice(0, 4);
+      setSubImageUrls(newSubImageUrls);
     }
   };
 
@@ -125,30 +121,30 @@ const Register = () => {
     setSubImageUrls((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const onSubmit = (data: any) => {
     const postData = {
       ...data,
       category: selectedCategory,
       bannerImageUrl,
       subImageUrls,
-      address: address,
+      address,
       schedules: availableTimes.map((time) => ({
         ...time,
-        date: time.date.toISOString().split('T')[0],
+        date: time.date ? time.date.toISOString().split('T')[0] : null,
       })),
     };
-    console.log('데이터', postData);
-    try {
-      submitDataMutation.mutate(postData);
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
+    console.log(postData);
+    submitDataMutation.mutate(postData);
   };
 
   const addSchedule = () => {
-    setAvailableTimes((prev) => [...prev, selectedTime]);
-    setSelectedTime({ date: new Date(), startTime: '', endTime: '' });
+    if (selectedTime.date && selectedTime.startTime && selectedTime.endTime) {
+      setAvailableTimes((prev) => [...prev, selectedTime]);
+      setSelectedTime({ date: null, startTime: '', endTime: '' });
+      setScheduleError('');
+    } else {
+      setScheduleError('날짜, 시작시간, 종료시간을 모두 입력해주세요!');
+    }
   };
 
   const removeSchedule = (index: number) => {
@@ -156,12 +152,15 @@ const Register = () => {
   };
 
   const onCompletePost = (data: any) => {
-    console.log(data.address);
     setAddress(data.address);
     setIsPostcodeOpen(false);
   };
 
-  const onScheduleChange = (date: Date, startTime: string, endTime: string) => {
+  const onScheduleChange = (
+    date: Date | null,
+    startTime: string,
+    endTime: string,
+  ) => {
     setSelectedTime({ date, startTime, endTime });
   };
 
@@ -185,11 +184,21 @@ const Register = () => {
     };
   }, [isPostcodeOpen]);
 
+  const handleRegistration = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitted(true);
+    handleSubmit((data) => {
+      if (Object.keys(errors).length === 0) {
+        onSubmit(data);
+      }
+    })();
+  };
+
   return (
     <>
       <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="mt-[72px] flex w-[792px] flex-col gap-[24px]"
+        onSubmit={handleRegistration}
+        className="mb-[72px] mt-[72px] flex w-[792px] flex-col gap-[24px]"
       >
         <div className="flex flex-row justify-between">
           <h1 className="text-3xl font-bold">내 체험 등록</h1>
@@ -200,10 +209,12 @@ const Register = () => {
 
         <InputField
           label="제목"
-          register={register('title')}
+          register={register('title', { required: '제목을 입력해주세요!' })}
           placeholder="제목을 입력해주세요"
-          error={errors.title}
         />
+        {isSubmitted && errors.title && (
+          <p className="text-red-500">{(errors.title as FieldError).message}</p>
+        )}
 
         <div className="flex flex-col gap-[16px]">
           <label className="text-2xl font-bold text-black">카테고리</label>
@@ -217,22 +228,37 @@ const Register = () => {
             border="gray"
             square={true}
           />
+          {isSubmitted && selectedCategory === '카테고리를 선택해주세요' && (
+            <p className="text-red-500">카테고리를 선택해주세요!</p>
+          )}
         </div>
 
         <TextAreaField
           label="설명"
-          register={register('description')}
-          error={errors.description}
+          register={register('description', {
+            required: '설명을 입력해주세요!',
+          })}
           placeholder="설명을 입력해주세요"
         />
+        {isSubmitted && errors.description && (
+          <p className="text-red-500">
+            {(errors.description as FieldError).message}
+          </p>
+        )}
 
         <InputField
           type="number"
           label="가격"
-          register={register('price', { valueAsNumber: true })}
-          error={errors.price}
+          register={register('price', {
+            required: '가격을 입력해주세요!',
+            valueAsNumber: true,
+            min: { value: 1, message: '가격은 양수여야 합니다!' },
+          })}
           placeholder="가격을 입력해주세요"
         />
+        {isSubmitted && errors.price && (
+          <p className="text-red-500">{(errors.price as FieldError).message}</p>
+        )}
 
         <div className="flex flex-col gap-[16px]">
           <label className="text-2xl font-bold text-black">주소</label>
@@ -242,6 +268,9 @@ const Register = () => {
             placeholder="주소를 입력해주세요"
             className="h-[56px] w-full rounded-[4px] border border-gray-79 pb-2 pl-4 pt-2"
           />
+          {isSubmitted && !address && (
+            <p className="text-red-500">주소를 선택해주세요!</p>
+          )}
         </div>
 
         {isPostcodeOpen && (
@@ -263,21 +292,26 @@ const Register = () => {
         )}
 
         <div className="flex flex-col gap-[16px]">
-          <label className="text-2xl font-bold text-black">일정</label>
+          <label className="text-2xl font-bold text-black">
+            예약 가능한 시간대
+          </label>
           <ScheduleInput
             time={selectedTime}
             onScheduleChange={onScheduleChange}
             addSchedule={addSchedule}
           />
+          {scheduleError && <p className="text-red-500">{scheduleError}</p>}
+          {availableTimes.length === 0 && isSubmitted && (
+            <p className="text-red-500">일정을 1개이상 추가해주세요!</p>
+          )}
           {availableTimes.map((time, index) => (
             <div key={index} className="gap=[21px] flex flex-col">
               <div className="flex items-center justify-between">
                 <span className="flex h-[56px] w-[379px] flex-row items-center rounded-[4px] border border-gray-79 pb-[8px] pl-[16px] pt-[8px]">
-                  {time.date.toLocaleDateString('ko-KR')}
+                  {time.date?.toLocaleDateString('ko-KR') || '날짜 미선택'}
                 </span>
                 <span className="flex h-[56px] w-[140px] flex-row items-center rounded-[4px] border border-gray-79 pb-[8px] pl-[16px] pt-[8px]">
-                  {' '}
-                  {time.startTime}{' '}
+                  {time.startTime}
                 </span>
                 <span className="flex h-[56px] w-[140px] flex-row items-center rounded-[4px] border border-gray-79 pb-[8px] pl-[16px] pt-[8px]">
                   {time.endTime}
@@ -305,14 +339,23 @@ const Register = () => {
           imagePreview={bannerImageUrl}
           removeImagePreview={removeImagePreview}
         />
+        {isSubmitted && !bannerImageUrl && (
+          <p className="text-red-500">배너 이미지를 선택해주세요!</p>
+        )}
 
-        <ImageUploadField
-          label="소개 이미지"
-          handleImageChange={handleSubImagesChange}
-          multiple={true}
-          imageUrls={subImageUrls}
-          removeImagePreview={removeSubImagePreview}
-        />
+        <div className="flex flex-col gap-[24px]">
+          <ImageUploadField
+            label="소개 이미지"
+            handleImageChange={handleSubImagesChange}
+            multiple={true}
+            imageUrls={subImageUrls}
+            removeImagePreview={removeSubImagePreview}
+            removeImagePreviewCallback={removeSubImagePreview}
+          />
+          <span className="text-2lg font-regular text-gray-4b">
+            * 소개 이미지는 최대 4개까지 등록 가능합니다.
+          </span>
+        </div>
       </form>
     </>
   );
