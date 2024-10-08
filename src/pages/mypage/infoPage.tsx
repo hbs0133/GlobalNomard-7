@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { useUserStore, getAccessTokenWithRefresh } from '@/hooks/useUserStore'
 import React, { useEffect, useState } from 'react'
 import Input from '@/components/Input/Input';
+import Button from '@/components/Button/Button';
 
 
 function InfoPage() {
@@ -58,31 +59,61 @@ function InfoPage() {
 
     return (
         <>
-            <button onClick={edit} >버튼</button>
-            <Input
-                id='nickname'
-                placeholder='10자 이내로 입력해주세요'
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-            />
-            <Input
-                id='email'
-                placeholder='새로운 이메일을 입력해 주세요'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-                id='password'
-                placeholder='8자 이상 입력해 주세요'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <Input
-                id='passwordConfirm'
-                placeholder='비밀번호를 한번 더 입력해 주세요'
-                value={passwordConfirm}
-                onChange={(e) => setPasswordConfirm(e.target.value)}
-            />
+            <div className={`max-w-[850px] mx-[16px] tablet:mx-[24px] desktop:mx-[24px] text-black`} >
+
+                <div className={`flex justify-between h-[48px] mb-[16px] desktop:mb-[24px]`}>
+                    <p className={`pb-4 text-3xl font-bold`}>내 정보</p>
+                    <Button
+                        onClick={edit} size='large'
+                        style={{ width: '120px' }}
+                    >저장하기
+                    </Button>
+                </div>
+
+                <div className={`flex justify-between flex-col gap-[32px]`}>
+
+                    <div>
+                        <p className={`pb-4 text-2xl font-bold`}>닉네임</p>
+                        <Input
+                            id='nickname'
+                            placeholder='10자 이내로 입력해주세요'
+                            value={nickname}
+                            onChange={(e) => setNickname(e.target.value)}
+                        />
+                    </div>
+
+                    <div>
+                        <p className={`pb-4 text-2xl font-bold`}>이메일</p>
+                        <Input
+                            id='email'
+                            placeholder='새로운 이메일을 입력해 주세요'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
+
+                    <div>
+                        <p className={`pb-4 text-2xl font-bold`}>비밀번호</p>
+                        <Input
+                            id='password'
+                            placeholder='8자 이상 입력해 주세요'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+
+                    <div>
+                        <p className={`pb-4 text-2xl font-bold`}>비밀번호 재입력</p>
+                        <Input
+                            id='passwordConfirm'
+                            placeholder='비밀번호를 한번 더 입력해 주세요'
+                            value={passwordConfirm}
+                            onChange={(e) => setPasswordConfirm(e.target.value)}
+                        />
+                    </div>
+
+                </div>
+            </div>
         </>
     )
 }
