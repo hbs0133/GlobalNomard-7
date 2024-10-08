@@ -9,7 +9,8 @@ import PwdInput from '@/components/Input/PwdInput';
 import Button from '@/components/Button/Button';
 import Image from 'next/image';
 import GlobalNomadLogo from '@/assets/images/logo_big.png';
-
+import { useModalStore } from '@/stores/modalStore';
+import AlertModal from '@/components/Modal/AlertModal';
 
 function SignupPage() {
     const [email, setEmail] = useState('')
@@ -18,6 +19,8 @@ function SignupPage() {
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const router = useRouter();
     const { user, setUser } = useUserStore();
+    const { setOpenModal } = useModalStore();
+    const [error, setError] = useState('');
 
     //로그인 돼있을 때 회원가입 창으로 못 들어가게 막음
     useEffect(() => {
@@ -38,6 +41,8 @@ function SignupPage() {
                 router.push("/loginpage")
             })
             .catch(res => {
+                setOpenModal();
+                setError('이미 사용중인 이메일입니다.');
                 console.log(res.response.data.message);
             });
     };
@@ -113,6 +118,13 @@ function SignupPage() {
 
                 </form>
             </div>
+
+            {error && (
+                <AlertModal>
+                    <p>{error}</p>
+                </AlertModal>
+            )}
+
         </div>
 
     )

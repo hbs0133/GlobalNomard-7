@@ -17,7 +17,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<{ general?: string } | null>(null); // 에러 상태
+    const [error, setError] = useState('');
     const { user, setUser } = useUserStore();
     const router = useRouter();
     const { setOpenModal } = useModalStore();
@@ -31,7 +31,7 @@ const Login = () => {
 
     const onSubmit = async () => {
         setLoading(true);
-        setError(null);
+        setError('');
 
         try {
             const response = await axios.post<ILoginResponse>('https://sp-globalnomad-api.vercel.app/7-7/auth/login', {
@@ -49,10 +49,10 @@ const Login = () => {
             router.push('/main');
         } catch (err) {
             if (err instanceof Error) {
-                setError({ general: '비밀번호가 일치하지 않습니다.' });
+                setError('비밀번호가 일치하지 않습니다.');
                 setOpenModal();
             } else {
-                setError({ general: '알 수 없는 오류가 발생했습니다.' });
+                setError('알 수 없는 오류가 발생했습니다.');
                 setOpenModal();
             }
         } finally {
@@ -114,9 +114,9 @@ const Login = () => {
                 </div >
             </div>
 
-            {error?.general && (
+            {error && (
                 <AlertModal>
-                    {error.general}
+                    {error}
                 </AlertModal>
             )}
 
