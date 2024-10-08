@@ -26,7 +26,7 @@ function BaseModal({
     review:
       'w-[480px] h-[750px] rounded-[24px] mobile:w-[375px] mobile:h-[777px] mobile:rounded-[0px]',
     reservation:
-      'w-[384px] h-[750px] rounded-[12px] tablet:w-[480px] tablet:h-[599px] tablet:rounded-[24px] mobile:w-[375px] mobile:h-[777px] mobile:rounded-[0px]',
+      'w-[384px] rounded-[12px] tablet:w-[480px] tablet:h-[599px] tablet:rounded-[24px] mobile:w-[375px] mobile:h-[777px] mobile:rounded-[0px]',
     reservationDetailLarge:
       'w-[429px] h-[697px] rounded-[24px] mobile:w-[375px] mobile:h-[777px] mobile:rounded-[0px]',
     reservationDetailMedium:

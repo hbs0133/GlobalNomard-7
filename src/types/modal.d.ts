@@ -32,3 +32,7 @@ type IConfirmModal = Pick<IBaseModal, 'children'>;
 interface ITabContent {
   options: { label: string; value: string }[];
 }
+
+interface IReservationModal {
+  activityId: string;
+}

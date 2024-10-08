@@ -26,17 +26,17 @@ function ReservationSchedule() {
     <>
       <div className="mb-[72px] h-[70px] w-full bg-gray-dd"></div>
       <div className="flex">
-        <div className="ml-[180px]">
-          <SideNavCard />
-        </div>
+        <SideNavCard />
         <div className="mx-[24px] max-w-[800px] flex-1 font-bold">
           <h1 className="mb-[32px] text-3xl">예약 현황</h1>
           <DropDown
-            options={options}
             label={selectedLabel}
+            options={options}
             setLabel={setSelectedLabel}
             setValue={setSelectedValue}
-            size="large"
+            size="full"
+            text="black"
+            border="gray"
           />
           {options.map(
             (option) =>
