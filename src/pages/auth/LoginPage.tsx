@@ -53,26 +53,48 @@ const Login = () => {
         }
     };
 
-    return (
-        <>
-            <Input
-                id='email'
-                placeholder='이메일을 입력해 주세요'
-                value={email}
-                // inputsize='large'
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <PwdInput
-                id='password'
-                placeholder='비밀번호를 입력해주세요'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
+    const navigateToSignup = () => {
+        router.push('./SignupPage');
+    };
 
-            <Button onClick={onSubmit} size='large' status={loading || email.length == 0 || password.length == 0 ? 'inactive' : 'active'} >
+    return (
+        <div className={`flex justify-between flex-col gap-[28px]`}>
+
+            <div>
+                <p className={`pb-[8px] text-[16px] text-black`}>이메일</p>
+                <Input
+                    id='email'
+                    placeholder='이메일을 입력해 주세요'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+            </div>
+            <div>
+                <p className={`pb-2 text-[16px] text-black`}>비밀번호</p>
+                <PwdInput
+                    id='password'
+                    placeholder='비밀번호를 입력해주세요'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
+
+            <Button
+                onClick={onSubmit}
+                size='large'
+                status={loading || email.length == 0 || password.length == 0 ? 'inactive' : 'active'}
+                style={{ width: '100%' }}
+            >
                 {loading ? '로그인 중...' : '로그인 하기'}
             </Button>
-        </>
+
+            <div className={`pt-2 flex justify-center text-[16px] `}>
+                <p className={` text-black mr-3`}>회원이 아니신가요?</p>
+                <p onClick={navigateToSignup}
+                    className={` text-green-0B cursor-pointer underline`}
+                    style={{ textUnderlineOffset: '3px' }}>회원가입하기</p>
+            </div>
+        </div >
     );
 };
 

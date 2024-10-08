@@ -41,39 +41,55 @@ function SignupPage() {
 
 
     return (
-        <form onSubmit={signUp}>
-            <Input
-                id='email'
-                placeholder='이메일을 입력해 주세요'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)} // 이메일 상태 업데이트
-            />
-            <Input
-                id='nickname'
-                placeholder='닉네임을 입력해 주세요'
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)} // 닉네임 상태 업데이트
-            />
-            <PwdInput
-                id='password'
-                placeholder='8자 이상 입력해 주세요'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)} // 비밀번호 상태 업데이트
-            />
-            <PwdInput
-                id='passwordConfirm'
-                placeholder='비밀번호를 한 번 더 입력해 주세요'
-                value={passwordConfirm}
-                onChange={(e) => setPasswordConfirm(e.target.value)} // 비밀번호 확인 상태 업데이트
-                correct={password}
-            />
+        <form onSubmit={signUp} className={`flex justify-between flex-col gap-[28px]`}>
+            <div>
+                <p className={`pb-[8px] text-[16px] text-black`}>이메일</p>
+                <Input
+                    id='email'
+                    placeholder='이메일을 입력해 주세요'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)} // 이메일 상태 업데이트
+                />
+            </div>
+            <div>
+                <p className={`pb-[8px] text-[16px] text-black`}>닉네임</p>
+                <Input
+                    id='nickname'
+                    placeholder='닉네임을 입력해 주세요'
+                    value={nickname}
+                    onChange={(e) => setNickname(e.target.value)} // 닉네임 상태 업데이트
+                />
+            </div>
+            <div>
+                <p className={`pb-[8px] text-[16px] text-black`}>비밀번호</p>
+                <PwdInput
+                    id='password'
+                    placeholder='8자 이상 입력해 주세요'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)} // 비밀번호 상태 업데이트
+                />
+            </div>
+            <div>
+                <p className={`pb-[8px] text-[16px] text-black`}>비밀번호 확인</p>
+                <PwdInput
+                    id='passwordConfirm'
+                    placeholder='비밀번호를 한 번 더 입력해 주세요'
+                    value={passwordConfirm}
+                    onChange={(e) => setPasswordConfirm(e.target.value)} // 비밀번호 확인 상태 업데이트
+                    correct={password}
+                />
+            </div>
+            <div>
+                <Button
+                    type="submit"
+                    size='large'
+                    status={email.length === 0 || password.length === 0 ? 'inactive' : 'active'}
+                    style={{ width: '100%' }}>
+                    회원가입
+                </Button>
+            </div>
+            <p className={`pt-2 flex justify-center text-[16px] text-black`}>회원이신가요? 로그인하기</p>
 
-            <Button
-                type="submit"
-                size='large'
-                status={email.length === 0 || password.length === 0 ? 'inactive' : 'active'}>
-                회원가입
-            </Button>
         </form>
 
     )

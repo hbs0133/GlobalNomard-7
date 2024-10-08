@@ -32,7 +32,7 @@ function Input({ id, placeholder, error, className = '', ...inputProps }: InputP
         <div>
             <div>
                 <input
-                    className={`bg-[#ebf2ff] w-full h-[58px] text-[16px] text-black rounded-[5px] px-5 ${className}`}
+                    className={`bg-[#f0f9fd] w-full h-[58px] text-[16px] text-black border ${emailError ? `border-red-ff4` : `border-black`} rounded-[5px] px-5 ${className}`}
                     id={id}
                     placeholder={placeholder}
                     value={value || ''}

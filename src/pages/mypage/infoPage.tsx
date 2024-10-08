@@ -20,11 +20,10 @@ function InfoPage() {
         const myInfo = async () => {
             try {
                 const accessToken = await getAccessTokenWithRefresh()
-
-                console.log(accessToken);
                 const response = await axios.get<IUser>('https://sp-globalnomad-api.vercel.app/7-7/users/me', {
                     headers: { Authorization: `Bearer ${accessToken}`, },
                 });
+
                 const data = response.data;
                 setEmail(data.email);
                 setNickname(data.nickname);
