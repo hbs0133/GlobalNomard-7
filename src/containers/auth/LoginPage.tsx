@@ -10,7 +10,8 @@ import PwdInput from '@/components/Input/PwdInput';
 import Button from '@/components/Button/Button';
 import Image from 'next/image';
 import GlobalNomadLogo from '@/assets/images/logo_big.png';
-
+import { useModalStore } from '@/stores/modalStore';
+import AlertModal from '@/components/Modal/AlertModal';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -19,6 +20,7 @@ const Login = () => {
     const [error, setError] = useState<{ general?: string } | null>(null); // 에러 상태
     const { user, setUser } = useUserStore();
     const router = useRouter();
+    const { setOpenModal } = useModalStore();
 
     // 로그인 돼있을 때 로그인창으로 못 들어가게 막음
     useEffect(() => {
@@ -47,10 +49,11 @@ const Login = () => {
             router.push('/main');
         } catch (err) {
             if (err instanceof Error) {
-                setError({ general: err.message });
-                alert('로그인 실패');
+                setError({ general: '비밀번호가 일치하지 않습니다.' });
+                setOpenModal();
             } else {
                 setError({ general: '알 수 없는 오류가 발생했습니다.' });
+                setOpenModal();
             }
         } finally {
             setLoading(false);
@@ -110,6 +113,13 @@ const Login = () => {
                     </div>
                 </div >
             </div>
+
+            {error?.general && (
+                <AlertModal>
+                    {error.general}
+                </AlertModal>
+            )}
+
         </div>
     );
 };
