@@ -49,18 +49,14 @@ function SignupPage() {
 
     return (
         <div className={`mx-auto max-w-[666px] `} >
-            <div className={`w-full mb-[40px]
-                mt-[40px] tablet:mt-[48px] desktop:mt-[48px]
-                px-[13px]`}>
+            <div className={`w-full mb-[40px] mt-[48px] mobile:mt-[40px] px-[13px]`}>
 
-                <div className={`flex justify-center
-                mb-[24px] tablet:mb-[40px] desktop:mb-[56px]`}>
+                <div className={`flex justify-center mb-[24px] tablet:mb-[40px] desktop:mb-[56px]`}>
                     <Image src={GlobalNomadLogo} alt='글로벌노마드 로고'
                         className={`w-[270px] tablet:w-[340px] desktop:w-[340px]`} />
                 </div>
 
                 <form onSubmit={signUp} className={`flex justify-between flex-col gap-[28px]`}>
-
                     <div>
                         <p className={`pb-[8px] text-lg text-black`}>이메일</p>
                         <Input

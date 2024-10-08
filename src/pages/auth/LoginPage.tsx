@@ -70,7 +70,7 @@ const Login = () => {
                 <div className={`flex justify-center
                 mb-[24px] tablet:mb-[40px] desktop:mb-[56px]`}>
                     <Image src={GlobalNomadLogo} alt='글로벌노마드 로고'
-                        className={`w-[270px] tablet:w-[340px] desktop:w-[340px]`} />
+                        className={`w-[340px] mobile:w-[270px]`} />
                 </div>
 
                 <div className={`flex justify-between flex-col gap-[28px]`}>
