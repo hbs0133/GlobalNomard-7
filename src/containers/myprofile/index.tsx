@@ -7,6 +7,8 @@ import { useUserStore, getAccessTokenWithRefresh } from '@/hooks/useUserStore'
 import React, { useEffect, useState } from 'react'
 import Input from '@/components/Input/Input';
 import Button from '@/components/Button/Button';
+import MyReservations from '@/components/SideNavCard/page'
+import SideNavCard from '@/components/SideNavCard/SideNavCard';
 
 
 function InfoPage() {
@@ -59,6 +61,7 @@ function InfoPage() {
 
     return (
         <>
+            {/* <SideNavCard /> */}
             <div className={`max-w-[850px] mx-[24px] mobile:mx-[16px] text-black`} >
 
                 <div className={`flex justify-between h-[48px] mb-[16px] desktop:mb-[24px]`}>
@@ -111,7 +114,6 @@ function InfoPage() {
                             onChange={(e) => setPasswordConfirm(e.target.value)}
                         />
                     </div>
-
                 </div>
             </div>
         </>
