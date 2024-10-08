@@ -64,7 +64,7 @@ const Login = () => {
     return (
         <div className={`mx-auto max-w-[666px]`} >
             <div className={`w-full
-                mt-[48px] tablet:mt-[56px] desktop:mt-[40px]
+                mt-[40px] tablet:mt-[56px] desktop:mt-[48px]
                 px-[13px]`}>
 
                 <div className={`flex justify-center
