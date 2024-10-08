@@ -76,8 +76,4 @@ function MenuDropDown({ onEdit, onDelete }: MenuDropDownDropDownProps) {
   );
 }
 
-MenuDropDown.defaultProps = {
-  square: false,
-};
-
 export default MenuDropDown;
