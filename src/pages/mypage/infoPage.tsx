@@ -7,6 +7,7 @@ import { useUserStore, getAccessTokenWithRefresh } from '@/hooks/useUserStore'
 import React, { useEffect, useState } from 'react'
 import Input from '@/components/Input/Input';
 
+
 function InfoPage() {
     const [email, setEmail] = useState('')
     const [nickname, setNickname] = useState('')

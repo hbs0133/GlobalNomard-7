@@ -8,6 +8,7 @@ import Input from '@/components/Input/Input';
 import PwdInput from '@/components/Input/PwdInput';
 import Button from '@/components/Button/Button';
 
+
 function SignupPage() {
     const [email, setEmail] = useState('')
     const [nickname, setNickname] = useState('')
@@ -43,7 +44,7 @@ function SignupPage() {
     return (
         <form onSubmit={signUp} className={`flex justify-between flex-col gap-[28px]`}>
             <div>
-                <p className={`pb-[8px] text-[16px] text-black`}>이메일</p>
+                <p className={`pb-[8px] text-lg text-black`}>이메일</p>
                 <Input
                     id='email'
                     placeholder='이메일을 입력해 주세요'
@@ -52,7 +53,7 @@ function SignupPage() {
                 />
             </div>
             <div>
-                <p className={`pb-[8px] text-[16px] text-black`}>닉네임</p>
+                <p className={`pb-[8px] text-lg text-black`}>닉네임</p>
                 <Input
                     id='nickname'
                     placeholder='닉네임을 입력해 주세요'
@@ -61,7 +62,7 @@ function SignupPage() {
                 />
             </div>
             <div>
-                <p className={`pb-[8px] text-[16px] text-black`}>비밀번호</p>
+                <p className={`pb-[8px] text-lg text-black`}>비밀번호</p>
                 <PwdInput
                     id='password'
                     placeholder='8자 이상 입력해 주세요'
@@ -70,7 +71,7 @@ function SignupPage() {
                 />
             </div>
             <div>
-                <p className={`pb-[8px] text-[16px] text-black`}>비밀번호 확인</p>
+                <p className={`pb-[8px] text-lg text-black`}>비밀번호 확인</p>
                 <PwdInput
                     id='passwordConfirm'
                     placeholder='비밀번호를 한 번 더 입력해 주세요'
@@ -88,7 +89,7 @@ function SignupPage() {
                     회원가입
                 </Button>
             </div>
-            <p className={`pt-2 flex justify-center text-[16px] text-black`}>회원이신가요? 로그인하기</p>
+            <p className={`pt-2 flex justify-center text-lg text-black`}>회원이신가요? 로그인하기</p>
 
         </form>
 
