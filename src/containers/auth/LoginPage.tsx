@@ -23,7 +23,7 @@ const Login = () => {
     // 로그인 돼있을 때 로그인창으로 못 들어가게 막음
     useEffect(() => {
         if (user) {
-            router.push('/');
+            router.push('/main');
         }
     }, [user]);
 
@@ -44,7 +44,7 @@ const Login = () => {
             setUser(user, accessToken, refreshToken);
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
-            router.push('/');
+            router.push('/main');
         } catch (err) {
             if (err instanceof Error) {
                 setError({ general: err.message });
@@ -58,7 +58,7 @@ const Login = () => {
     };
 
     const navigateToSignup = () => {
-        router.push('./SignupPage');
+        router.push('/signuppage');
     };
 
     return (

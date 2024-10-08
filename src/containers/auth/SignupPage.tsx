@@ -22,7 +22,7 @@ function SignupPage() {
     //로그인 돼있을 때 회원가입 창으로 못 들어가게 막음
     useEffect(() => {
         if (user) {
-            router.push('/');
+            router.push('/main');
         }
     }, [user])
 
@@ -35,7 +35,7 @@ function SignupPage() {
             passwordConfirmation: passwordConfirm,
         })
             .then(res => {
-                router.push("/auth/LoginPage")
+                router.push("/loginpage")
             })
             .catch(res => {
                 console.log(res.response.data.message);
@@ -43,7 +43,7 @@ function SignupPage() {
     };
 
     const navigateToLogin = () => {
-        router.push('./LoginPage');
+        router.push('/loginpage');
     };
 
 
