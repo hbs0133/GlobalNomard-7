@@ -37,7 +37,7 @@ const Login = () => {
             console.log(data);
             const { user, accessToken, refreshToken } = data;
 
-            setUser(user, accessToken);
+            setUser(user, accessToken, refreshToken);
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             router.push('/');
