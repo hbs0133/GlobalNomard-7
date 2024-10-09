@@ -101,8 +101,9 @@ function InfoPage() {
                         <p className={`pb-4 text-2xl font-bold`}>이메일</p>
                         <Input
                             id='email'
-                            placeholder='새로운 이메일을 입력해 주세요'
+                            placeholder='이메일은 변경하실 수 없습니다.'
                             value={email}
+                            readOnly
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
