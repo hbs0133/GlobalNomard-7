@@ -5,23 +5,16 @@ function KakaoMap({ address }: { address: string }) {
   const [location, setLocation] = useState({ lat: 33.450701, lng: 126.570667 });
   const [isLoaded, setIsLoaded] = useState(false);
   const [buildingName, setBuildingName] = useState('');
-  const [debouncedAddress, setDebouncedAddress] = useState(address);
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedAddress(address);
-    }, 500);
+    if (!window.kakao || !window.kakao.maps) {
+      return;
+    }
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [address]);
+    window.kakao.maps.load(() => {
+      const geocoder = new window.kakao.maps.services.Geocoder();
 
-  useEffect(() => {
-    const geocoder = new window.kakao.maps.services.Geocoder();
-
-    if (debouncedAddress) {
-      geocoder.addressSearch(debouncedAddress, function (result, status) {
+      geocoder.addressSearch(address, function (result, status) {
         if (status === window.kakao.maps.services.Status.OK) {
           const coords = {
             lat: parseFloat(result[0].y),
@@ -34,10 +27,8 @@ function KakaoMap({ address }: { address: string }) {
           setIsLoaded(true);
         }
       });
-    }
-  }, [debouncedAddress]);
-
-  console.log(location);
+    });
+  }, [address]);
 
   return (
     <Map
@@ -48,7 +39,7 @@ function KakaoMap({ address }: { address: string }) {
       {isLoaded && (
         <MapMarker position={{ lat: location.lat, lng: location.lng }}>
           <div className="w-[160px] text-ellipsis whitespace-nowrap">
-            {buildingName ? buildingName : '위치'}
+            {buildingName ? buildingName : '체험  위치'}
           </div>
         </MapMarker>
       )}

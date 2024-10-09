@@ -25,7 +25,7 @@ const Login = () => {
     // 로그인 돼있을 때 로그인창으로 못 들어가게 막음
     useEffect(() => {
         if (user) {
-            router.push('/main');
+            router.push('/');
         }
     }, [user]);
 
@@ -46,7 +46,7 @@ const Login = () => {
             setUser(user, accessToken, refreshToken);
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
-            router.push('/main');
+            router.push('/');
         } catch (err) {
             if (err instanceof Error) {
                 setError('비밀번호가 일치하지 않습니다.');
