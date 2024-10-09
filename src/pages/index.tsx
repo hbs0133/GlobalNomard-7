@@ -1,19 +1,12 @@
-import React from 'react';
-
-import MyReservations from '@/components/SideNavCard/page';
-import { useUserStore } from '@/hooks/useUserStore';
-import ReservationModal from '@/components/Modal/ReservationModal';
-import { useModalStore } from '@/stores/modalStore';
 import Main from './main';
+import HeaderFooterLayout from '@/components/Layout/HeaderFooterLayout';
 
-const Home: React.FC = () => {
-  const { setOpenModal } = useModalStore();
+const Home = () => {
   return (
-    <div>
+    <HeaderFooterLayout>
       <Main />
-    </div>
+    </HeaderFooterLayout>
   );
-
 };
 
 export default Home;
