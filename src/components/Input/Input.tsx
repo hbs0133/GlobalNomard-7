@@ -33,7 +33,7 @@ function Input({ id, placeholder, error, className = '', ...inputProps }: InputP
         <div>
             <div>
                 <input
-                    className={`w-full h-[58px] text-lg text-black border ${emailError ? `border-red-ff4` : `border-black`} rounded-[5px] px-5 ${className}`}
+                    className={`w-full h-[58px] text-lg text-black border ${emailError ? `border-red-ff4` : `border-black`} rounded-[5px] px-5`}
                     id={id}
                     placeholder={placeholder}
                     value={value || ''}
@@ -43,7 +43,7 @@ function Input({ id, placeholder, error, className = '', ...inputProps }: InputP
                     {...inputProps}
                 />
             </div>
-            {emailError && <p className={`text-xs text-red-ff4 rounded-[5px] px-2 pt-2 ${className}`}>{emailError}</p>}
+            {emailError && <p className={`text-xs text-red-ff4 px-2 pt-2`}>{emailError}</p>}
         </div >
     );
 }
