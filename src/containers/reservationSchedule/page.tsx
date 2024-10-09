@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import SideNavCard from '@/components/SideNavCard/SideNavCard';
 import DropDown from '@/components/Dropdown/Dropdown';
 import Calendar from './components/Calendar';
 import axiosInstance from '@/services/axios';
@@ -79,9 +78,8 @@ function ReservationSchedule() {
 
   return (
     <>
-      <div className="mb-[72px] h-[70px] w-full bg-gray-dd"></div>
       <div className="flex">
-        <div className="mx-[24px] max-w-[800px] flex-1 font-bold">
+        <div className="max-w-[800px] flex-1 font-bold">
           <h1 className="mb-[32px] text-3xl">예약 현황</h1>
           <DropDown
             label={selectedLabel}
