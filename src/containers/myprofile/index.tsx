@@ -80,7 +80,7 @@ function InfoPage() {
 
     const edit = async () => {
         //유효하지 않는 경우
-        if (isFormValid) return;
+        if (!isFormValid) return;
 
         try {
             const accessToken = await getAccessTokenWithRefresh()
