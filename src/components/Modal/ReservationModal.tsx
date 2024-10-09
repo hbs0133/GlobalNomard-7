@@ -1,10 +1,9 @@
-import BaseModal from './BaseModal';
 import MiniCalendar from '../Calendar/MiniCalendar';
 import Button from '../Button/Button';
 import { IconAdd, IconSubtract } from '@/assets/icons';
 import Image from 'next/image';
-import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/services/axios';
 import AlertModal from './AlertModal';
 import { useModalStore } from '@/stores/modalStore';
@@ -22,6 +21,22 @@ function ReservationModal({ activityId }: IReservationModal) {
   const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(
     null,
   );
+  const [price, setPrice] = useState<number>(1000);
+
+  const { data } = useQuery({
+    queryKey: ['activity', activityId],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`/activities/${activityId}`);
+      return response.data;
+    },
+    enabled: !!activityId,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setPrice(data.price);
+    }
+  }, [data]);
 
   const handleDateSelect = (times: IavailableTimes[]) => {
     setAvailableTimes(times);
@@ -68,7 +83,7 @@ function ReservationModal({ activityId }: IReservationModal) {
       <div>
         <div>
           <p className="flex items-center">
-            <span className="text-3xl font-bold">₩ 1,000</span>{' '}
+            <span className="text-3xl font-bold">₩ {price}</span>{' '}
             <span className="relative left-[7px] top-[1px] text-xl font-regular text-gray-4b">
               /인
             </span>
@@ -123,7 +138,7 @@ function ReservationModal({ activityId }: IReservationModal) {
         <hr className="mb-[16px] mt-[24px] border-[0.px] border-gray-dd" />
         <div className="flex justify-between text-xl font-bold">
           <span>총 합계</span>
-          <span>₩ {headCount * 1000}</span>
+          <span>₩ {headCount * price}</span>
         </div>
       </div>
       <AlertModal>예약이 완료되었습니다.</AlertModal>

@@ -1,7 +1,16 @@
 import DropDown from '@/components/Dropdown/Dropdown';
 import ReservationDetailCard from './ReservationDetailCard';
 
-function RejectedContent({ selectedDate, options, reservations }: ITabContent) {
+function RejectedContent({
+  selectedDate,
+  options,
+  reservations,
+  rejectedReservations,
+  setValue,
+  setLabel,
+  label,
+  setRejectedReservations,
+}: ITabContent) {
   const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
   const reservationData = reservations.find(
     (reservation) => reservation.date === dateString,
@@ -16,19 +25,28 @@ function RejectedContent({ selectedDate, options, reservations }: ITabContent) {
             {selectedDate.getDate()}일
           </p>
           {reservationData && reservationData.reservations.pending > 0 && (
-            <DropDown size="full" label="14:00 ~ 15:00" options={options} />
+            <DropDown
+              size="full"
+              label={label}
+              options={options}
+              setValue={setValue}
+              setLabel={setLabel}
+            />
           )}
         </div>
       </div>
       <div>
         <span className="text-2lg font-semibold">예약 내역</span>
-        {reservationData && reservationData.reservations.pending > 0 && (
-          <div>
-            <div>
-              <ReservationDetailCard />
-              <ReservationDetailCard />
-            </div>
-          </div>
+        {rejectedReservations.length > 0 ? (
+          rejectedReservations.map((reservation) => (
+            <ReservationDetailCard
+              key={`${reservation.scheduleId}-${reservation.userId}`}
+              reservation={reservation}
+              setRejectedReservations={setRejectedReservations}
+            />
+          ))
+        ) : (
+          <p className="mt-[15px]">예약 정보가 없습니다.</p>
         )}
       </div>
     </div>

@@ -3,7 +3,7 @@ import SideNavCard from '@/components/SideNavCard/SideNavCard';
 import DropDown from '@/components/Dropdown/Dropdown';
 import Calendar from './components/Calendar';
 import axiosInstance from '@/services/axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 const useReservationDashboard = (
   activityId: number,
@@ -76,10 +76,6 @@ function ReservationSchedule() {
       return newDate;
     });
   };
-
-  // const filteredReservations = reservations.filter(
-  //   (reservation) => reservation.activityId === selectedValue,
-  // );
 
   return (
     <>
