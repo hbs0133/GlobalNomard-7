@@ -20,12 +20,21 @@ function InfoPage() {
     const router = useRouter();
     const { user, setUser } = useUserStore();
     const [nicknameError, setNicknameError] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
 
     const validateNickname = (nickname: string) => {
         if (nickname.length > 10) {
             setNicknameError('10자 이내로 입력해주세요.');
         } else {
             setNicknameError(null);
+        }
+    }
+
+    const validatePassword = (password: string) => {
+        if (password.length < 8) {
+            setPasswordError('8자 이상 입력해 주세요.');
+        } else {
+            setPasswordError(null);
         }
     }
 
@@ -104,7 +113,7 @@ function InfoPage() {
                             placeholder='이메일은 변경하실 수 없습니다.'
                             value={email}
                             readOnly
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => { setEmail(e.target.value); }}
                         />
                     </div>
 
@@ -115,8 +124,10 @@ function InfoPage() {
                             type="password"
                             placeholder='8자 이상 입력해 주세요'
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => { setPassword(e.target.value); validatePassword(e.target.value); }}
+                            className={`${passwordError ? `border-red-ff4` : `border-black`}`}
                         />
+                        {passwordError && <p className={`text-xs text-red-ff4 rounded-[5px] px-2 pt-2`}>{passwordError}</p>}
                     </div>
 
                     <div>
