@@ -20,12 +20,31 @@ function InfoPage() {
     const router = useRouter();
     const { user, setUser } = useUserStore();
     const [nicknameError, setNicknameError] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [passwordMatchError, setPasswordMatchError] = useState<string | null>(null);
+    const [isFormValid, setIsFormValid] = useState(false);
 
     const validateNickname = (nickname: string) => {
         if (nickname.length > 10) {
             setNicknameError('10자 이내로 입력해주세요.');
         } else {
             setNicknameError(null);
+        }
+    }
+
+    const validatePassword = (password: string) => {
+        if (password.length < 8) {
+            setPasswordError('8자 이상 입력해 주세요.');
+        } else {
+            setPasswordError(null);
+        }
+    }
+
+    const validatePasswordConfirm = (passwordConfirm: string) => {
+        if (passwordConfirm.length >= 8 && password !== passwordConfirm) {
+            setPasswordMatchError('비밀번호와 일치하지 않습니다.')
+        } else {
+            setPasswordMatchError(null);
         }
     }
 
@@ -49,10 +68,23 @@ function InfoPage() {
         }
     }, [user]);
 
+    // 저장 버튼 활성화 여부
+    useEffect(() => {
+        if (!nicknameError && !passwordError && !passwordMatchError && nickname && password && passwordConfirm && password === passwordConfirm) {
+            setIsFormValid(true);
+        } else {
+            setIsFormValid(false);
+        }
+    }, [nicknameError, passwordError, passwordMatchError, nickname, password, passwordConfirm]);
+
+
     const edit = async () => {
+        //유효하지 않는 경우
+        if (isFormValid) return;
+
         try {
             const accessToken = await getAccessTokenWithRefresh()
-            const response = await axios.patch<IUserInforEdit>(
+            await axios.patch<IUserInforEdit>(
                 'https://sp-globalnomad-api.vercel.app/7-7/users/me',
                 {
                     nickname: nickname,
@@ -77,10 +109,9 @@ function InfoPage() {
                 <div className={`flex justify-between h-[48px] mb-[16px] desktop:mb-[24px]`}>
                     <p className={`pb-4 text-3xl font-bold`}>내 정보</p>
                     <Button
-                        onClick={edit} size='large'
-                        style={{ width: '120px' }}
-                    >저장하기
-                    </Button>
+                        onClick={edit} size='large' style={{ width: '120px' }} disabled={!isFormValid}
+                        status={!isFormValid ? 'inactive' : 'active'}
+                    >저장하기</Button>
                 </div>
 
                 <div className={`flex justify-between flex-col gap-[32px]`}>
@@ -92,18 +123,19 @@ function InfoPage() {
                             placeholder='10자 이내로 입력해주세요'
                             value={nickname}
                             onChange={(e) => { setNickname(e.target.value); validateNickname(e.target.value); }}
-                            className={`${nicknameError ? `border-red-ff4` : `border-black`}`}
+                            className={`${nicknameError ? `border-green-800` : `border-black`}`}
                         />
-                        {nicknameError && <p className={`text-xs text-red-ff4 rounded-[5px] px-2 pt-2`}>{nicknameError}</p>}
+                        {nicknameError && <p className={`text-xs text-green-800 px-2 pt-2`}>{nicknameError}</p>}
                     </div>
 
                     <div>
                         <p className={`pb-4 text-2xl font-bold`}>이메일</p>
                         <Input
                             id='email'
-                            placeholder='새로운 이메일을 입력해 주세요'
+                            placeholder='이메일은 변경하실 수 없습니다.'
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            readOnly
+                            onChange={(e) => { setEmail(e.target.value); }}
                         />
                     </div>
 
@@ -114,8 +146,10 @@ function InfoPage() {
                             type="password"
                             placeholder='8자 이상 입력해 주세요'
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => { setPassword(e.target.value); validatePassword(e.target.value); }}
+                            className={`${passwordError ? `border-green-800` : `border-black`}`}
                         />
+                        {passwordError && <p className={`text-xs text-green-800 px-2 pt-2`}>{passwordError}</p>}
                     </div>
 
                     <div>
@@ -125,8 +159,10 @@ function InfoPage() {
                             type="password"
                             placeholder='비밀번호를 한번 더 입력해 주세요'
                             value={passwordConfirm}
-                            onChange={(e) => setPasswordConfirm(e.target.value)}
+                            onChange={(e) => { setPasswordConfirm(e.target.value); validatePasswordConfirm(e.target.value); }}
+                            className={`${passwordMatchError ? `border-green-800` : `border-black`}`}
                         />
+                        {passwordMatchError && <p className={`text-xs text-green-800 px-2 pt-2`}>{passwordMatchError}</p>}
                     </div>
                 </div>
             </div>
