@@ -1,6 +1,6 @@
 'use client';
 
-import DropDown from '@/components/Dropdown/Dropdown';
+import MenuDropDown from '@/components/Dropdown/MenuDropdown';
 import ReservationCard from '@/components/myreservations';
 import { ActivitiesData, IActivity } from '@/types/activity';
 import getMyActivities from '@/services/getMyActivites';
@@ -86,7 +86,7 @@ export default function MyActivities() {
               getReviewCount={(activity: IActivity) => activity.reviewCount}
               getPrice={(activity: IActivity) => activity.price}
             >
-              <DropDown activityId={activity.id} />
+              <MenuDropDown activityId={activity.id} />
             </ReservationCard>
           ))
         )}
