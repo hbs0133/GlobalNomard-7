@@ -9,6 +9,7 @@ import fetchActivities, {
   FetchActivitiesResponse,
   Activity,
 } from '@/services/fetchActivities';
+import { useRouter } from 'next/router';
 
 function Category() {
   const [categoryValue, setCategoryValue] = useState<string>('');
@@ -19,6 +20,7 @@ function Category() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(8);
+  const router = useRouter();
 
   const sortOptions = [
     { label: '가격 낮은순', value: 'price_asc' },
@@ -79,6 +81,10 @@ function Category() {
       setTotalItems(data.totalCount);
     }
   }, [data]);
+
+  const handleClickCard = (id: number) => {
+    router.push(`/activityDetail/${id}`);
+  };
 
   return (
     <div className="mb-[200px] mt-[40px] flex sm:mb-[342px] sm:mt-[60px]">
@@ -146,7 +152,11 @@ function Category() {
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 xl:grid-cols-4 2xl:gap-8">
           {data?.activities.map((item: Activity) => (
-            <ItemCard key={item.id} item={item} />
+            <ItemCard
+              key={item.id}
+              item={item}
+              onClick={() => handleClickCard(item.id)}
+            />
           ))}
         </div>
 

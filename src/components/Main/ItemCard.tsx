@@ -1,9 +1,12 @@
 import Image from 'next/image';
 import starIcon from '@/assets/icons/ic_like_star.svg';
 
-function ItemCard({ item }) {
+function ItemCard({ item, onClick }) {
   return (
-    <div className="flex h-auto w-[168px] flex-col sm:w-[221px] xl:w-[283px]">
+    <div
+      className="flex h-auto w-[168px] cursor-pointer flex-col sm:w-[221px] xl:w-[283px]"
+      onClick={onClick}
+    >
       <div className="relative h-[168px] w-[168px] sm:h-[221px] sm:w-[221px] xl:h-[283px] xl:w-[283px]">
         <Image
           src={item.bannerImageUrl}
