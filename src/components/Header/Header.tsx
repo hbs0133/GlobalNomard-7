@@ -6,9 +6,9 @@ import { useRouter } from 'next/router';
 import { IconNotification } from '@/assets/icons';
 import axiosInstance from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
-import { useModalStore } from '@/stores/modalStore';
 import NoticeModal from '../Modal/NoticeModal/NoticeModal';
 import Button from '@/components/Button/Button';
+import { useModalStore } from '@/stores/modalStore';
 
 const fetchUserData = async () => {
   const response = await axiosInstance.get(`/users/me`);
@@ -25,7 +25,7 @@ const fetchNotifications = async () => {
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
-  const { setOpenModal } = useModalStore();
+  const { isNoticeModalOpen, setOpenNoticeModal } = useModalStore();
   const { data, error, isLoading } = useQuery({
     queryKey: ['userProfile'],
     queryFn: fetchUserData,
@@ -94,14 +94,16 @@ function Header() {
                     const left = rect.left + window.scrollX - 230;
 
                     setModalPosition({ top, left });
-                    setOpenModal();
+                    setOpenNoticeModal();
                   }}
                 />
               </button>
-              <NoticeModal
-                modalPosition={modalPosition}
-                notificationsData={notificationsData}
-              />
+              {isNoticeModalOpen && (
+                <NoticeModal
+                  modalPosition={modalPosition}
+                  notificationsData={notificationsData}
+                />
+              )}
               {isLoading ? (
                 <div>Loading...</div>
               ) : error ? (
@@ -125,10 +127,7 @@ function Header() {
                   <div>{data.nickname}</div>
                 </Link>
               ) : null}
-              <Button
-                size='small'
-                onClick={handleLogout}
-              >
+              <Button size="small" onClick={handleLogout}>
                 로그아웃
               </Button>
             </>

@@ -93,7 +93,10 @@ function ReservationModal({ activityId }: IReservationModal) {
         <div>
           <p className="text-xl font-bold">날짜</p>
           <div className="flex justify-center">
-            <MiniCalendar activityId={'2860'} onDateSelect={handleDateSelect} />
+            <MiniCalendar
+              activityId={activityId}
+              onDateSelect={handleDateSelect}
+            />
           </div>
         </div>
       </div>

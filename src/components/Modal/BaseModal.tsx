@@ -16,7 +16,14 @@ function BaseModal({
   children,
   modalPosition,
 }: IBaseModal) {
-  const { isModalOpen, setCloseModal } = useModalStore();
+  const {
+    isModalOpen,
+    setCloseModal,
+    isNoticeModalOpen,
+    setCloseNoticeModal,
+    isReservationDetailModalOpen,
+    setCloseReservationDetailModal,
+  } = useModalStore();
   const [isNonModal, setIsNonModal] = useState(false);
 
   const sizeStyle = {
@@ -83,6 +90,8 @@ function BaseModal({
   const handleOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) {
       setCloseModal();
+      setCloseNoticeModal();
+      setCloseReservationDetailModal();
     }
   };
 
@@ -101,7 +110,7 @@ function BaseModal({
         >
           <div
             className={twMerge(
-              `z-[100] flex flex-col justify-items-center border-[1px] bg-white px-[24px] pb-[24px] pt-[23px] mobile:px-[16px] ${sizeStyle[size]}`,
+              `z-[1000] flex flex-col justify-items-center border-[1px] bg-white px-[24px] pb-[24px] pt-[23px] mobile:px-[16px] ${sizeStyle[size]}`,
             )}
           >
             {titleContent && (
@@ -126,7 +135,7 @@ function BaseModal({
         </div>
       )}
 
-      {isModalOpen && isNonModal && (
+      {isNoticeModalOpen && (
         <div
           className="absolute left-0 top-0 flex h-full w-full items-start"
           onClick={handleOverlayClick}
@@ -152,7 +161,45 @@ function BaseModal({
                     `cursor-pointer hover:opacity-80 ${xButtonStyle[xStyle]}`,
                   )}
                   type="button"
-                  onClick={setCloseModal}
+                  onClick={setCloseNoticeModal}
+                >
+                  <Image src={IconX40px} alt="닫기버튼" />
+                </button>
+              </div>
+            )}
+            {children}
+            {button && button}
+          </div>
+        </div>
+      )}
+
+      {isReservationDetailModalOpen && (
+        <div
+          className="absolute left-0 top-0 flex h-full w-full items-start"
+          onClick={handleOverlayClick}
+          aria-hidden="true"
+        >
+          <div
+            className={twMerge(
+              `z-[1000] flex flex-col justify-items-center border-[1px] px-[24px] pb-[24px] pt-[23px] ${sizeStyle[size]} ${modalBackgroundStyle}`,
+              'absolute',
+            )}
+            style={{
+              top: `${modalPosition.top}px`,
+              left: `${modalPosition.left}px`,
+            }}
+          >
+            {titleContent && (
+              <div className="flex items-center justify-between">
+                <span className={twMerge(`text-black ${titleStyle[tStyle]}`)}>
+                  {titleContent}
+                </span>
+                <button
+                  className={twMerge(
+                    `cursor-pointer hover:opacity-80 ${xButtonStyle[xStyle]}`,
+                  )}
+                  type="button"
+                  onClick={setCloseReservationDetailModal}
                 >
                   <Image src={IconX40px} alt="닫기버튼" />
                 </button>
