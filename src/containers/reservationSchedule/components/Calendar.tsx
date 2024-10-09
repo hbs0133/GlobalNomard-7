@@ -6,7 +6,8 @@ import ReservationDetailsModal from '@/components/Modal/ReservationDetailsModal/
 import { useModalStore } from '@/stores/modalStore';
 
 function Calendar({ reservations, changeMonth, currentDate, activityId }) {
-  const { setOpenModal } = useModalStore();
+  const { isReservationDetailModalOpen, setOpenReservationDetailModal } =
+    useModalStore();
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
@@ -29,7 +30,7 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
       days.push(
         <div
           key={`empty-${i}`}
-          className="h-[154px] w-full border border-gray-e8"
+          className="h-[154px] w-full border border-gray-e8 bg-white"
         ></div>,
       );
     }
@@ -43,16 +44,16 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
       days.push(
         <div
           key={i}
-          className="relative flex h-[154px] w-full cursor-pointer border border-gray-e8 p-[12px] text-xl text-gray-96"
+          className="relative flex h-[154px] w-full cursor-pointer border border-gray-e8 bg-white p-[12px] text-xl text-gray-96"
           onClick={(e) => {
             const target = e.currentTarget as HTMLElement;
             const rect = target.getBoundingClientRect();
-            const top = rect.top + window.scrollY;
-            const left = rect.left + window.scrollX;
+            const top = rect.top + window.scrollY - 210;
+            const left = rect.left + window.scrollX + 40;
 
             setModalPosition({ top, left });
             setSelectedDate(new Date(dateString));
-            setOpenModal();
+            setOpenReservationDetailModal();
           }}
         >
           {i}
@@ -118,19 +119,21 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
         {['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map((day) => (
           <div
             key={day}
-            className="border border-gray-e8 p-[12px] text-lg font-medium text-gray-96"
+            className="border border-gray-e8 bg-white p-[12px] text-lg font-medium text-gray-96"
           >
             {day}
           </div>
         ))}
         {renderDays(currentDate)}
       </div>
-      <ReservationDetailsModal
-        modalPosition={modalPosition}
-        selectedDate={selectedDate}
-        reservations={reservations}
-        activityId={activityId}
-      />
+      {isReservationDetailModalOpen && (
+        <ReservationDetailsModal
+          modalPosition={modalPosition}
+          selectedDate={selectedDate}
+          reservations={reservations}
+          activityId={activityId}
+        />
+      )}
     </div>
   );
 }
