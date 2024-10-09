@@ -3,14 +3,14 @@
 import MenuDropDown from '@/components/Dropdown/MenuDropdown';
 import ReservationCard from '@/components/myreservations';
 import { ActivitiesData, IActivity } from '@/types/activity';
-import getMyActivities from '@/services/getMyActivites';
+import getMyActivities from './components/getMyActivities';
 import Button from '@/components/Button/Button';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-export default function MyActivities() {
+function MyActivities() {
   const { ref, inView } = useInView();
 
   const {
@@ -61,12 +61,7 @@ export default function MyActivities() {
           내 체험 관리
         </h1>
         <Link href="/myactivities/activity-registration">
-          <Button
-            className="flex h-[48px] w-[120px] items-center justify-center whitespace-nowrap p-[8px] text-sm md:p-[12px] md:text-base lg:p-[16px] lg:text-lg"
-            size={'small'}
-          >
-            체험 등록하기
-          </Button>
+          <Button size={'small'}>체험 등록하기</Button>
         </Link>
       </div>
       <div className="space-y-2 md:space-y-4 xl:space-y-6">
@@ -96,3 +91,5 @@ export default function MyActivities() {
     </div>
   );
 }
+
+export default MyActivities;

@@ -1,32 +1,14 @@
-export const getStatustext = (status: string): string => {
-  switch (status) {
-    case 'pending':
-      return '예약 완료';
-    case 'canceled':
-      return '예약 취소';
-    case 'declined':
-      return '예약 거절';
-    case 'completed':
-      return '체험 완료';
-    case 'confirmed':
-      return '예약 승인';
-    default:
-      return status;
-  }
+export const getStatusText: Record<string, string> = {
+  pending: '예약 완료',
+  canceled: '예약 취소',
+  declined: '예약 거절',
+  completed: '체험 완료',
+  confirmed: '예약 승인',
 };
-
-export const getStatusColor = (status: string): string => {
-  switch (status) {
-    case 'pending':
-      return 'text-primary-blue-200';
-    case 'canceled':
-    case 'completed':
-      return 'text-primary-gray-700';
-    case 'declined':
-      return 'text-primary-red-200';
-    case 'confirmed':
-      return 'text-primary-orange-200';
-    default:
-      return '';
-  }
+export const getStatusColor: Record<string, string> = {
+  pending: 'text-primary-blue-200',
+  canceled: 'text-primary-gray-700',
+  completed: 'text-primary-gray-700',
+  declined: 'text-primary-red-200',
+  confirmed: 'text-primary-orange-200',
 };
