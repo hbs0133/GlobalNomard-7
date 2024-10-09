@@ -10,8 +10,9 @@ import ReviewCard from './ReviewCard';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Header from '@/components/Header/Header';
 
-const fectchDashboards = async (id: any) => {
+const fectchActivitys = async (id: any) => {
   const response = await axiosInstance.get(`/activities/${id}`);
   return response.data;
 };
@@ -34,7 +35,7 @@ function ActivityDetail() {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ['activity', id],
-    queryFn: () => fectchDashboards(id),
+    queryFn: () => fectchActivitys(id),
     enabled: !!id,
   });
 
@@ -98,32 +99,81 @@ function ActivityDetail() {
   };
 
   return (
-    <div className="mb-[200px] mt-[100px] flex w-full justify-center">
-      {data && reviewData && (
-        <div className="flex w-[1200px] flex-col">
-          <div className="border-b-[1px] border-black-nomad pb-[85px]">
-            <span className="mb-[10px] text-md font-regular text-black-nomad">
-              {data.category}
-            </span>
-            <h1 className="flex justify-between">
-              <span className="text-3xl font-bold text-black-nomad">
-                {data.title}
+    <div className="w-full bg-gray-fa">
+      <Header />
+      <div className="flex w-full justify-center">
+        {data && reviewData && (
+          <div className="mb-[200px] mt-[78px] flex w-[1200px] flex-col">
+            <div className="border-b-[1px] border-black-nomad pb-[85px]">
+              <span className="mb-[10px] text-md font-regular text-black-nomad">
+                {data.category}
               </span>
-              <MenuDropDown onDelete={handleDelete} onEdit={handleEdit} />
-            </h1>
-            <div className="mt-[16px] flex items-center">
-              <div className="mr-[4px] flex">
-                <Image
-                  src={IconStarOn}
-                  alt="별점을 나타내는 별모양 아이콘"
-                  width={16}
-                  height={16}
-                />
-                <span className="ml-[4px] text-md font-regular text-black">
-                  {data.rating} ({data.reviewCount})
+              <h1 className="flex justify-between">
+                <span className="text-3xl font-bold text-black-nomad">
+                  {data.title}
                 </span>
+                <MenuDropDown onDelete={handleDelete} onEdit={handleEdit} />
+              </h1>
+              <div className="mt-[16px] flex items-center">
+                <div className="mr-[4px] flex">
+                  <Image
+                    src={IconStarOn}
+                    alt="별점을 나타내는 별모양 아이콘"
+                    width={16}
+                    height={16}
+                  />
+                  <span className="ml-[4px] text-md font-regular text-black">
+                    {data.rating} ({data.reviewCount})
+                  </span>
+                </div>
+                <div className="flex text-md font-regular text-black-nomad">
+                  <Image
+                    src={IconLocation}
+                    alt="주소를 나타내는 아이콘"
+                    width={18}
+                    height={18}
+                    className="mr-[4px]"
+                  />
+                  {data.address}
+                </div>
               </div>
-              <div className="flex text-md font-regular text-black-nomad">
+              <div className="mt-[25px] h-[534px] w-[1198px] pb-[34px]">
+                <Slider {...settings}>
+                  <div>
+                    <Image
+                      src={data.bannerImageUrl}
+                      alt="배너 이미지"
+                      width={1198}
+                      height={534}
+                      className="h-[534px] cursor-pointer object-cover"
+                    />
+                  </div>
+
+                  {data.subImages.map((image: any) => (
+                    <div key={image.id}>
+                      <Image
+                        src={image.imageUrl}
+                        alt="서브 이미지"
+                        width={1198}
+                        height={534}
+                        className="h-[534px] cursor-pointer object-cover"
+                      />
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            </div>
+
+            <div className="mt-[40px] w-[800px] border-b-[1px] border-black-nomad pb-[34px]">
+              <h1 className="text-xl font-bold text-black-nomad">체험설명</h1>
+              <p className="mt-[16px] text-lg font-regular text-black-nomad">
+                {data.description}
+              </p>
+            </div>
+
+            <div className="mt-[40px] w-[800px] border-b-[1px] border-black-nomad pb-[40px]">
+              <KakaoMap address={data.address} />
+              <div className="mt-[8px] flex text-md font-regular text-black-nomad">
                 <Image
                   src={IconLocation}
                   alt="주소를 나타내는 아이콘"
@@ -134,84 +184,38 @@ function ActivityDetail() {
                 {data.address}
               </div>
             </div>
-            <div className="mt-[25px] h-[534px] w-[1198px] pb-[34px]">
-              <Slider {...settings}>
+
+            <div className="mt-[40px]">
+              <h2 className="text-2lg font-bold text-black-nomad">후기</h2>
+              <div className="mt-[24px] flex items-center gap-[16px]">
+                <span className="text-[50px] font-bold">
+                  {reviewData.averageRating}
+                </span>
                 <div>
-                  <Image
-                    src={data.bannerImageUrl}
-                    alt="배너 이미지"
-                    width={1198}
-                    height={534}
-                    className="h-[534px] cursor-pointer object-cover"
-                  />
-                </div>
-
-                {data.subImages.map((image: any) => (
-                  <div key={image.id}>
+                  <span className="mb-[8px] text-2lg font-regular">
+                    {getSatisfactionText(reviewData.averageRating)}
+                  </span>
+                  <span className="flex items-center text-md font-regular">
                     <Image
-                      src={image.imageUrl}
-                      alt="서브 이미지"
-                      width={1198}
-                      height={534}
-                      className="h-[534px] cursor-pointer object-cover"
+                      src={IconStarOn}
+                      alt="총후기 갯수를 나타내는 별모양 아이콘"
+                      width={16}
+                      height={16}
+                      className="mr-[6px]"
                     />
-                  </div>
-                ))}
-              </Slider>
-            </div>
-          </div>
-
-          <div className="mt-[40px] w-[800px] border-b-[1px] border-black-nomad pb-[34px]">
-            <h1 className="text-xl font-bold text-black-nomad">체험설명</h1>
-            <p className="mt-[16px] text-lg font-regular text-black-nomad">
-              {data.description}
-            </p>
-          </div>
-
-          <div className="mt-[40px] w-[800px] border-b-[1px] border-black-nomad pb-[40px]">
-            <KakaoMap address={data.address} />
-            <div className="mt-[8px] flex text-md font-regular text-black-nomad">
-              <Image
-                src={IconLocation}
-                alt="주소를 나타내는 아이콘"
-                width={18}
-                height={18}
-                className="mr-[4px]"
-              />
-              {data.address}
-            </div>
-          </div>
-
-          <div className="mt-[40px]">
-            <h2 className="text-2lg font-bold text-black-nomad">후기</h2>
-            <div className="mt-[24px] flex items-center gap-[16px]">
-              <span className="text-[50px] font-bold">
-                {reviewData.averageRating}
-              </span>
+                    {reviewData.totalCount}개 후기
+                  </span>
+                </div>
+              </div>
               <div>
-                <span className="mb-[8px] text-2lg font-regular">
-                  {getSatisfactionText(reviewData.averageRating)}
-                </span>
-                <span className="flex items-center text-md font-regular">
-                  <Image
-                    src={IconStarOn}
-                    alt="총후기 갯수를 나타내는 별모양 아이콘"
-                    width={16}
-                    height={16}
-                    className="mr-[6px]"
-                  />
-                  {reviewData.totalCount}개 후기
-                </span>
+                {reviewData.reviews.map((review: any) => (
+                  <ReviewCard review={review} />
+                ))}
               </div>
             </div>
-            <div>
-              {reviewData.reviews.map((review: any) => (
-                <ReviewCard review={review} />
-              ))}
-            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
