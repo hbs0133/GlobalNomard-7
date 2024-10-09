@@ -6,16 +6,25 @@ import nextBtn from '@/assets/icons/ic_arrow_right_black_48px.svg';
 import prevBtn from '@/assets/icons/ic_arrow_left_black_48px.svg';
 import 'swiper/css';
 import Image from 'next/image';
+import fetchActivities from '@/services/fetchActivities'; // fetchActivities 함수 import
+import { Activity, FetchActivitiesResponse } from '@/services/fetchActivities'; // Activity 타입 import
 
-function BestActivities({ fetchActivities }) {
-  const { isLoading, error, data } = useQuery({
+function BestActivities() {
+  const { isLoading, error, data } = useQuery<FetchActivitiesResponse>({
     queryKey: ['BestActivities'],
     queryFn: () =>
-      fetchActivities('offset', '', '&sort=most_reviewed', '1', '20'),
+      fetchActivities({
+        method: 'offset',
+        sort: 'most_reviewed',
+        page: '1',
+        size: '20',
+      }),
     staleTime: 60000,
   });
 
-  if (error) return <div>에러가 발생했습니다: {error.message}</div>;
+  if (isLoading) return <div>로딩 중입니다...</div>;
+  if (error instanceof Error)
+    return <div>에러가 발생했습니다: {error.message}</div>;
 
   return (
     <div className="mt-[93px] flex sm:mt-[142px] 2xl:mt-[158px]">
@@ -45,7 +54,6 @@ function BestActivities({ fetchActivities }) {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
           }}
-          className="relative"
           breakpoints={{
             375: {
               slidesPerView: 2,
@@ -61,10 +69,10 @@ function BestActivities({ fetchActivities }) {
             },
           }}
         >
-          {data?.activities.map((item) => (
+          {data?.activities.map((item: Activity) => (
             <SwiperSlide key={item.id}>
               <div className="swiper-slide-content relative h-[186px] w-[186px] sm:h-[384px] sm:w-[384px]">
-                <div className="">
+                <div className="relative h-[186px] w-[186px] sm:h-[384px] sm:w-[384px]">
                   <Image
                     src={item.bannerImageUrl}
                     alt={item.title}

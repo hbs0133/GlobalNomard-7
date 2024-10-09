@@ -1,29 +1,16 @@
 import Image from 'next/image';
 import bgImg from '@/assets/images/main_bg.png';
-import axios from 'axios';
-import mockData from '@/components/Main/mockData';
+import { useState } from 'react';
 import BestActivities from '@/components/Main/BestActivities';
 import Search from '@/components/Main/Search';
 import Category from '@/components/Main/Category';
+import SearchResults from '@/components/Main/SearchResults';
 
 function Main() {
-  const BASE_URL = 'https://sp-globalnomad-api.vercel.app/7-7';
-
-  const fetchActivities = async (
-    method = 'offset',
-    category = '',
-    sort = '',
-    page = '1',
-    pageSize = '20',
-  ) => {
-    const res = await axios.get(`
-  ${BASE_URL}/activities?method=${method}${category}${sort}&page=${page}&size=${pageSize}`);
-    // return mockData;
-    return res.data;
-  };
+  const [searchValue, setSearchValue] = useState<string>('');
 
   return (
-    <div className="w-screen bg-gray-fa">
+    <div className="w-screen overflow-x-hidden bg-gray-fa">
       <div className="relative h-[240px] sm:h-[550px]">
         <div className="absolute inset-0 z-10 bg-main-gradient" />
         <Image
@@ -45,12 +32,23 @@ function Main() {
             </p>
           </div>
         </div>
-        <Search BASE_URL={BASE_URL} />
+        <Search setSearchValue={setSearchValue} />
       </div>
       <div>
-        <BestActivities fetchActivities={fetchActivities} />
+        {searchValue ? (
+          <>
+            <div className="absolute left-[88px] top-[224px] z-20 h-[26px] w-[119px] bg-white text-center text-lg text-gray-a4 sm:left-[93px] sm:top-[564px] sm:w-[140px] xl:left-[422px]">
+              내가 원하는 체험은
+            </div>
+            <SearchResults keyword={searchValue} />
+          </>
+        ) : (
+          <>
+            <BestActivities />
+            <Category />
+          </>
+        )}
       </div>
-      <Category fetchActivities={fetchActivities} />
     </div>
   );
 }

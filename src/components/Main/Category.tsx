@@ -2,15 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Pagination from 'react-js-pagination';
 import ItemCard from './ItemCard';
+import DropDown from '@/components/Dropdown/Dropdown';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import fetchActivities, {
+  FetchActivitiesResponse,
+  Activity,
+} from '@/services/fetchActivities';
 
-function Category({ fetchActivities }) {
-  const [categoryValue, setCategoryValue] = useState('');
-  const [sortValue, setSortValue] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(8);
+function Category() {
+  const [categoryValue, setCategoryValue] = useState<string>('');
+  const [sortValue, setSortValue] = useState<
+    'price_asc' | 'price_desc' | 'most_reviewed' | 'latest' | undefined
+  >(undefined);
+  const [sortLabel, setSortLabel] = useState<string>('가격');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(8);
+
+  const sortOptions = [
+    { label: '가격 낮은순', value: 'price_asc' },
+    { label: '가격 높은순', value: 'price_desc' },
+  ];
+
+  const categoryOptions = [
+    '문화 · 예술',
+    '식음료',
+    '스포츠',
+    '투어',
+    '관광',
+    '웰빙',
+  ];
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,36 +47,30 @@ function Category({ fetchActivities }) {
     };
 
     handleResize();
-
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
-  const { isLoading, error, data } = useQuery({
+  const { isLoading, error, data } = useQuery<FetchActivitiesResponse>({
     queryKey: ['category', categoryValue, sortValue, currentPage, itemsPerPage],
     queryFn: () =>
-      fetchActivities(
-        'offset',
-        sortValue ? `&sort=${sortValue}` : '',
-        categoryValue ? `&category=${categoryValue}` : '',
-        currentPage,
-        itemsPerPage.toString(),
-      ),
+      fetchActivities({
+        method: 'offset',
+        category: categoryValue || undefined,
+        sort: sortValue,
+        page: currentPage.toString(),
+        size: itemsPerPage.toString(),
+      }),
     staleTime: 60000,
   });
 
-  const handleSortChange = (event) => {
-    setSortValue(event.target.value);
-  };
-
-  const handleCategoryClick = (category) => {
+  const handleCategoryClick = (category: string) => {
     setCategoryValue((prev) => (prev === category ? '' : category));
   };
 
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -65,7 +81,7 @@ function Category({ fetchActivities }) {
   }, [data]);
 
   return (
-    <div className="mt-[40px] flex sm:mt-[60px]">
+    <div className="mb-[200px] mt-[40px] flex sm:mb-[342px] sm:mt-[60px]">
       <div className="mx-auto w-[100%] max-w-[1200px] p-4 sm:p-8 xl:p-0">
         <div className="relative flex items-center justify-between">
           <div
@@ -78,7 +94,6 @@ function Category({ fetchActivities }) {
           <Swiper
             spaceBetween={0}
             slidesPerView={2}
-            className="flex justify-start"
             breakpoints={{
               375: {
                 slidesPerView: 3,
@@ -90,45 +105,36 @@ function Category({ fetchActivities }) {
               },
               1024: {
                 slidesPerView: 6,
-                spaceBetween: 0,
+                spaceBetween: 20,
               },
             }}
           >
-            {['문화 · 예술', '식음료', '스포츠', '투어', '관광', '웰빙'].map(
-              (category) => (
-                <SwiperSlide key={category}>
-                  <button
-                    type="button"
-                    onClick={() => handleCategoryClick(category)}
-                    className={`${
-                      categoryValue === category
-                        ? 'h-[41px] w-[80px] rounded-[15px] bg-green-0B text-lg font-medium text-white sm:h-[58px] sm:w-[120px] sm:text-2lg xl:w-[127px]'
-                        : 'bg-w h-[41px] w-[80px] rounded-[15px] border border-green-0B text-lg font-medium text-green-0B sm:h-[58px] sm:w-[120px] sm:text-2lg xl:w-[127px]'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                </SwiperSlide>
-              ),
-            )}
+            {categoryOptions.map((category) => (
+              <SwiperSlide key={category}>
+                <button
+                  type="button"
+                  onClick={() => handleCategoryClick(category)}
+                  className={`${
+                    categoryValue === category
+                      ? 'h-[41px] w-[80px] rounded-[15px] bg-green-0B text-lg font-medium text-white sm:h-[58px] sm:w-[120px] sm:text-2lg xl:w-[127px]'
+                      : 'bg-w h-[41px] w-[80px] rounded-[15px] border border-green-0B text-lg font-medium text-green-0B sm:h-[58px] sm:w-[120px] sm:text-2lg xl:w-[127px]'
+                  }`}
+                >
+                  {category}
+                </button>
+              </SwiperSlide>
+            ))}
           </Swiper>
-          <div className="">
-            <select
-              id="sort"
-              className="bg-w xl:w-[127px]rounded h-[41px] w-[90px] rounded-[15px] border border-gray-300 border-green-0B px-2 py-1 text-lg font-medium text-green-0B sm:h-[53px] sm:w-[120px] sm:text-2lg"
-              value={sortValue}
-              onChange={handleSortChange}
-            >
-              <option value="" disabled selected hidden>
-                가격
-              </option>
-              <option className="h-[41px] w-[90px]" value="price_asc">
-                가격 낮은순
-              </option>
-              <option className="h-[41px] w-[90px]" value="price_desc">
-                가격 높은순
-              </option>
-            </select>
+          <div>
+            <DropDown
+              label={sortLabel}
+              options={sortOptions}
+              setLabel={setSortLabel}
+              setValue={setSortValue}
+              size="small"
+              text="green"
+              border="green"
+            />
           </div>
         </div>
         <div className="mb-6 mt-6 text-2lg font-bold sm:mb-8 sm:mt-9 sm:text-3xl">
@@ -136,27 +142,27 @@ function Category({ fetchActivities }) {
         </div>
 
         {isLoading && <p>로딩 중...</p>}
-        {error && <p>에러가 발생했습니다. {error.message}</p>}
+        {error && <p>에러가 발생했습니다: {error.message}</p>}
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 xl:grid-cols-4 2xl:gap-8">
-          {data?.activities.map((item) => (
+          {data?.activities.map((item: Activity) => (
             <ItemCard key={item.id} item={item} />
           ))}
         </div>
 
-        <div className="sm:mt-18 mt-9 xl:mt-16">
+        <div className="sm:mt-18 mt-9 flex justify-center xl:mt-16">
           <Pagination
             activePage={currentPage}
             itemsCountPerPage={itemsPerPage}
             totalItemsCount={totalItems}
             pageRangeDisplayed={5}
             onChange={handlePageChange}
-            itemClass="inline-block px-3 py-1 border rounded"
-            activeClass="bg-green-700 text-white"
+            itemClass="inline-block mx-1 px-[15.5px] py-[7px] sm:px-6 sm:py-3 border rounded-[15px] border border-green-0B"
+            activeClass="bg-green-0B text-white"
             hideDisabled={false}
             hideFirstLastPages={true}
-            prevPageText="‹"
-            nextPageText="›"
+            prevPageText="<"
+            nextPageText=">"
             disabledClass="opacity-50 cursor-not-allowed"
           />
         </div>

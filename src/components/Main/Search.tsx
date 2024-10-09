@@ -1,36 +1,37 @@
-import { useState } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  FormEvent,
+  ChangeEvent,
+} from 'react';
+import { debounce } from 'lodash';
 import SearchForm from '@/components/Main/SearchForm';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import mockData from '@/components/Main/mockData';
 
-function Search({ BASE_URL }) {
-  const [searchValue, setSearchValue] = useState('');
-  const [submitValue, setSubmitValue] = useState('');
+interface SearchProps {
+  setSearchValue: (value: string) => void;
+}
 
-  const handleInputChange = (e) => {
-    setSearchValue(e.target.value);
+function Search({ setSearchValue }: SearchProps) {
+  const [searchValue, setSearchValueLocal] = useState<string>('');
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValueLocal(e.target.value);
+    debouncedSetSearchValue(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitValue(searchValue);
-  };
+  const debouncedSetSearchValue = useCallback(
+    debounce((value: string) => {
+      setSearchValue(value);
+    }, 600),
+    [],
+  );
 
-  const getActivities = async (keyword) => {
-    if (!keyword) return;
-    const res = await axios.get(
-      `${BASE_URL}/activities?method=offset&keyword=${keyword}&page=1&size=20`,
-    );
-    return mockData;
-    // return res.data;
-  };
-
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['activities', submitValue],
-    queryFn: () => getActivities(submitValue),
-    enabled: !!submitValue,
-  });
+  useEffect(() => {
+    return () => {
+      debouncedSetSearchValue.cancel();
+    };
+  }, [debouncedSetSearchValue]);
 
   return (
     <div className="absolute top-[180px] z-20 flex w-full sm:top-[490px]">
@@ -42,7 +43,7 @@ function Search({ BASE_URL }) {
           <SearchForm
             value={searchValue}
             handleInputChange={handleInputChange}
-            handleSubmit={handleSubmit}
+            handleSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}
           />
         </div>
       </div>

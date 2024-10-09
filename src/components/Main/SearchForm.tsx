@@ -1,7 +1,18 @@
+import React, { ChangeEvent, FormEvent } from 'react';
 import leadingIcon from '@/assets/icons/ic-leading.svg';
 import Image from 'next/image';
 
-function SearchForm({ value, handleInputChange, handleSubmit }) {
+interface SearchFormProps {
+  value: string;
+  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+}
+
+function SearchForm({
+  value,
+  handleInputChange,
+  handleSubmit,
+}: SearchFormProps) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="relative inline-block w-full">
