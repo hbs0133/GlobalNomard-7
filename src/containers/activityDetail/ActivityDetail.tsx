@@ -11,6 +11,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Header from '@/components/Header/Header';
+import Footer from '@/components/\bFooter/Footer';
 
 const fectchActivitys = async (id: any) => {
   const response = await axiosInstance.get(`/activities/${id}`);
@@ -216,6 +217,7 @@ function ActivityDetail() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
