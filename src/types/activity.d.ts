@@ -12,3 +12,9 @@ export interface IActivity {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ActivitiesData {
+  cursorId: number;
+  totalCount: number;
+  activities: IActivity[];
+}
