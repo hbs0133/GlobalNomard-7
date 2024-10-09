@@ -31,7 +31,7 @@ function BaseModal({
       'w-[429px] h-[697px] rounded-[24px] mobile:w-[375px] mobile:h-[777px] mobile:rounded-[0px]',
     reservationDetailMedium:
       'w-[429px] h-[582px] rounded-[24px] mobile:w-[375px] mobile:h-[777px] mobile:rounded-[0px]',
-    notice: 'mobile:h-[812px] rounded-[10px] mobile:rounded-[0px]',
+    notice: 'w-[386px] mobile:h-[812px] rounded-[10px] mobile:rounded-[0px]',
   };
 
   const titleStyle = {
@@ -86,6 +86,11 @@ function BaseModal({
     }
   };
 
+  const modalBackgroundStyle =
+    size === 'notice'
+      ? 'bg-green-ce shadow-[0px_2px_8px_0px_#78748640]'
+      : 'bg-white';
+
   return (
     <ModalPortal>
       {isModalOpen && !isNonModal && (
@@ -129,7 +134,7 @@ function BaseModal({
         >
           <div
             className={twMerge(
-              `z-[1000] flex flex-col justify-items-center border-[1px] bg-white px-[24px] pb-[24px] pt-[23px] ${sizeStyle[size]}`,
+              `z-[1000] flex flex-col justify-items-center border-[1px] px-[24px] pb-[24px] pt-[23px] ${sizeStyle[size]} ${modalBackgroundStyle}`,
               'absolute',
             )}
             style={{
