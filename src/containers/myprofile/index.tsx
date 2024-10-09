@@ -70,7 +70,7 @@ function InfoPage() {
 
     // 저장 버튼 활성화 여부
     useEffect(() => {
-        if (!nicknameError && !passwordError && !passwordMatchError && nickname && password && passwordConfirm) {
+        if (!nicknameError && !passwordError && !passwordMatchError && nickname && password && passwordConfirm && password === passwordConfirm) {
             setIsFormValid(true);
         } else {
             setIsFormValid(false);
@@ -80,7 +80,7 @@ function InfoPage() {
 
     const edit = async () => {
         //유효하지 않는 경우
-        if (!isFormValid) return;
+        if (isFormValid) return;
 
         try {
             const accessToken = await getAccessTokenWithRefresh()
