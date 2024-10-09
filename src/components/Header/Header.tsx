@@ -72,23 +72,29 @@ function Header() {
                 />
               </button>
               <NoticeModal />
-              <Link
-                href={'/myprofile'}
-                className="flex items-center gap-[10px] text-md font-medium text-black-nomad"
-              >
-                {data.profileImageUrl ? (
-                  <Image
-                    width={32}
-                    height={32}
-                    className="h-[32px] w-[32px] rounded-[50%]"
-                    src={data.profileImageUrl}
-                    alt="프로필 이미지"
-                  />
-                ) : (
-                  getProfilePlaceholder(data?.nickname)
-                )}
-                <div>{data.nickname}</div>
-              </Link>
+              {isLoading ? (
+                <div>Loading...</div>
+              ) : error ? (
+                <div>Error loading data</div>
+              ) : data ? (
+                <Link
+                  href={'/myprofile'}
+                  className="flex items-center gap-[10px] text-md font-medium text-black-nomad"
+                >
+                  {data.profileImageUrl ? (
+                    <Image
+                      width={32}
+                      height={32}
+                      className="h-[32px] w-[32px] rounded-[50%]"
+                      src={data.profileImageUrl}
+                      alt="프로필 이미지"
+                    />
+                  ) : (
+                    getProfilePlaceholder(data?.nickname)
+                  )}
+                  <div>{data.nickname}</div>
+                </Link>
+              ) : null}
               <button
                 onClick={handleLogout}
                 className="text-md font-medium text-black-nomad"
