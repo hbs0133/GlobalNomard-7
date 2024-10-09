@@ -114,11 +114,7 @@ const Login = () => {
                 </div >
             </div>
 
-            {error && (
-                <AlertModal>
-                    {error}
-                </AlertModal>
-            )}
+            {error && (<AlertModal>{error}</AlertModal>)}
 
         </div>
     );

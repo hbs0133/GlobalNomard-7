@@ -11,6 +11,7 @@ import Image from 'next/image';
 import GlobalNomadLogo from '@/assets/images/logo_big.png';
 import { useModalStore } from '@/stores/modalStore';
 import AlertModal from '@/components/Modal/AlertModal';
+import SHAlertModal from '@/components/Modal/SHModal';
 
 function SignupPage() {
     const [email, setEmail] = useState('')
@@ -21,6 +22,7 @@ function SignupPage() {
     const { user, setUser } = useUserStore();
     const { setOpenModal } = useModalStore();
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     //로그인 돼있을 때 회원가입 창으로 못 들어가게 막음
     useEffect(() => {
@@ -38,12 +40,12 @@ function SignupPage() {
             passwordConfirmation: passwordConfirm,
         })
             .then(res => {
-                router.push("/loginpage")
+                setOpenModal();
+                setSuccess('가입이 완료되었습니다!');
             })
             .catch(res => {
                 setOpenModal();
                 setError('이미 사용중인 이메일입니다.');
-                console.log(res.response.data.message);
             });
     };
 
@@ -51,6 +53,9 @@ function SignupPage() {
         router.push('/loginpage');
     };
 
+    const onConfirm = () => {
+        router.push('/loginpage');
+    };
 
     return (
         <div className={`mx-auto max-w-[666px] `} >
@@ -105,7 +110,7 @@ function SignupPage() {
                             size='large'
                             status={email.length === 0 || password.length === 0 ? 'inactive' : 'active'}
                             style={{ width: '100%' }}>
-                            회원가입
+                            회원가입 하기
                         </Button>
                     </div>
 
@@ -119,11 +124,8 @@ function SignupPage() {
                 </form>
             </div>
 
-            {error && (
-                <AlertModal>
-                    <p>{error}</p>
-                </AlertModal>
-            )}
+            {error && (<AlertModal>{error}</AlertModal>)}
+            {success && (<SHAlertModal onConfirm={onConfirm}>{success}</SHAlertModal>)}
 
         </div>
 

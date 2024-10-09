@@ -11,21 +11,24 @@ interface IModalPortal {
 interface IBaseModal {
   type: 'modal' | 'nonModal';
   size:
-    | 'alert'
-    | 'confirm'
-    | 'review'
-    | 'reservation'
-    | 'reservationDetailLarge'
-    | 'reservationDetailMedium'
-    | 'notice';
+  | 'alert'
+  | 'confirm'
+  | 'review'
+  | 'reservation'
+  | 'reservationDetailLarge'
+  | 'reservationDetailMedium'
+  | 'notice';
   titleContent?: null | string;
   tStyle?: 'review' | 'reservationDetail' | 'notice';
   xStyle?: 'review' | 'reservationDetail' | 'notice';
   footerButton: null | 1 | 2;
   children: ReactNode;
+  onConfirm?: () => void;
 }
 
-type IAlertModal = Pick<IBaseModal, 'children'>;
+type IAlertModal = Pick<IBaseModal, 'children'> & {
+  onConfirm?: () => void;
+};
 
 type IConfirmModal = Pick<IBaseModal, 'children'>;
 
