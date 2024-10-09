@@ -63,8 +63,8 @@ function PwdInput({ id, placeholder, error, className = '', correct = '', ...inp
                 </button>
             </div>
 
-            {pwdError && <p className={`text-xs text-red-ff4 rounded-[5px] px-2 pt-2 ${className}`}>{pwdError}</p>}
-            {PwdConfirmError && <p className={`text-xs text-red-ff4 rounded-[5px] px-2 pt-2 ${className}`}>{PwdConfirmError}</p>}
+            {pwdError && <p className={`text-xs text-red-ff4 px-2 pt-2 ${className}`}>{pwdError}</p>}
+            {PwdConfirmError && <p className={`text-xs text-red-ff4 px-2 pt-2 ${className}`}>{PwdConfirmError}</p>}
         </div>
     );
 }

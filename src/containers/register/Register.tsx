@@ -198,7 +198,7 @@ const Register = () => {
     <>
       <form
         onSubmit={handleRegistration}
-        className="mb-[72px] mt-[72px] flex w-[792px] flex-col gap-[24px]"
+        className="mb-[72px] flex w-[792px] flex-col gap-[24px]"
       >
         <div className="flex flex-row justify-between">
           <h1 className="text-3xl font-bold">내 체험 등록</h1>
@@ -224,7 +224,9 @@ const Register = () => {
             setLabel={setSelectedCategory}
             setValue={setSelectedCategory}
             size="large"
-            text="gray"
+            text={
+              selectedCategory === '카테고리를 선택해주세요' ? 'gray' : 'black'
+            }
             border="gray"
             square={true}
           />

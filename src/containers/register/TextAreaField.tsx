@@ -19,7 +19,7 @@ const TextAreaField: React.FC<TextAreaFieldProps> = ({
       <textarea
         {...register}
         placeholder={placeholder}
-        className="h-[222px] w-full resize-none rounded-[4px] border border-gray-79 pb-[8px] pl-[16px] pt-[8px]"
+        className="h-[222px] w-full resize-none rounded-[4px] border border-gray-79 pb-[8px] pl-[16px] pt-[8px] placeholder:text-2lg placeholder:font-medium focus:outline-none"
       />
       {error && <span className="text-sm text-red-500">{error.message}</span>}
     </div>

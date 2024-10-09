@@ -5,6 +5,7 @@ import fetchActivities, {
 } from '@/services/fetchActivities';
 import ItemCard from '@/components/Main/ItemCard';
 import Pagination from 'react-js-pagination';
+import { useRouter } from 'next/router';
 
 interface SearchResultsProps {
   keyword: string;
@@ -14,6 +15,7 @@ function SearchResults({ keyword }: SearchResultsProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(12);
+  const router = useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -52,6 +54,10 @@ function SearchResults({ keyword }: SearchResultsProps) {
     setCurrentPage(pageNumber);
   };
 
+  const handleClickCard = (id: number) => {
+    router.push(`/activityDetail/${id}`);
+  };
+
   useEffect(() => {
     if (data) {
       setTotalItems(data.totalCount);
@@ -77,7 +83,11 @@ function SearchResults({ keyword }: SearchResultsProps) {
           {data?.activities.length ? (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {data.activities.map((activity) => (
-                <ItemCard key={activity.id} item={activity} />
+                <ItemCard
+                  key={activity.id}
+                  item={activity}
+                  onClick={() => handleClickCard(activity.id)}
+                />
               ))}
             </div>
           ) : (

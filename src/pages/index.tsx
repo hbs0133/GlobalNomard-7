@@ -1,14 +1,11 @@
-import React from 'react';
-
-import MyReservations from '@/components/SideNavCard/page';
-import { useUserStore } from '@/hooks/useUserStore';
 import Main from './main';
+import HeaderFooterLayout from '@/components/Layout/HeaderFooterLayout';
 
-const Home: React.FC = () => {
+const Home = () => {
   return (
-    <div>
+    <HeaderFooterLayout>
       <Main />
-    </div>
+    </HeaderFooterLayout>
   );
 };
 

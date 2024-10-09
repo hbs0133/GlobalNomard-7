@@ -5,6 +5,7 @@ import BestActivities from '@/components/Main/BestActivities';
 import Search from '@/components/Main/Search';
 import Category from '@/components/Main/Category';
 import SearchResults from '@/components/Main/SearchResults';
+import HeaderFooterLayout from '@/components/Layout/HeaderFooterLayout';
 
 function Main() {
   const [searchValue, setSearchValue] = useState<string>('');
