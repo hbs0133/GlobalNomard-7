@@ -81,13 +81,10 @@ export default function MyActivities() {
                 activity.bannerImageUrl || ''
               }
               getTitle={(activity: IActivity) => activity.title}
-              maxTitleLength={18}
               getRating={(activity: IActivity) => activity.rating}
               getReviewCount={(activity: IActivity) => activity.reviewCount}
               getPrice={(activity: IActivity) => activity.price}
-            >
-              <MenuDropDown activityId={activity.id} />
-            </ReservationCard>
+            ></ReservationCard>
           ))
         )}
       </div>
