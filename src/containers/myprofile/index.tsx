@@ -9,7 +9,7 @@ import Input from '@/components/Input/Input';
 import Button from '@/components/Button/Button';
 import MyReservations from '@/components/SideNavCard/page'
 import SideNavCard from '@/components/SideNavCard/SideNavCard';
-
+0
 
 function InfoPage() {
     const [email, setEmail] = useState('')
@@ -19,6 +19,15 @@ function InfoPage() {
     const [profileImageUrl, setProfileImageUrl] = useState('https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/globalnomad/profile_image/7-7_1119_1728047280262.jpeg')
     const router = useRouter();
     const { user, setUser } = useUserStore();
+    const [nicknameError, setNicknameError] = useState<string | null>(null);
+
+    const validateNickname = (nickname: string) => {
+        if (nickname.length > 10) {
+            setNicknameError('10자 이내로 입력해주세요.');
+        } else {
+            setNicknameError(null);
+        }
+    }
 
     useEffect(() => {
         const myInfo = async () => {
@@ -32,13 +41,13 @@ function InfoPage() {
                 setEmail(data.email);
                 setNickname(data.nickname);
             } catch {
-                router.push('/');
+                router.push('/main');
             }
         }
         if (user != null) {
             myInfo();
         }
-    }, [user])
+    }, [user]);
 
     const edit = async () => {
         try {
@@ -54,6 +63,7 @@ function InfoPage() {
                     headers: { Authorization: `Bearer ${accessToken}` },
                 }
             );
+            window.location.reload();
         } catch (err) {
             console.error(err);
         }
@@ -81,8 +91,10 @@ function InfoPage() {
                             id='nickname'
                             placeholder='10자 이내로 입력해주세요'
                             value={nickname}
-                            onChange={(e) => setNickname(e.target.value)}
+                            onChange={(e) => { setNickname(e.target.value); validateNickname(e.target.value); }}
+                            className={`${nicknameError ? `border-red-ff4` : `border-black`}`}
                         />
+                        {nicknameError && <p className={`text-xs text-red-ff4 rounded-[5px] px-2 pt-2`}>{nicknameError}</p>}
                     </div>
 
                     <div>
@@ -99,6 +111,7 @@ function InfoPage() {
                         <p className={`pb-4 text-2xl font-bold`}>비밀번호</p>
                         <Input
                             id='password'
+                            type="password"
                             placeholder='8자 이상 입력해 주세요'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -109,6 +122,7 @@ function InfoPage() {
                         <p className={`pb-4 text-2xl font-bold`}>비밀번호 재입력</p>
                         <Input
                             id='passwordConfirm'
+                            type="password"
                             placeholder='비밀번호를 한번 더 입력해 주세요'
                             value={passwordConfirm}
                             onChange={(e) => setPasswordConfirm(e.target.value)}
