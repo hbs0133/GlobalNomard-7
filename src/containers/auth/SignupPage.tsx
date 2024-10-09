@@ -23,6 +23,7 @@ function SignupPage() {
     const { setOpenModal } = useModalStore();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [loading, setLoading] = useState<boolean>(false);
 
     //로그인 돼있을 때 회원가입 창으로 못 들어가게 막음
     useEffect(() => {
@@ -33,6 +34,7 @@ function SignupPage() {
 
     const signUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoading(true);
         await axios.post('https://sp-globalnomad-api.vercel.app/7-7/users', {
             email: email,
             nickname: nickname,
@@ -45,8 +47,11 @@ function SignupPage() {
             })
             .catch(res => {
                 setOpenModal();
-                setError('이미 사용중인 이메일입니다.');
-            });
+                setError(res.response.data.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            })
     };
 
     const navigateToLogin = () => {
@@ -73,7 +78,7 @@ function SignupPage() {
                             id='email'
                             placeholder='이메일을 입력해 주세요'
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)} // 이메일 상태 업데이트
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                     <div>
@@ -82,7 +87,7 @@ function SignupPage() {
                             id='nickname'
                             placeholder='닉네임을 입력해 주세요'
                             value={nickname}
-                            onChange={(e) => setNickname(e.target.value)} // 닉네임 상태 업데이트
+                            onChange={(e) => setNickname(e.target.value)}
                         />
                     </div>
                     <div>
@@ -91,7 +96,7 @@ function SignupPage() {
                             id='password'
                             placeholder='8자 이상 입력해 주세요'
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)} // 비밀번호 상태 업데이트
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     <div>
@@ -100,7 +105,7 @@ function SignupPage() {
                             id='passwordConfirm'
                             placeholder='비밀번호를 한 번 더 입력해 주세요'
                             value={passwordConfirm}
-                            onChange={(e) => setPasswordConfirm(e.target.value)} // 비밀번호 확인 상태 업데이트
+                            onChange={(e) => setPasswordConfirm(e.target.value)}
                             correct={password}
                         />
                     </div>
@@ -108,9 +113,9 @@ function SignupPage() {
                         <Button
                             type="submit"
                             size='large'
-                            status={email.length === 0 || password.length === 0 ? 'inactive' : 'active'}
+                            status={loading || email.length === 0 || password.length === 0 ? 'inactive' : 'active'}
                             style={{ width: '100%' }}>
-                            회원가입 하기
+                            {loading ? '회원가입 중...' : '회원가입 하기'}
                         </Button>
                     </div>
 
