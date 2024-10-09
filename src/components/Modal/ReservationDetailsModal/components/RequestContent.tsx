@@ -40,19 +40,14 @@ function RequestContent({
           <div>
             <div className="max-h-72 overflow-y-auto">
               {filteredReservations.length > 0 ? (
-                filteredReservations.map((schedule) =>
-                  Array.from({ length: schedule.count.pending }, (_, index) => (
-                    <ReservationDetailCard
-                      key={`${schedule.scheduleId}-${index}`}
-                      reservations={{
-                        id: schedule.scheduleId,
-                        detail: `예약 ${index + 1} (${schedule.startTime} ~ ${schedule.endTime})`,
-                      }}
-                    />
-                  )),
-                )
+                filteredReservations.map((reservation) => (
+                  <ReservationDetailCard
+                    key={`${reservation.scheduleId}-${reservation.userId}`}
+                    reservation={reservation}
+                  />
+                ))
               ) : (
-                <p>예약 정보가 없습니다.</p>
+                <p className="mt-[15px]">예약 정보가 없습니다.</p>
               )}
             </div>
           </div>

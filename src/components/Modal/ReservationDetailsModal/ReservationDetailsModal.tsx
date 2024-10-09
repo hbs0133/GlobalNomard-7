@@ -22,6 +22,26 @@ const useReservedSchedule = (activityId, date) => {
   });
 };
 
+const useReservations = (activityId, size = 10, scheduleId, status) => {
+  return useQuery({
+    queryKey: ['reservations', activityId, size, scheduleId, status],
+    queryFn: async () => {
+      const response = await axiosInstance.get(
+        `/my-activities/${activityId}/reservations`,
+        {
+          params: {
+            size,
+            scheduleId,
+            status,
+          },
+        },
+      );
+      return response.data;
+    },
+    enabled: !!activityId,
+  });
+};
+
 function ReservationDetailsModal({
   modalPosition,
   selectedDate,
@@ -34,27 +54,58 @@ function ReservationDetailsModal({
 
   const [activeTab, setActiveTab] = useState('requestTab');
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [label, setLabel] = useState('');
+  const [approvedReservations, setApprovedReservations] = useState([]);
+  const [rejectedReservations, setRejectedReservations] = useState([]);
+
   const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+
   const { data: reservedSchedule = [] } = useReservedSchedule(
     activityId,
     dateString,
   );
 
+  const selectedSchedule = reservedSchedule.find(
+    (schedule) => schedule.scheduleId === selectedTimeSlot,
+  );
+
+  const scheduleId = selectedSchedule ? selectedSchedule.scheduleId : null;
+
+  const status = selectedSchedule
+    ? selectedSchedule.count.declined > 0
+      ? 'declined'
+      : selectedSchedule.count.pending > 0
+        ? 'pending'
+        : 'confirmed'
+    : 'pending';
+
+  const { data: reservationsData } = useReservations(
+    activityId,
+    10,
+    scheduleId,
+    status,
+  );
+
   const options = reservedSchedule.map((schedule) => ({
     label: `${schedule.startTime} ~ ${schedule.endTime}`,
-    value: `${schedule.startTime} ~ ${schedule.endTime}`,
+    value: schedule.scheduleId,
   }));
 
-  // const filteredReservations = reservedSchedule.filter(
-  //   (schedule) =>
-  //     `${schedule.startTime} ~ ${schedule.endTime}` === selectedTimeSlot,
-  // );
-
-  const filteredReservations = reservedSchedule.filter(
-    (schedule) =>
-      `${schedule.startTime} ~ ${schedule.endTime}` === selectedTimeSlot &&
-      schedule.count.pending > 0,
-  );
+  const filteredReservations = reservedSchedule
+    .filter((schedule) => schedule.scheduleId === scheduleId)
+    .filter((schedule) => schedule.count.pending > 0)
+    .flatMap((schedule) => {
+      return (
+        reservationsData?.reservations
+          .filter(
+            (reservation) => reservation.scheduleId === schedule.scheduleId,
+          )
+          .map((reservation) => ({
+            ...schedule,
+            ...reservation,
+          })) || []
+      );
+    });
 
   const requestCount = reservedSchedule.reduce((total, schedule) => {
     return total + schedule.count.pending;
@@ -82,11 +133,10 @@ function ReservationDetailsModal({
             reservations={reservations}
             selectedDate={selectedDate}
             options={options}
-            // label={options[0]?.label}
-            label={selectedTimeSlot}
+            label={label}
             filteredReservations={filteredReservations}
             setValue={handleTimeSlotChange}
-            setLabel={(label) => {}}
+            setLabel={setLabel}
           />
         );
       case 'approvedTab':
@@ -95,7 +145,12 @@ function ReservationDetailsModal({
             reservations={reservations}
             selectedDate={selectedDate}
             options={options}
-            label={options[0]?.label}
+            label={label}
+            filteredReservations={filteredReservations}
+            setValue={handleTimeSlotChange}
+            setLabel={setLabel}
+            approvedReservations={approvedReservations}
+            setApprovedReservations={setApprovedReservations}
           />
         );
       case 'rejectedTab':
@@ -104,7 +159,12 @@ function ReservationDetailsModal({
             reservations={reservations}
             selectedDate={selectedDate}
             options={options}
-            label={options[0]?.label}
+            label={label}
+            filteredReservations={filteredReservations}
+            setValue={handleTimeSlotChange}
+            setLabel={setLabel}
+            rejectedReservations={rejectedReservations}
+            setRejectedReservations={setRejectedReservations}
           />
         );
       default:
@@ -123,7 +183,14 @@ function ReservationDetailsModal({
   };
 
   const handleTimeSlotChange = (value) => {
-    setSelectedTimeSlot(value);
+    const selectedSchedule = reservedSchedule.find(
+      (schedule) => schedule.scheduleId === value,
+    );
+    if (selectedSchedule) {
+      setSelectedTimeSlot(selectedSchedule.scheduleId);
+      const newLabel = `${selectedSchedule.startTime} ~ ${selectedSchedule.endTime}`;
+      setLabel(newLabel);
+    }
   };
 
   return (

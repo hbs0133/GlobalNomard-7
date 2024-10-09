@@ -1,7 +1,7 @@
 import BaseModal from '../BaseModal';
 import NoticeCard from './components/NoticeCard';
 
-function NoticeModal() {
+function NoticeModal({ modalPostion }) {
   return (
     <BaseModal
       type="nonModal"
@@ -10,6 +10,7 @@ function NoticeModal() {
       tStyle="notice"
       xStyle="notice"
       footerButton={null}
+      modalPosition={modalPosition}
     >
       <NoticeCard />
     </BaseModal>

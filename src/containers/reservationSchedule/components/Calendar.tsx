@@ -65,26 +65,35 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
           )}
           {reservationData && reservationData.reservations.completed > 0 && (
             <Image
-              className="absolute left-[50px]"
+              className="absolute left-[30px]"
               src={IconEllipseCompleted}
               alt="예약 완료 아이콘"
             />
           )}
           {reservationData && reservationData.reservations.confirmed > 0 && (
             <Image
-              className="absolute left-[70px]"
+              className="absolute left-[30px]"
               src={IconEllipsePending}
               alt="예약 확인 아이콘"
             />
           )}
           {reservationData && (
-            <div className="absolute bottom-0 right-[0px] flex h-[23px] w-full items-center rounded-[4px] bg-blue-00 px-[4px] py-[3px] text-sm font-medium text-white">
-              {reservationData.reservations.pending > 0 &&
-                `예약 ${reservationData.reservations.pending}`}
-              {reservationData.reservations.completed > 0 &&
-                `완료 ${reservationData.reservations.completed}`}
-              {reservationData.reservations.confirmed > 0 &&
-                `확인 ${reservationData.reservations.confirmed}`}
+            <div className="absolute bottom-0 right-[0px] flex w-full flex-col items-end">
+              {reservationData.reservations.pending > 0 && (
+                <div className="w-full rounded-[4px] bg-blue-00 px-[4px] py-[3px] text-sm font-medium text-white">
+                  예약 {reservationData.reservations.pending}
+                </div>
+              )}
+              {reservationData.reservations.confirmed > 0 && (
+                <div className="w-full rounded-[4px] bg-orange-fff px-[4px] py-[3px] text-sm font-semibold text-orange-ff7">
+                  승인 {reservationData.reservations.confirmed}
+                </div>
+              )}
+              {reservationData.reservations.completed > 0 && (
+                <div className="w-full">
+                  완료 {reservationData.reservations.completed}
+                </div>
+              )}
             </div>
           )}
         </div>,
