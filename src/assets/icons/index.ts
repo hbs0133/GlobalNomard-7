@@ -48,6 +48,7 @@ import IconCalendarPrev from './ic_calendar_prev.svg';
 import IconCalendarNext from './ic_calendar_next.svg';
 import IconSubtract from './ic_subtract.svg';
 import IconAdd from './ic_add.svg';
+import IconLocation from './ic_location.svg';
 
 export {
   IconAccountCheckOutline,
@@ -100,4 +101,5 @@ export {
   IconCalendarNext,
   IconSubtract,
   IconAdd,
+  IconLocation,
 };
