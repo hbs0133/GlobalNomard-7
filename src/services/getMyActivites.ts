@@ -1,5 +1,3 @@
-'use server';
-
 import { ActivitiesData } from '@/types/activity';
 
 const getMyActivities = async (options?: {

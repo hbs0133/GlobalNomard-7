@@ -25,7 +25,7 @@ export interface IMyReservation {
 export interface ReservationDatas {
   activity: any;
   cusorId?: number;
-  reservation: IMyReservation[];
+  reservations: IMyReservation[];
   totalCount: number;
 }
 
