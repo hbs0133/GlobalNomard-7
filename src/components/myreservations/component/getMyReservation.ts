@@ -17,22 +17,27 @@ const getMyReservations = async (
   options: getMyReservationsOptions,
 ): Promise<ReservationDatas> => {
   try {
-    const params: Record<string, string | number> = {};
+    const query = new URLSearchParams();
 
     if (options?.cursorId !== undefined && options.cursorId !== 1) {
-      params.cursorId = options.cursorId;
+      query.append('cursorId', String(options.cursorId));
     }
     if (options?.size !== undefined) {
-      params.size = options.size;
+      query.append('size', String(options.size));
     }
     if (options?.status !== undefined) {
-      params.status = options.status;
+      query.append('status', options.status);
     }
-    const data = await fetchInstance<ReservationDatas>('my-reservations', {
+
+    const response = await fetch(`/my-reservations?${query.toString()}`, {
       method: 'GET',
-      params,
     });
 
+    if (!response.ok) {
+      throw new Error('Failed to fetch reservations data');
+    }
+
+    const data: ReservationDatas = await response.json();
     return data;
   } catch (error) {
     if (error instanceof Error) {

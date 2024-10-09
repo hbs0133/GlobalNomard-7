@@ -1,24 +1,64 @@
 import DropDown from '@/components/Dropdown/Dropdown';
 import ReservationDetailCard from './ReservationDetailCard';
 
-function RequestContent({ options }: ITabContent) {
+function RequestContent({
+  selectedDate,
+  options,
+  reservations,
+  label,
+  filteredReservations,
+  setValue,
+  setLabel,
+}: ITabContent) {
+  const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+  const reservationData = reservations.find(
+    (reservation) => reservation.date === dateString,
+  );
   return (
     <div>
       <div className="mb-[24px]">
         <span className="text-2lg font-semibold">예약 날짜</span>
         <div className="mt-[16px]">
-          <p className="mb-[5px] text-2lg font-regular">2023년 2월 10일</p>
-          <DropDown label="14:00 ~ 15:00" options={options} />
-          {/* <div className="mt-[5px] flex h-[56px] w-full gap-[10px] rounded-[4px] border-[1px] border-gray-79">
-            </div> */}
+          <p className="mb-[5px] text-2lg font-regular">
+            {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월{' '}
+            {selectedDate.getDate()}일
+          </p>
+          {reservationData && reservationData.reservations.pending > 0 && (
+            <DropDown
+              size="full"
+              label={label}
+              options={options}
+              setValue={setValue}
+              setLabel={setLabel}
+            />
+          )}
         </div>
       </div>
       <div>
         <span className="text-2lg font-semibold">예약 내역</span>
-        <div>
-          <ReservationDetailCard />
-          <ReservationDetailCard />
-        </div>
+        {reservationData ? (
+          <div>
+            <div className="max-h-72 overflow-y-auto">
+              {filteredReservations.length > 0 ? (
+                filteredReservations.map((schedule) =>
+                  Array.from({ length: schedule.count.pending }, (_, index) => (
+                    <ReservationDetailCard
+                      key={`${schedule.scheduleId}-${index}`}
+                      reservations={{
+                        id: schedule.scheduleId,
+                        detail: `예약 ${index + 1} (${schedule.startTime} ~ ${schedule.endTime})`,
+                      }}
+                    />
+                  )),
+                )
+              ) : (
+                <p>예약 정보가 없습니다.</p>
+              )}
+            </div>
+          </div>
+        ) : (
+          <p className="mt-[15px]">예약 정보가 없습니다.</p>
+        )}
       </div>
     </div>
   );

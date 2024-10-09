@@ -8,7 +8,7 @@ interface DropDownProps {
   options: { label: string; value: string }[];
   setLabel: React.Dispatch<React.SetStateAction<string>>;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  size: 'small' | 'medium' | 'large';
+  size: 'small' | 'medium' | 'large' | 'full';
   square?: boolean;
   text: 'green' | 'gray' | 'black';
   border: 'green' | 'gray';
