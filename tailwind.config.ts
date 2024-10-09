@@ -72,8 +72,8 @@ const config: Config = {
     },
     screens: {
       mobile: { min: '320px', max: '767px' },
-      tablet: { min: '768px', max: '1024px' },
-      dektop: { min: '1025px' },
+      tablet: { min: '768px', max: '1023px' },
+      desktop: { min: '1024px' },
     },
   },
   plugins: [],

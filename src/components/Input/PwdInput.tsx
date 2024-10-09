@@ -5,7 +5,7 @@ import Image from 'next/image';
 import IconVisibilityOff from '@/assets/icons/ic_visibility_off.svg';
 import IconVisibilityOn from '@/assets/icons/ic_visibility_on.svg';
 import React from 'react';
-import Button from '@/components/Button/Button';
+
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     id: string;
@@ -33,7 +33,7 @@ function PwdInput({ id, placeholder, error, className = '', correct = '', ...inp
             if (pwd !== correct) {
                 setPwdConfirmError('비밀번호가 일치하지 않습니다.');
             } else {
-                setPwdConfirmError(null)
+                setPwdConfirmError(null);
             }
         }
     };
@@ -42,7 +42,7 @@ function PwdInput({ id, placeholder, error, className = '', correct = '', ...inp
         <div>
             <div className='relative w-full'>
                 <input
-                    className='bg-[#ebfffa] w-full h-[58px] text-[16px] text-black rounded-[5px] px-5 ${className}'
+                    className={`w-full h-[58px] text-lg text-black border ${pwdError || PwdConfirmError ? 'border-red-ff4' : 'border-black'} rounded-[5px] px-5 ${className}`}
                     type={type}
                     id={id}
                     placeholder={placeholder}
@@ -54,7 +54,7 @@ function PwdInput({ id, placeholder, error, className = '', correct = '', ...inp
                 />
 
                 <button type="button" onClick={() => setVisible(!visible)}
-                    className='bg-[#f3f8b9] absolute top-1/2 -translate-y-1/2 right-5'>
+                    className='absolute top-1/2 -translate-y-1/2 right-5'>
                     {visible ? (
                         <Image src={IconVisibilityOff} alt="Show" />
                     ) : (
@@ -63,10 +63,9 @@ function PwdInput({ id, placeholder, error, className = '', correct = '', ...inp
                 </button>
             </div>
 
-            {pwdError && <p className='bg-[#ffebeb] text-[12px] text-red-ff4 rounded-[5px] px-2 pt-2 ${className}'>{pwdError}</p>}
-            {PwdConfirmError && <p className='bg-[#ffebeb] text-[12px] text-red-ff4 rounded-[5px] px-2 pt-2 ${className}'>{PwdConfirmError}</p>}
-
-        </div >
+            {pwdError && <p className={`text-xs text-red-ff4 rounded-[5px] px-2 pt-2 ${className}`}>{pwdError}</p>}
+            {PwdConfirmError && <p className={`text-xs text-red-ff4 rounded-[5px] px-2 pt-2 ${className}`}>{PwdConfirmError}</p>}
+        </div>
     );
 }
 
