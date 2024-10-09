@@ -43,10 +43,11 @@ function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshTokenToken');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('user-storage');
     setIsLoggedIn(false);
     router.push('/');
+    window.location.reload();
   };
 
   return (
