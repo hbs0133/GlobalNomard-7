@@ -46,9 +46,10 @@ function DropDown({
 
   const btnClassName = classNames(
     'duration-400 flex h-[53px]',
+    'bg-white',
     sizeStyle[size],
     'items-center justify-between',
-    square ? 'rounded-custom-top' : 'rounded-[15px]',
+    square ? 'rounded-[4px]' : 'rounded-[15px]',
     'border px-[16px] py-[15px] text-2lg font-medium',
     borderStyle[border],
     textStyle[text],

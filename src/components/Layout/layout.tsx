@@ -15,7 +15,6 @@ const Layout = ({ children }: Layout) => {
         <SideNavCard />
         {children}
       </div>
-
       <Footer />
     </div>
   );

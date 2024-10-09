@@ -5,7 +5,7 @@ import React from 'react';
 function register() {
   return (
     <Layout>
-      <Register />;
+      <Register />
     </Layout>
   );
 }
