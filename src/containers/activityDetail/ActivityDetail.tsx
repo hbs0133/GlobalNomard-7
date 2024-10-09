@@ -7,12 +7,9 @@ import Image from 'next/image';
 import { IconLocation, IconStarOn } from '@/assets/icons';
 import KakaoMap from './kakaoMap';
 import ReviewCard from './ReviewCard';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import Header from '@/components/Header/Header';
-import Footer from '@/components/Footer/Footer';
 import HeaderFooterLayout from '@/components/Layout/HeaderFooterLayout';
+import { useModalStore } from '@/stores/modalStore';
+import ReservationModal from '@/components/Modal/ReservationModal';
 
 const fectchActivitys = async (id: any) => {
   const response = await axiosInstance.get(`/activities/${id}`);
@@ -34,6 +31,7 @@ const fetchReviews = async (id: any, page: number = 1, size: number = 3) => {
 function ActivityDetail() {
   const router = useRouter();
   const { id } = router.query;
+  const { setOpenModal } = useModalStore();
 
   const { isLoading, error, data } = useQuery({
     queryKey: ['activity', id],
@@ -89,14 +87,130 @@ function ActivityDetail() {
     return '평점 없음';
   };
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    draggable: true,
+  const renderImages = () => {
+    const { bannerImageUrl, subImages } = data;
+
+    if (subImages.length === 0) {
+      return (
+        <div className="h-[534px] w-[1198px]">
+          <Image
+            src={bannerImageUrl}
+            alt="배너 이미지"
+            width={1198}
+            height={534}
+            className="h-[534px] object-cover"
+          />
+        </div>
+      );
+    } else if (subImages.length === 1) {
+      return (
+        <div className="flex h-[534px] w-[1198px] gap-4">
+          <Image
+            src={bannerImageUrl}
+            alt="배너 이미지"
+            width={598}
+            height={534}
+            className="h-[534px] w-[598px] object-cover"
+          />
+          <Image
+            src={subImages[0].imageUrl}
+            alt="서브 이미지"
+            width={598}
+            height={534}
+            className="h-[534px] w-[598px] object-cover"
+          />
+        </div>
+      );
+    } else if (subImages.length === 2) {
+      return (
+        <div className="flex h-[534px] w-[1198px] gap-4">
+          <Image
+            src={bannerImageUrl}
+            alt="배너 이미지"
+            width={598}
+            height={534}
+            className="h-[534px] w-[598px] object-cover"
+          />
+          <div className="flex w-[598px] flex-col gap-4">
+            <Image
+              src={subImages[0].imageUrl}
+              alt="서브 이미지 1"
+              width={598}
+              height={267}
+              className="h-[267px] object-cover"
+            />
+            <Image
+              src={subImages[1].imageUrl}
+              alt="서브 이미지 2"
+              width={598}
+              height={267}
+              className="h-[267px] object-cover"
+            />
+          </div>
+        </div>
+      );
+    } else if (subImages.length === 3) {
+      return (
+        <div className="flex h-[534px] w-[1198px] gap-4">
+          <Image
+            src={bannerImageUrl}
+            alt="배너 이미지"
+            width={598}
+            height={534}
+            className="h-[534px] w-[598px] object-cover"
+          />
+          <div className="flex w-[598px] flex-col gap-4">
+            <Image
+              src={subImages[0].imageUrl}
+              alt="서브 이미지 1"
+              width={598}
+              height={267}
+              className="h-[267px] object-cover"
+            />
+            <div className="flex gap-4">
+              <Image
+                src={subImages[1].imageUrl}
+                alt="서브 이미지 2"
+                width={298}
+                height={267}
+                className="h-[267px] w-[298px] object-cover"
+              />
+              <Image
+                src={subImages[2].imageUrl}
+                alt="서브 이미지 3"
+                width={298}
+                height={267}
+                className="h-[267px] w-[298px] object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      );
+    } else if (subImages.length >= 4) {
+      return (
+        <div className="flex h-[534px] w-[1198px] gap-4">
+          <Image
+            src={bannerImageUrl}
+            alt="배너 이미지"
+            width={598}
+            height={534}
+            className="h-[534px] w-[598px] object-cover"
+          />
+          <div className="grid w-[598px] grid-cols-2 grid-rows-2 gap-4">
+            {subImages.slice(0, 4).map((image: any) => (
+              <Image
+                key={image.id}
+                src={image.imageUrl}
+                alt="서브 이미지"
+                width={298}
+                height={267}
+                className="h-[267px] w-[298px] object-cover"
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
   };
 
   return (
@@ -139,50 +253,38 @@ function ActivityDetail() {
                   </div>
                 </div>
                 <div className="mt-[25px] h-[534px] w-[1198px] pb-[34px]">
-                  <Slider {...settings}>
-                    <div>
-                      <Image
-                        src={data.bannerImageUrl}
-                        alt="배너 이미지"
-                        width={1198}
-                        height={534}
-                        className="h-[534px] cursor-pointer object-cover"
-                      />
-                    </div>
-
-                    {data.subImages.map((image: any) => (
-                      <div key={image.id}>
-                        <Image
-                          src={image.imageUrl}
-                          alt="서브 이미지"
-                          width={1198}
-                          height={534}
-                          className="h-[534px] cursor-pointer object-cover"
-                        />
-                      </div>
-                    ))}
-                  </Slider>
+                  {renderImages()}
                 </div>
               </div>
 
-              <div className="mt-[40px] w-[800px] border-b-[1px] border-black-nomad pb-[34px]">
-                <h1 className="text-xl font-bold text-black-nomad">체험설명</h1>
-                <p className="mt-[16px] text-lg font-regular text-black-nomad">
-                  {data.description}
-                </p>
-              </div>
+              <div className="flex gap-[24px]">
+                <div className="flex flex-col">
+                  <div className="mt-[40px] w-[800px] border-b-[1px] border-black-nomad pb-[34px]">
+                    <h1 className="text-xl font-bold text-black-nomad">
+                      체험설명
+                    </h1>
+                    <p className="mt-[16px] text-lg font-regular text-black-nomad">
+                      {data.description}
+                    </p>
+                  </div>
 
-              <div className="mt-[40px] w-[800px] border-b-[1px] border-black-nomad pb-[40px]">
-                <KakaoMap address={data.address} />
-                <div className="mt-[8px] flex text-md font-regular text-black-nomad">
-                  <Image
-                    src={IconLocation}
-                    alt="주소를 나타내는 아이콘"
-                    width={18}
-                    height={18}
-                    className="mr-[4px]"
-                  />
-                  {data.address}
+                  <div className="mt-[40px] w-[800px] border-b-[1px] border-black-nomad pb-[40px]">
+                    <KakaoMap address={data.address} />
+                    <div className="mt-[8px] flex text-md font-regular text-black-nomad">
+                      <Image
+                        src={IconLocation}
+                        alt="주소를 나타내는 아이콘"
+                        width={18}
+                        height={18}
+                        className="mr-[4px]"
+                      />
+                      {data.address}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-[30px]">
+                  <ReservationModal activityId={data.id} />
                 </div>
               </div>
 

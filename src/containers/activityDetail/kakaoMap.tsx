@@ -27,7 +27,7 @@ function KakaoMap({ address }: { address: string }) {
   return (
     <Map
       center={{ lat: location.lat, lng: location.lng }}
-      style={{ width: '100%', height: '360px' }}
+      style={{ width: '100%', height: '476px' }}
       level={3}
       onCreate={handleMapLoad}
     >
