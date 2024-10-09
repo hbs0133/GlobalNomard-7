@@ -14,7 +14,7 @@ function BaseModal({
   xStyle,
   footerButton,
   children,
-  ...props
+  modalPosition,
 }: IBaseModal) {
   const { isModalOpen, setCloseModal } = useModalStore();
   const [isNonModal, setIsNonModal] = useState(false);
@@ -129,8 +129,13 @@ function BaseModal({
         >
           <div
             className={twMerge(
-              `${size === 'notice' ? 'bg-green-ce' : 'bg-white'} z-[100] flex flex-col justify-items-center border-[1px] px-[24px] pb-[24px] pt-[23px] mobile:px-[16px] ${sizeStyle[size]}`,
+              `z-[1000] flex flex-col justify-items-center border-[1px] bg-white px-[24px] pb-[24px] pt-[23px] ${sizeStyle[size]}`,
+              'absolute',
             )}
+            style={{
+              top: `${modalPosition.top}px`,
+              left: `${modalPosition.left}px`,
+            }}
           >
             {titleContent && (
               <div className="flex items-center justify-between">
