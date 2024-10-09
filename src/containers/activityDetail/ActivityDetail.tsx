@@ -60,7 +60,7 @@ function ActivityDetail() {
   };
 
   const handleEdit = () => {
-    router.push(`/regiser`);
+    router.push(`/register`);
   };
 
   if (isLoading) {

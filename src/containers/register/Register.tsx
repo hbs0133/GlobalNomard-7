@@ -224,7 +224,9 @@ const Register = () => {
             setLabel={setSelectedCategory}
             setValue={setSelectedCategory}
             size="large"
-            text="gray"
+            text={
+              selectedCategory === '카테고리를 선택해주세요' ? 'gray' : 'black'
+            }
             border="gray"
             square={true}
           />
