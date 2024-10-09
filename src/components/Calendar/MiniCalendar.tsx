@@ -1,47 +1,46 @@
 import React, { useState } from 'react';
 import { IconCalendarNext, IconCalendarPrev } from '@/assets/icons';
 import Image from 'next/image';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import axiosInstance from '@/services/axios';
+import { IavailableTimes } from '../Modal/ReservationModal';
 
-const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
-});
+interface IMiniCalendarProps {
+  activityId: string;
+  onDateSelect: (times: IavailableTimes[]) => void;
+}
 
-const fetchAvailableSchedules = async (activityId, year, month) => {
-  const response = await apiClient.get(
-    `/activities/${activityId}/available-schedule`,
-    {
-      params: { year, month },
-    },
-  );
-  return response.data;
-};
+interface IavailableSchedule {
+  activityId: number;
+  year: string;
+  month: string;
+}
 
-function MiniCalendar({ activityId }) {
+function MiniCalendar({ activityId, onDateSelect }: IMiniCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [highlightedDate, setHighlightedDate] = useState<Date | null>(null);
 
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+  const fetchAvailableSchedule = async (selectedDate: Date) => {
+    const year = selectedDate.getFullYear();
+    const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+    const response = await axiosInstance.get(
+      `/activities/${activityId}/available-schedule`,
+      {
+        params: { year, month },
+      },
+    );
+    return response.data;
+  };
 
-  const {
-    data: availableSchedules,
-    isLoading,
-    error,
-  } = useQuery(
-    ['availableSchedules', activityId, currentYear, currentMonth, selectedDay],
-    () => {
-      if (selectedDay) {
-        const year = currentYear.toString();
-        return fetchAvailableSchedules(activityId, year, currentMonth);
-      }
-      return null;
+  const { data: availableTimes = [] } = useQuery({
+    queryKey: ['availableSchedule', activityId, selectedDate],
+    queryFn: () => {
+      if (!selectedDate) return Promise.resolve([]);
+      return fetchAvailableSchedule(selectedDate);
     },
-    {
-      enabled: !!selectedDay,
-    },
-  );
+    enabled: !!activityId && !!selectedDate,
+  });
 
   const monthNames = [
     'January',
@@ -68,8 +67,28 @@ function MiniCalendar({ activityId }) {
     return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
   };
 
-  const handleDayClick = (day: number) => {
-    setSelectedDay(day);
+  const handleDayClick = async (day: number) => {
+    const newSelectedDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      day,
+    );
+
+    setSelectedDate(newSelectedDate);
+    setHighlightedDate(newSelectedDate);
+
+    const times = await fetchAvailableSchedule(newSelectedDate);
+
+    const filteredTimes = times.filter((time: IavailableTimes) => {
+      const timeDate = new Date(time.date);
+      return (
+        timeDate.getDate() === day &&
+        timeDate.getFullYear() === newSelectedDate.getFullYear() &&
+        timeDate.getMonth() === newSelectedDate.getMonth()
+      );
+    });
+    console.log(filteredTimes);
+    onDateSelect(filteredTimes);
   };
 
   const renderDays = () => {
@@ -101,11 +120,18 @@ function MiniCalendar({ activityId }) {
         today.getDate() === i &&
         today.getFullYear() === currentYear &&
         today.getMonth() === currentMonth;
+
+      const isHighlighted =
+        highlightedDate &&
+        highlightedDate.getDate() === i &&
+        highlightedDate.getFullYear() === currentYear &&
+        highlightedDate.getMonth() === currentMonth;
+
       days.push(
         <div
           key={i}
           onClick={() => handleDayClick(i)}
-          className={`flex h-[32px] w-full items-center justify-center p-[10px] text-sm font-semibold ${isToday ? 'rounded-[8px] bg-green-ce' : 'text-gray-4b'}`}
+          className={`flex h-[32px] w-full cursor-pointer items-center justify-center p-[10px] text-sm font-semibold ${isToday ? 'rounded-[8px] bg-green-ce text-green-0B' : 'text-gray-4b'} ${isHighlighted ? 'rounded-[8px] bg-green-0B text-white' : 'text-gray-4b'}`}
         >
           {i}
         </div>,

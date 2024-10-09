@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import EmptyPage from './EmptyPage';
 import { getStatusColor, getStatustext } from './StatusUtils';
+import React from 'react';
 
 const ReservationCard = () => {
   const { data, error, isLoading } = useQuery<ReservationDatas>({

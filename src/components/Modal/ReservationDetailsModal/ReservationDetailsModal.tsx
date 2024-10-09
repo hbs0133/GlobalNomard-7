@@ -3,36 +3,127 @@ import BaseModal from '../BaseModal';
 import ApprovedContent from './components/ApprovedContent';
 import RejectedContent from './components/RejectedContent';
 import RequestContent from './components/RequestContent';
+import { useQuery } from '@tanstack/react-query';
+import axiosInstance from '@/services/axios';
 
-function ReservationDetailsModal() {
+const useReservedSchedule = (activityId, date) => {
+  return useQuery({
+    queryKey: ['reservedSchedule', activityId, date],
+    queryFn: async () => {
+      const response = await axiosInstance.get(
+        `/my-activities/${activityId}/reserved-schedule`,
+        {
+          params: { date },
+        },
+      );
+      return response.data;
+    },
+    enabled: !!activityId && !!date,
+  });
+};
+
+function ReservationDetailsModal({
+  modalPosition,
+  selectedDate,
+  reservations,
+  activityId,
+}: IReservationDetailsModal) {
+  if (!selectedDate) {
+    return null;
+  }
+
   const [activeTab, setActiveTab] = useState('requestTab');
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+  const { data: reservedSchedule = [] } = useReservedSchedule(
+    activityId,
+    dateString,
+  );
+
+  const options = reservedSchedule.map((schedule) => ({
+    label: `${schedule.startTime} ~ ${schedule.endTime}`,
+    value: `${schedule.startTime} ~ ${schedule.endTime}`,
+  }));
+
+  // const filteredReservations = reservedSchedule.filter(
+  //   (schedule) =>
+  //     `${schedule.startTime} ~ ${schedule.endTime}` === selectedTimeSlot,
+  // );
+
+  const filteredReservations = reservedSchedule.filter(
+    (schedule) =>
+      `${schedule.startTime} ~ ${schedule.endTime}` === selectedTimeSlot &&
+      schedule.count.pending > 0,
+  );
+
+  const requestCount = reservedSchedule.reduce((total, schedule) => {
+    return total + schedule.count.pending;
+  }, 0);
+
+  const approvedCount = reservedSchedule.reduce((total, schedule) => {
+    return total + schedule.count.confirmed;
+  }, 0);
+
+  const rejectedCount = reservedSchedule.reduce((total, schedule) => {
+    return total + schedule.count.declined;
+  }, 0);
 
   const tabs = [
-    { label: '신청', value: 'requestTab', count: 2 },
-    { label: '승인', value: 'approvedTab', count: 0 },
-    { label: '거절', value: 'rejectedTab', count: 0 },
-  ];
-
-  const options = [
-    { label: '14:00 ~ 15:00', value: '14:00 ~ 15:00' },
-    { label: '16:00 ~ 17:00', value: '16:00 ~ 17:00' },
+    { label: '신청', value: 'requestTab', count: requestCount },
+    { label: '승인', value: 'approvedTab', count: approvedCount },
+    { label: '거절', value: 'rejectedTab', count: rejectedCount },
   ];
 
   const renderContent = () => {
     switch (activeTab) {
       case 'requestTab':
-        return <RequestContent options={options} />;
+        return (
+          <RequestContent
+            reservations={reservations}
+            selectedDate={selectedDate}
+            options={options}
+            // label={options[0]?.label}
+            label={selectedTimeSlot}
+            filteredReservations={filteredReservations}
+            setValue={handleTimeSlotChange}
+            setLabel={(label) => {}}
+          />
+        );
       case 'approvedTab':
-        return <ApprovedContent options={options} />;
+        return (
+          <ApprovedContent
+            reservations={reservations}
+            selectedDate={selectedDate}
+            options={options}
+            label={options[0]?.label}
+          />
+        );
       case 'rejectedTab':
-        return <RejectedContent options={options} />;
+        return (
+          <RejectedContent
+            reservations={reservations}
+            selectedDate={selectedDate}
+            options={options}
+            label={options[0]?.label}
+          />
+        );
       default:
-        return <RequestContent options={options} />;
+        return (
+          <RequestContent
+            reservations={reservations}
+            selectedDate={selectedDate}
+            options={options}
+          />
+        );
     }
   };
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
+  };
+
+  const handleTimeSlotChange = (value) => {
+    setSelectedTimeSlot(value);
   };
 
   return (
@@ -47,6 +138,7 @@ function ReservationDetailsModal() {
       tStyle="reservationDetail"
       xStyle="reservationDetail"
       footerButton={null}
+      modalPosition={modalPosition}
     >
       <div className="mx-[-24px] my-[27px] border-b-[1px] border-gray-dd pb-[10px] mobile:mx-[-15px]">
         <div className="mx-[24px] flex gap-[12px]">

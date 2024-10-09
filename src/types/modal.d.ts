@@ -24,6 +24,7 @@ interface IBaseModal {
   footerButton: null | 1 | 2;
   children: ReactNode;
   onConfirm?: () => void;
+  modalPosition?: ModalPosition;
 }
 
 type IAlertModal = Pick<IBaseModal, 'children'> & {
@@ -34,4 +35,19 @@ type IConfirmModal = Pick<IBaseModal, 'children'>;
 
 interface ITabContent {
   options: { label: string; value: string }[];
+  selectedDate: Date;
+}
+
+interface IReservationModal {
+  activityId: string;
+}
+
+type ModalPosition = {
+  top: number;
+  left: number;
+};
+
+interface IReservationDetailsModal {
+  modalPosition: ModalPosition;
+  selectedDate: Date;
 }
