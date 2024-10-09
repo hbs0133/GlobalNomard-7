@@ -8,6 +8,7 @@ import axiosInstance from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { useModalStore } from '@/stores/modalStore';
 import NoticeModal from '../Modal/NoticeModal/NoticeModal';
+import Button from '@/components/Button/Button';
 
 const fetchUserData = async () => {
   const response = await axiosInstance.get(`/users/me`);
@@ -43,10 +44,11 @@ function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshTokenToken');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('user-storage');
     setIsLoggedIn(false);
     router.push('/');
+    window.location.reload();
   };
 
   return (
@@ -95,12 +97,12 @@ function Header() {
                   <div>{data.nickname}</div>
                 </Link>
               ) : null}
-              <button
+              <Button
+                size='small'
                 onClick={handleLogout}
-                className="text-md font-medium text-black-nomad"
               >
                 로그아웃
-              </button>
+              </Button>
             </>
           ) : (
             <>

@@ -1,7 +1,7 @@
 import BaseModal from '../BaseModal';
 import NoticeCard from './components/NoticeCard';
 
-function NoticeModal({ modalPostion }) {
+function NoticeModal({ modalPosition }) {
   return (
     <BaseModal
       type="nonModal"

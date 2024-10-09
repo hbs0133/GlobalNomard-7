@@ -31,7 +31,7 @@ const ButtonHover = ({
   }, [pathname, href]);
 
   const activeClass =
-    isHovered || isActive ? 'bg-green-100 text-black-100' : '';
+    isHovered || isActive ? 'bg-green-ce text-black' : '';
 
   return (
     <Link href={href}>
