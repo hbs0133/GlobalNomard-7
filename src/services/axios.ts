@@ -1,14 +1,14 @@
 import axios from 'axios';
+import { getAccessTokenWithRefresh } from '@/hooks/useUserStore';
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
   baseURL: 'https://sp-globalnomad-api.vercel.app/7-7',
   headers: {
-    'Content-Type': 'application/json', // 이 기본 헤더는 모든 요청에 적용됩니다
+    'Content-Type': 'application/json',
   },
 });
 
-// 요청 인터셉터를 통해 토큰 추가
 axiosInstance.interceptors.request.use(
   (config) => {
     if (typeof window !== 'undefined') {
@@ -20,6 +20,36 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  },
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+
+      try {
+        const accessToken = await getAccessTokenWithRefresh();
+
+        axios.defaults.headers.common['Authorization'] =
+          `Bearer ${accessToken}`;
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        console.error('토큰 갱신 실패:', refreshError);
+        return Promise.reject(refreshError);
+      }
+    }
+
     return Promise.reject(error);
   },
 );
