@@ -1,4 +1,4 @@
-import { ReservationDatas } from '@/types/myActivityReservationList';
+import { ReservationsData } from '@/types/activityReservation';
 
 type ReservationStatus =
   | 'pending'
@@ -15,10 +15,9 @@ interface getMyReservationsOptions {
 
 const getMyReservations = async (
   options: getMyReservationsOptions,
-): Promise<ReservationDatas> => {
+): Promise<ReservationsData> => {
   try {
     const query = new URLSearchParams();
-
     if (options?.cursorId !== undefined && options.cursorId !== 1) {
       query.append('cursorId', String(options.cursorId));
     }
@@ -37,7 +36,7 @@ const getMyReservations = async (
       throw new Error('Failed to fetch reservations data');
     }
 
-    const data: ReservationDatas = await response.json();
+    const data: ReservationsData = await response.json();
     return data;
   } catch (error) {
     if (error instanceof Error) {
