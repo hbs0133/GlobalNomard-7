@@ -1,24 +1,59 @@
 import { IconEllipseBlue, IconEllipseRed, IconXMedium } from '@/assets/icons';
 import Image from 'next/image';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import axiosInstance from '@/services/axios';
 
-function NoticeCard() {
+function NoticeCard({ notification }) {
+  const queryClient = useQueryClient();
+  const createdAt = new Date(notification.createdAt);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now - createdAt) / 1000);
+  let timeAgo = '';
+
+  const deleteNotificationMutation = useMutation({
+    mutationFn: async (notificationId) => {
+      await axiosInstance.delete(`/my-notifications/${notificationId}`, {
+        data: { notificationId },
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['userNotifications']);
+    },
+  });
+
+  const handleDeleteNotification = () => {
+    deleteNotificationMutation.mutate(notification.id);
+  };
+
+  if (diffInSeconds < 60) {
+    timeAgo = `${diffInSeconds}초 전`;
+  } else if (diffInSeconds < 3600) {
+    const minutes = Math.floor(diffInSeconds / 60);
+    timeAgo = `${minutes}분 전`;
+  } else {
+    const hours = Math.floor(diffInSeconds / 3600);
+    timeAgo = `${hours}시간 전`;
+  }
+
+  const isApproved = notification.content.includes('승인');
+
   return (
     <div className="mb-[8px] mt-[16px] w-[328px] rounded-[5px] border-[1px] border-gray-cb bg-white px-[12px] py-[16px]">
       <div>
         <div className="flex items-center justify-between">
-          <Image src={IconEllipseBlue} alt="예약 승인 아이콘" />
           <Image
-            className="mobile:hidden"
-            src={IconXMedium}
-            alt="알림 삭제 버튼"
+            src={isApproved ? IconEllipseBlue : IconEllipseRed}
+            alt="예약 승인 아이콘"
           />
+          <button className="mobile:hidden" onClick={handleDeleteNotification}>
+            <Image src={IconXMedium} alt="알림 삭제 버튼" />
+          </button>
         </div>
         <p className="mb-[4px] mt-[8px] text-md font-regular">
-          함께하면 즐거운 스트릿 댄스(2023-01-14 15:00~18:00) 예약이
-          <span className="text-blue-00"> 승인</span>되었어요.
+          <span>{notification.content} </span>
         </p>
       </div>
-      <p className="text-sm font-regular text-gray-a4">1분 전</p>
+      <p className="text-sm font-regular text-gray-a4">{timeAgo}</p>
     </div>
   );
 }

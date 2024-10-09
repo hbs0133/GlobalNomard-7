@@ -15,6 +15,13 @@ const fetchUserData = async () => {
   return response.data;
 };
 
+const fetchNotifications = async () => {
+  const response = await axiosInstance.get(`/my-notifications`, {
+    params: { size: 10 },
+  });
+  return response.data;
+};
+
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
@@ -23,6 +30,16 @@ function Header() {
     queryKey: ['userProfile'],
     queryFn: fetchUserData,
   });
+
+  const {
+    data: notificationsData,
+    error: notificationsError,
+    isLoading: notificationsLoading,
+  } = useQuery({
+    queryKey: ['userNotifications'],
+    queryFn: fetchNotifications,
+  });
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -70,10 +87,21 @@ function Header() {
                 <Image
                   src={IconNotification}
                   alt="알림을 나타냐는 종모양 아이콘"
-                  onClick={setOpenModal}
+                  onClick={(e) => {
+                    const target = e.currentTarget as HTMLElement;
+                    const rect = target.getBoundingClientRect();
+                    const top = rect.top + window.scrollY + 60;
+                    const left = rect.left + window.scrollX - 230;
+
+                    setModalPosition({ top, left });
+                    setOpenModal();
+                  }}
                 />
               </button>
-              <NoticeModal />
+              <NoticeModal
+                modalPosition={modalPosition}
+                notificationsData={notificationsData}
+              />
               {isLoading ? (
                 <div>Loading...</div>
               ) : error ? (
