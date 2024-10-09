@@ -3,7 +3,7 @@
 import MenuDropDown from '@/components/Dropdown/MenuDropdown';
 import ReservationCard from '@/components/myreservations';
 import { ActivitiesData, IActivity } from '@/types/activity';
-import getMyActivities from '@/services/getMyActivites';
+import getMyActivities from './components/getMyActivities';
 import Button from '@/components/Button/Button';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Link from 'next/link';

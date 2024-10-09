@@ -1,4 +1,5 @@
-import { ReservationDatas } from '@/types/myActivityReservationList';
+import { ReservationsData } from '@/types/activityReservation';
+import axiosInstance from '@/services/axios'; // axios 인스턴스를 불러옵니다.
 
 type ReservationStatus =
   | 'pending'
@@ -15,30 +16,29 @@ interface getMyReservationsOptions {
 
 const getMyReservations = async (
   options: getMyReservationsOptions,
-): Promise<ReservationDatas> => {
+): Promise<ReservationsData> => {
   try {
-    const query = new URLSearchParams();
+    const params: Record<string, string | number> = {};
 
     if (options?.cursorId !== undefined && options.cursorId !== 1) {
-      query.append('cursorId', String(options.cursorId));
+      params.cursorId = options.cursorId;
     }
     if (options?.size !== undefined) {
-      query.append('size', String(options.size));
+      params.size = options.size;
     }
     if (options?.status !== undefined) {
-      query.append('status', options.status);
+      params.status = options.status;
     }
 
-    const response = await fetch(`/my-reservations?${query.toString()}`, {
-      method: 'GET',
-    });
+    // axios 인스턴스를 사용하여 GET 요청 보내기
+    const response = await axiosInstance.get<ReservationsData>(
+      'my-reservations',
+      {
+        params,
+      },
+    );
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch reservations data');
-    }
-
-    const data: ReservationDatas = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message || 'reservation failed');
