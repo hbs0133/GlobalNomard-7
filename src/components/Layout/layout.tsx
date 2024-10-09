@@ -9,11 +9,13 @@ interface Layout {
 
 const Layout = ({ children }: Layout) => {
   return (
-    <div className="flex flex-col items-center bg-gray-fa">
+    <div className="flex flex-col bg-gray-fa">
       <Header />
-      <div className="mt-[72px] flex gap-[24px]">
+      <div className="flex justify-center gap-[16px] desktop:gap-[24px] mt-[24px] desktop:mt-[72px] px-[24px] mobile:px-[15px] mb-[200px]">
         <SideNavCard />
-        {children}
+        <div className="max-w-[790px] w-full">
+          {children}
+        </div>
       </div>
       <Footer />
     </div>

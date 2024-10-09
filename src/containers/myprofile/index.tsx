@@ -103,8 +103,7 @@ function InfoPage() {
 
     return (
         <>
-            {/* <SideNavCard /> */}
-            <div className={`max-w-[850px] mx-[24px] mobile:mx-[16px] text-black`} >
+            <div className={`text-black`} >
 
                 <div className={`flex justify-between h-[48px] mb-[16px] desktop:mb-[24px]`}>
                     <p className={`pb-4 text-3xl font-bold`}>내 정보</p>

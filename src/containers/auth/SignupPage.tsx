@@ -28,7 +28,7 @@ function SignupPage() {
     //로그인 돼있을 때 회원가입 창으로 못 들어가게 막음
     useEffect(() => {
         if (user) {
-            router.push('/main');
+            router.push('/');
         }
     }, [user])
 
