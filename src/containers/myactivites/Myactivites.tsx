@@ -60,7 +60,7 @@ function MyActivities() {
         <h1 className="font-pretendard text-[32px] font-bold leading-[42px]">
           내 체험 관리
         </h1>
-        <Link href="/myactivities/activity-registration">
+        <Link href="/myactivities/register">
           <Button size={'small'}>체험 등록하기</Button>
         </Link>
       </div>
