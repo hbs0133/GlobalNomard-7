@@ -1,8 +1,13 @@
+import Layout from '@/components/Layout/layout';
 import Register from '@/containers/register/Register';
 import React from 'react';
 
 function register() {
-  return <Register />;
+  return (
+    <Layout>
+      <Register />;
+    </Layout>
+  );
 }
 
 export default register;
