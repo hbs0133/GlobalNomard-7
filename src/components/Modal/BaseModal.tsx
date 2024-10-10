@@ -104,7 +104,7 @@ function BaseModal({
     <ModalPortal>
       {isModalOpen && !isNonModal && (
         <div
-          className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.5)]"
+          className="fixed left-0 top-0 z-[999] flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.5)]"
           onClick={handleOverlayClick}
           aria-hidden="true"
         >

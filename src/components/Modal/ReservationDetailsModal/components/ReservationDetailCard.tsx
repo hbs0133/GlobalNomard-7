@@ -4,8 +4,8 @@ import axiosInstance from '@/services/axios';
 
 function ReservationDetailCard({
   reservation,
-  setApprovedReservations,
-  setRejectedReservations,
+  // setApprovedReservations,
+  // setRejectedReservations,
 }) {
   const queryClient = useQueryClient();
 
@@ -25,52 +25,6 @@ function ReservationDetailCard({
     },
   });
 
-  // const handleApprove = () => {
-  //   updateReservation.mutate({
-  //     activityId: reservation.activityId,
-  //     reservationId: reservation.id,
-  //     status: 'confirmed',
-  //   });
-  // };
-
-  // const handleReject = () => {
-  //   updateReservation.mutate({
-  //     activityId: reservation.activityId,
-  //     reservationId: reservation.id,
-  //     status: 'declined',
-  //   });
-  // };
-
-  // const handleApprove = () => {
-  //   updateReservation.mutate(
-  //     {
-  //       activityId: reservation.activityId,
-  //       reservationId: reservation.id,
-  //       status: 'confirmed',
-  //     },
-  //     {
-  //       onSuccess: () => {
-  //         setApprovedReservations((prev) => [...prev, reservation]);
-  //       },
-  //     },
-  //   );
-  // };
-
-  // const handleReject = () => {
-  //   updateReservation.mutate(
-  //     {
-  //       activityId: reservation.activityId,
-  //       reservationId: reservation.id,
-  //       status: 'declined',
-  //     },
-  //     {
-  //       onSuccess: () => {
-  //         setRejectedReservations((prev) => [...prev, reservation]);
-  //       },
-  //     },
-  //   );
-  // };
-
   const handleApprove = () => {
     updateReservation.mutate(
       {
@@ -78,11 +32,11 @@ function ReservationDetailCard({
         reservationId: reservation.id,
         status: 'confirmed',
       },
-      {
-        onSuccess: () => {
-          setApprovedReservations((prev) => [...prev, reservation]);
-        },
-      },
+      // {
+      //   onSuccess: () => {
+      //     setApprovedReservations((prev) => [...prev, reservation]);
+      //   },
+      // },
     );
   };
 
@@ -93,11 +47,11 @@ function ReservationDetailCard({
         reservationId: reservation.id,
         status: 'declined',
       },
-      {
-        onSuccess: () => {
-          setRejectedReservations((prev) => [...prev, reservation]);
-        },
-      },
+      // {
+      //   onSuccess: () => {
+      //     setRejectedReservations((prev) => [...prev, reservation]);
+      //   },
+      // },
     );
   };
 
@@ -121,22 +75,36 @@ function ReservationDetailCard({
           </div>
         </div>
         <div className="flex justify-end gap-[6px] pt-[5px]">
-          <Button
-            size="smallModal"
-            solid="yes"
-            status="active"
-            onClick={handleApprove}
-          >
-            승인하기
-          </Button>
-          <Button
-            size="smallModal"
-            solid="no"
-            status="active"
-            onClick={handleReject}
-          >
-            거절하기
-          </Button>
+          {reservation.status === 'pending' && (
+            <>
+              <Button
+                size="smallModal"
+                solid="yes"
+                status="active"
+                onClick={handleApprove}
+              >
+                승인하기
+              </Button>
+              <Button
+                size="smallModal"
+                solid="no"
+                status="active"
+                onClick={handleReject}
+              >
+                거절하기
+              </Button>
+            </>
+          )}
+          {reservation.status === 'declined' && (
+            <div className="h-[44] w-[91px] rounded-[26.5px] bg-red-ffe px-[15px] py-[10px] text-center text-md font-bold text-red-ff4">
+              예약 거절
+            </div>
+          )}
+          {reservation.status === 'confirmed' && (
+            <div className="h-[44] w-[91px] rounded-[26.5px] bg-orange-fff px-[15px] py-[10px] text-center text-md font-bold text-orange-ff7">
+              예약 승인
+            </div>
+          )}
         </div>
       </div>
     </div>

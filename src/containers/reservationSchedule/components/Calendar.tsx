@@ -44,7 +44,7 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
       days.push(
         <div
           key={i}
-          className="relative flex h-[154px] w-full cursor-pointer border border-gray-e8 bg-white p-[12px] text-xl text-gray-96"
+          className="relative flex h-[154px] w-full transform cursor-pointer border border-gray-e8 bg-white p-[12px] text-xl text-gray-96 transition-transform duration-300 ease-in-out hover:scale-105"
           onClick={(e) => {
             const target = e.currentTarget as HTMLElement;
             const rect = target.getBoundingClientRect();
@@ -107,11 +107,19 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
   return (
     <div className="mt-[30px] flex flex-col items-center">
       <div className="mb-[18px] flex w-[342px] justify-between">
-        <button type="button" onClick={() => changeMonth(-1)}>
+        <button
+          className="transform transition-transform duration-300 ease-in-out hover:scale-110"
+          type="button"
+          onClick={() => changeMonth(-1)}
+        >
           <Image src={IconCalendarPrev} alt="이전 달력 버튼" />
         </button>
         <h2 className="text-xl font-bold">{`${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월`}</h2>
-        <button type="button" onClick={() => changeMonth(1)}>
+        <button
+          className="transform transition-transform duration-300 ease-in-out hover:scale-110"
+          type="button"
+          onClick={() => changeMonth(1)}
+        >
           <Image src={IconCalendarNext} alt="이후 달력 버튼" />
         </button>
       </div>

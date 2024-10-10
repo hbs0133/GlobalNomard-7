@@ -5,11 +5,11 @@ function RejectedContent({
   selectedDate,
   options,
   reservations,
-  rejectedReservations,
-  setValue,
-  setLabel,
   label,
-  setRejectedReservations,
+  setValue,
+  rejectedReservations,
+  setLabel,
+  // setRejectedReservations,
 }: ITabContent) {
   const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
   const reservationData = reservations.find(
@@ -24,27 +24,35 @@ function RejectedContent({
             {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월{' '}
             {selectedDate.getDate()}일
           </p>
-          {reservationData && reservationData.reservations.pending > 0 && (
-            <DropDown
-              size="full"
-              label={label}
-              options={options}
-              setValue={setValue}
-              setLabel={setLabel}
-            />
-          )}
+          {/* {reservationData && reservationData.reservations.declined > 0 && ( */}
+          <DropDown
+            size="full"
+            label={label}
+            options={options}
+            setValue={setValue}
+            setLabel={setLabel}
+          />
+          {/* )} */}
         </div>
       </div>
       <div>
         <span className="text-2lg font-semibold">예약 내역</span>
-        {rejectedReservations.length > 0 ? (
-          rejectedReservations.map((reservation) => (
-            <ReservationDetailCard
-              key={`${reservation.scheduleId}-${reservation.userId}`}
-              reservation={reservation}
-              setRejectedReservations={setRejectedReservations}
-            />
-          ))
+        {reservationData ? (
+          <div>
+            <div className="max-h-72 overflow-y-auto">
+              {rejectedReservations.length > 0 ? (
+                rejectedReservations.map((reservation) => (
+                  <ReservationDetailCard
+                    key={`${reservation.scheduleId}-${reservation.userId}`}
+                    reservation={reservation}
+                    // setRejectedReservations={setRejectedReservations}
+                  />
+                ))
+              ) : (
+                <p className="mt-[15px]">예약 정보가 없습니다.</p>
+              )}
+            </div>
+          </div>
         ) : (
           <p className="mt-[15px]">예약 정보가 없습니다.</p>
         )}
