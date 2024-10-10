@@ -83,8 +83,9 @@ function Header() {
         <div className="flex gap-[25px]">
           {isLoggedIn ? (
             <>
-              <button>
+              <button className="relative transform transition-all duration-300 ease-in-out hover:rotate-12 hover:scale-110">
                 <Image
+                  className="h-6 w-6 transition-transform duration-300 ease-in-out"
                   src={IconNotification}
                   alt="알림을 나타냐는 종모양 아이콘"
                   onClick={(e) => {

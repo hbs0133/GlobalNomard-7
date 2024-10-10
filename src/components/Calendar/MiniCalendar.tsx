@@ -163,7 +163,11 @@ function MiniCalendar({ activityId, onDateSelect }: IMiniCalendarProps) {
   return (
     <div className="my-[16px] flex h-[241px] w-[304px] flex-col items-center rounded-[8px] border border-gray-ee px-[27px] pt-[10px]">
       <div className="flex w-full justify-between">
-        <button type="button" onClick={() => changeMonth(-1)}>
+        <button
+          className="transform transition-transform duration-300 ease-in-out hover:scale-110"
+          type="button"
+          onClick={() => changeMonth(-1)}
+        >
           <Image
             className="h-[16px] w-[16px]"
             src={IconCalendarPrev}
@@ -171,7 +175,11 @@ function MiniCalendar({ activityId, onDateSelect }: IMiniCalendarProps) {
           />
         </button>
         <h2 className="text-md font-bold">{` ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`}</h2>
-        <button type="button" onClick={() => changeMonth(1)}>
+        <button
+          className="transform transition-transform duration-300 ease-in-out hover:scale-110"
+          type="button"
+          onClick={() => changeMonth(1)}
+        >
           <Image
             className="h-[16px] w-[16px]"
             src={IconCalendarNext}

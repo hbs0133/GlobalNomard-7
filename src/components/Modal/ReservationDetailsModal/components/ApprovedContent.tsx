@@ -6,11 +6,10 @@ function ApprovedContent({
   options,
   reservations,
   label,
-  filteredReservations,
   setValue,
-  setLabel,
   approvedReservations,
-  setApprovedReservations,
+  setLabel,
+  // setApprovedReservations,
 }: ITabContent) {
   const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
   const reservationData = reservations.find(
@@ -25,7 +24,7 @@ function ApprovedContent({
             {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월{' '}
             {selectedDate.getDate()}일
           </p>
-          {reservationData && reservationData.reservations.pending > 0 && (
+          {reservationData && reservationData.reservations.confirmed > 0 && (
             <DropDown
               size="full"
               label={label}
@@ -38,14 +37,22 @@ function ApprovedContent({
       </div>
       <div>
         <span className="text-2lg font-semibold">예약 내역</span>
-        {approvedReservations.length > 0 ? (
-          approvedReservations.map((reservation) => (
-            <ReservationDetailCard
-              key={`${reservation.scheduleId}-${reservation.userId}`}
-              reservation={reservation}
-              setApprovedReservations={setApprovedReservations}
-            />
-          ))
+        {reservationData ? (
+          <div>
+            <div className="max-h-72 overflow-y-auto">
+              {approvedReservations.length > 0 ? (
+                approvedReservations.map((reservation) => (
+                  <ReservationDetailCard
+                    key={`${reservation.scheduleId}-${reservation.userId}`}
+                    reservation={reservation}
+                    // setApprovedReservations={setApprovedReservations}
+                  />
+                ))
+              ) : (
+                <p className="mt-[15px]">예약 정보가 없습니다.</p>
+              )}
+            </div>
+          </div>
         ) : (
           <p className="mt-[15px]">예약 정보가 없습니다.</p>
         )}

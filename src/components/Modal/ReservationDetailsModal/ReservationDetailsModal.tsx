@@ -55,8 +55,6 @@ function ReservationDetailsModal({
   const [activeTab, setActiveTab] = useState('requestTab');
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [label, setLabel] = useState('');
-  const [approvedReservations, setApprovedReservations] = useState([]);
-  const [rejectedReservations, setRejectedReservations] = useState([]);
 
   const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
 
@@ -86,26 +84,33 @@ function ReservationDetailsModal({
     status,
   );
 
+  console.log('Reservations Data:', reservationsData);
+
   const options = reservedSchedule.map((schedule) => ({
     label: `${schedule.startTime} ~ ${schedule.endTime}`,
     value: schedule.scheduleId,
   }));
 
-  const filteredReservations = reservedSchedule
-    .filter((schedule) => schedule.scheduleId === scheduleId)
-    .filter((schedule) => schedule.count.pending > 0)
-    .flatMap((schedule) => {
-      return (
-        reservationsData?.reservations
-          .filter(
-            (reservation) => reservation.scheduleId === schedule.scheduleId,
-          )
-          .map((reservation) => ({
-            ...schedule,
-            ...reservation,
-          })) || []
-      );
-    });
+  const filteredReservations =
+    reservationsData?.reservations.filter(
+      (reservation) =>
+        reservation.scheduleId === scheduleId &&
+        reservation.status === 'pending',
+    ) || [];
+
+  const approvedReservations =
+    reservationsData?.reservations.filter(
+      (reservation) =>
+        reservation.scheduleId === scheduleId &&
+        reservation.status === 'confirmed',
+    ) || [];
+
+  const rejectedReservations =
+    reservationsData?.reservations.filter(
+      (reservation) =>
+        reservation.scheduleId === scheduleId &&
+        reservation.status === 'declined',
+    ) || [];
 
   const requestCount = reservedSchedule.reduce((total, schedule) => {
     return total + schedule.count.pending;
@@ -146,11 +151,9 @@ function ReservationDetailsModal({
             selectedDate={selectedDate}
             options={options}
             label={label}
-            filteredReservations={filteredReservations}
             setValue={handleTimeSlotChange}
             setLabel={setLabel}
             approvedReservations={approvedReservations}
-            setApprovedReservations={setApprovedReservations}
           />
         );
       case 'rejectedTab':
@@ -160,11 +163,9 @@ function ReservationDetailsModal({
             selectedDate={selectedDate}
             options={options}
             label={label}
-            filteredReservations={filteredReservations}
             setValue={handleTimeSlotChange}
             setLabel={setLabel}
             rejectedReservations={rejectedReservations}
-            setRejectedReservations={setRejectedReservations}
           />
         );
       default:
