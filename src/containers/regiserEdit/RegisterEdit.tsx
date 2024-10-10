@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useForm, FieldError } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import axiosInstance from '@/services/axios';
+import { useQuery } from '@tanstack/react-query';
+import { useForm, FieldError } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Button from '@/components/Button/Button';
 import DropDown from '@/components/Dropdown/Dropdown';
@@ -11,9 +13,38 @@ import ScheduleInput from './Scheduleinput';
 import ImageUploadField from './ImageUploadField';
 import { IconMinusTime } from '@/assets/icons';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
-const Register = () => {
+const fetchActivity = async (id: any) => {
+  const response = await axiosInstance.get(`/activities/${id}`);
+  return response.data;
+};
+
+function RegisterEdit() {
+  const router = useRouter();
+  const { id } = router.query;
+  const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
+  const [subImageUrls, setSubImageUrls] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>('카테고리를 선택해주세요');
+  const [address, setAddress] = useState<string>('');
+  const [isPostcodeOpen, setIsPostcodeOpen] = useState<boolean>(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [scheduleError, setScheduleError] = useState<string>('');
+  const categoryOptions = [
+    { label: '문화 예술', value: '문화 예술' },
+    { label: '식음료', value: '식음료' },
+    { label: '스포츠', value: '스포츠' },
+    { label: '투어', value: '투어' },
+    { label: '관광', value: '관광' },
+    { label: '웰빙', value: '웰빙' },
+  ];
+
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['activity', id],
+    queryFn: () => fetchActivity(id),
+    enabled: !!id,
+  });
+
   const [availableTimes, setAvailableTimes] = useState<
     { date: Date | null; startTime: string; endTime: string }[]
   >([]);
@@ -27,32 +58,33 @@ const Register = () => {
     endTime: '',
   });
 
-  const [bannerImageUrl, setBannerImageUrl] = useState<string | null>(null);
-  const [subImageUrls, setSubImageUrls] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] =
-    useState<string>('카테고리를 선택해주세요');
-  const [address, setAddress] = useState<string>('');
-  const [isPostcodeOpen, setIsPostcodeOpen] = useState<boolean>(false);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [scheduleError, setScheduleError] = useState<string>('');
-  const router = useRouter();
-
-  const categoryOptions = [
-    { label: '문화 예술', value: '문화 예술' },
-    { label: '식음료', value: '식음료' },
-    { label: '스포츠', value: '스포츠' },
-    { label: '투어', value: '투어' },
-    { label: '관광', value: '관광' },
-    { label: '웰빙', value: '웰빙' },
-  ];
-
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (data) {
+      setValue('title', data.title);
+      setSelectedCategory(data.category);
+      setValue('description', data.description);
+      setValue('price', data.price);
+      setAddress(data.address);
+      setBannerImageUrl(data.bannerImageUrl);
+      setSubImageUrls(data.subImages.map((img: any) => img.imageUrl));
+
+      const formattedSchedules = data.schedules.map((schedule: any) => ({
+        date: new Date(schedule.date),
+        startTime: schedule.startTime,
+        endTime: schedule.endTime,
+      }));
+      setAvailableTimes(formattedSchedules);
+    }
+  }, [data, setValue]);
 
   const uploadImageMutation = useMutation({
     mutationFn: async (file: File) => {
@@ -77,9 +109,12 @@ const Register = () => {
     },
   });
 
-  const submitDataMutation = useMutation({
+  const updateDataMutation = useMutation({
     mutationFn: async (formData: any) => {
-      const response = await axiosInstance.post('/activities', formData);
+      const response = await axiosInstance.patch(
+        `/my-activities/${id}`,
+        formData,
+      );
       return response.data;
     },
     onSuccess: () => {
@@ -88,7 +123,7 @@ const Register = () => {
       setIsSubmitted(false);
     },
     onError: (error) => {
-      console.error('Activity registration error:', error);
+      console.error('Activity update error:', error);
     },
   });
 
@@ -137,7 +172,7 @@ const Register = () => {
       })),
     };
     console.log(postData);
-    submitDataMutation.mutate(postData);
+    updateDataMutation.mutate(postData);
   };
 
   const addSchedule = () => {
@@ -167,26 +202,6 @@ const Register = () => {
     setSelectedTime({ date, startTime, endTime });
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const modal = document.getElementById('postcode-modal');
-      if (modal && !modal.contains(event.target as Node)) {
-        setIsPostcodeOpen(false);
-      }
-    };
-
-    if (isPostcodeOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isPostcodeOpen]);
-
   const handleRegistration = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitted(true);
@@ -204,9 +219,9 @@ const Register = () => {
         className="mb-[72px] flex w-[792px] flex-col gap-[24px]"
       >
         <div className="flex flex-row justify-between">
-          <h1 className="text-3xl font-bold">내 체험 등록</h1>
+          <h1 className="text-3xl font-bold">내 체험 수정</h1>
           <Button type="submit" size="small">
-            등록하기
+            수정하기
           </Button>
         </div>
 
@@ -364,6 +379,6 @@ const Register = () => {
       </form>
     </>
   );
-};
+}
 
-export default Register;
+export default RegisterEdit;
