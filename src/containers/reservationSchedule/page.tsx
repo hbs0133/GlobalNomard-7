@@ -5,7 +5,7 @@ import axiosInstance from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 
 const useReservationDashboard = (
-  activityId: number,
+  activityId: number | undefined | string,
   year: string,
   month: string,
 ) => {
@@ -27,7 +27,7 @@ const useReservationDashboard = (
   });
 };
 
-const useActivities = (cursorId, size) => {
+const useActivities = (cursorId: any, size: any) => {
   return useQuery({
     queryKey: ['activities', cursorId, size],
     queryFn: async () => {
@@ -44,8 +44,8 @@ const useActivities = (cursorId, size) => {
 };
 
 function ReservationSchedule() {
-  const [selectedLabel, setSelectedLabel] = useState();
-  const [selectedValue, setSelectedValue] = useState();
+  const [selectedLabel, setSelectedLabel] = useState('');
+  const [selectedValue, setSelectedValue] = useState('');
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const year = currentDate.getFullYear().toString();
@@ -63,7 +63,7 @@ function ReservationSchedule() {
   const { data: activitiesData = [] } = useActivities(cursorId, size);
   const activities = activitiesData.activities || [];
 
-  const options = activities.map((activity) => ({
+  const options = activities.map((activity: any) => ({
     label: activity.title,
     value: activity.id,
   }));
@@ -91,7 +91,7 @@ function ReservationSchedule() {
             border="gray"
           />
           {options.map(
-            (option) =>
+            (option: any) =>
               option.value === selectedValue && (
                 <Calendar
                   key={option.value}

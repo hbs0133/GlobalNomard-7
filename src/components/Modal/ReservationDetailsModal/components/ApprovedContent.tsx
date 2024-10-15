@@ -13,7 +13,7 @@ function ApprovedContent({
 }: ITabContent) {
   const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
   const reservationData = reservations.find(
-    (reservation) => reservation.date === dateString,
+    (reservation: any) => reservation.date === dateString,
   );
   return (
     <div>
@@ -31,6 +31,8 @@ function ApprovedContent({
               options={options}
               setValue={setValue}
               setLabel={setLabel}
+              text="black"
+              border="green"
             />
           )}
         </div>
@@ -41,7 +43,7 @@ function ApprovedContent({
           <div>
             <div className="max-h-72 overflow-y-auto">
               {approvedReservations.length > 0 ? (
-                approvedReservations.map((reservation) => (
+                approvedReservations.map((reservation: any) => (
                   <ReservationDetailCard
                     key={`${reservation.scheduleId}-${reservation.userId}`}
                     reservation={reservation}

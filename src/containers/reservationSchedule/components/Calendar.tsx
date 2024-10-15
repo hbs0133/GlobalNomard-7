@@ -5,7 +5,7 @@ import { IconEllipsePending, IconEllipseCompleted } from '@/assets/icons';
 import ReservationDetailsModal from '@/components/Modal/ReservationDetailsModal/ReservationDetailsModal';
 import { useModalStore } from '@/stores/modalStore';
 
-function Calendar({ reservations, changeMonth, currentDate, activityId }) {
+function Calendar({ reservations, changeMonth, currentDate, activityId }: any) {
   const { isReservationDetailModalOpen, setOpenReservationDetailModal } =
     useModalStore();
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
@@ -38,7 +38,7 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
     for (let i = 1; i <= daysInCurrentMonth; i++) {
       const dateString = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
       const reservationData = reservations.find(
-        (reservation) => reservation.date === dateString,
+        (reservation: any) => reservation.date === dateString,
       );
 
       days.push(
@@ -137,7 +137,7 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
       {isReservationDetailModalOpen && (
         <ReservationDetailsModal
           modalPosition={modalPosition}
-          selectedDate={selectedDate}
+          selectedDate={selectedDate || new Date()}
           reservations={reservations}
           activityId={activityId}
         />

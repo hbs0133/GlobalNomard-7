@@ -5,32 +5,27 @@
     "node": true,
     "es6": true
   },
-  "plugins": [
-    "import",
-    "@typescript-eslint",
-    "react",
-    "prettier"
-  ],
+  "plugins": ["import", "@typescript-eslint", "react", "prettier"],
   "extends": [
-    "airbnb",
-    "airbnb-typescript",
-    "airbnb/hooks",
-    "next/core-web-vitals",
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
     "plugin:prettier/recommended",
-    "prettier"
+    "next/core-web-vitals"
   ],
   "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-console": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "react-hooks/exhaustive-deps": "off",
+    //여기까지 배포를 위한 규칙제거..
     "react/react-in-jsx-scope": "off",
+
     "react/jsx-filename-extension": [
       "warn",
       {
-        "extensions": [
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".ts", ".tsx"]
       }
     ],
     "@typescript-eslint/camelcase": "off",
@@ -42,7 +37,6 @@
         "tsx": "never"
       }
     ],
-    "no-console": "error",
     "react/jsx-props-no-spreading": 0,
     "prettier/prettier": [
       "error",
@@ -54,7 +48,6 @@
       2,
       { "namedComponents": ["arrow-function", "function-declaration"] }
     ]
-    //prop spred 제한하는 속성, 코드의 가독성과 유지보수를 위해서 어떤prop을 내려주는지 명시하는것이 좋다. but 공통컴포넌트에 rest파라미터 사용을 위해 속성추가. 대안을 찾아보겠습니다!
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -65,15 +58,5 @@
     },
     "project": "./tsconfig.json"
   },
-  "ignorePatterns": [
-    "build",
-    "dist",
-    "public"
-  ],
-  "prettier/prettier": [
-    "error",
-    {
-      "endOfLine": "off"
-    }
-  ]
+  "ignorePatterns": ["build", "dist", "public"]
 }

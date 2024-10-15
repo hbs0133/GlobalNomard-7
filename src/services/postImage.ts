@@ -17,6 +17,4 @@ const postImage = async (file: File) => {
   }
 };
 
-export default {
-  postImage,
-};
+export { postImage };

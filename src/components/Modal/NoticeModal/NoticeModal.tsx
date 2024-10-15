@@ -1,7 +1,13 @@
 import BaseModal from '../BaseModal';
 import NoticeCard from './components/NoticeCard';
 
-function NoticeModal({ modalPosition, notificationsData }) {
+function NoticeModal({
+  modalPosition,
+  notificationsData,
+}: {
+  modalPosition: any;
+  notificationsData: any;
+}) {
   const totalCount = notificationsData ? notificationsData.totalCount : 0;
   const notifications = notificationsData
     ? notificationsData.notifications
@@ -18,7 +24,7 @@ function NoticeModal({ modalPosition, notificationsData }) {
       notificationsData={notificationsData}
     >
       {notifications.length > 0 &&
-        notifications.map((notification) => (
+        notifications.map((notification: any) => (
           <NoticeCard key={notification.id} notification={notification} />
         ))}
     </BaseModal>

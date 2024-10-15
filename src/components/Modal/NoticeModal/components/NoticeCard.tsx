@@ -3,11 +3,13 @@ import Image from 'next/image';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosInstance from '@/services/axios';
 
-function NoticeCard({ notification }) {
+function NoticeCard({ notification }: { notification: any }) {
   const queryClient = useQueryClient();
   const createdAt = new Date(notification.createdAt);
   const now = new Date();
-  const diffInSeconds = Math.floor((now - createdAt) / 1000);
+  const diffInSeconds = Math.floor(
+    (now.getTime() - createdAt.getTime()) / 1000,
+  );
   let timeAgo = '';
 
   const deleteNotificationMutation = useMutation({
@@ -17,7 +19,7 @@ function NoticeCard({ notification }) {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['userNotifications']);
+      queryClient.invalidateQueries({ queryKey: ['userNotifications'] });
     },
   });
 

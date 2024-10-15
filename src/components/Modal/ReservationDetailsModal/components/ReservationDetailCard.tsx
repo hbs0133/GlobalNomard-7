@@ -6,11 +6,21 @@ function ReservationDetailCard({
   reservation,
   // setApprovedReservations,
   // setRejectedReservations,
+}: {
+  reservation: any;
 }) {
   const queryClient = useQueryClient();
 
   const updateReservation = useMutation({
-    mutationFn: async ({ activityId, reservationId, status }) => {
+    mutationFn: async ({
+      activityId,
+      reservationId,
+      status,
+    }: {
+      activityId: string;
+      reservationId: string;
+      status: string;
+    }) => {
       const response = await axiosInstance.patch(
         `/my-activities/${activityId}/reservations/${reservationId}`,
         { reservationId, status },
@@ -18,7 +28,7 @@ function ReservationDetailCard({
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['reservations']);
+      queryClient.invalidateQueries({ queryKey: ['reservations'] });
     },
     onError: (error) => {
       console.error('예약 업데이트 실패:', error);

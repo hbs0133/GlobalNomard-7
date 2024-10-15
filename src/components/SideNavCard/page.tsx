@@ -7,7 +7,7 @@ const MyReservations: React.FC = () => {
     <div>
       <div className="mb-3 text-3xl font-bold">예약 내역</div>
       <SideNavCard />
-      <ReservationCard />
+      {/* <ReservationCard /> */}
     </div>
   );
 };

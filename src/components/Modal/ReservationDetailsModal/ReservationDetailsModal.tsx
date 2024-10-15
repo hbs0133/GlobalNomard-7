@@ -6,7 +6,7 @@ import RequestContent from './components/RequestContent';
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/services/axios';
 
-const useReservedSchedule = (activityId, date) => {
+const useReservedSchedule = (activityId: any, date: any) => {
   return useQuery({
     queryKey: ['reservedSchedule', activityId, date],
     queryFn: async () => {
@@ -22,7 +22,12 @@ const useReservedSchedule = (activityId, date) => {
   });
 };
 
-const useReservations = (activityId, size = 10, scheduleId, status) => {
+const useReservations = (
+  activityId: any,
+  size = 10,
+  scheduleId: any,
+  status: any,
+) => {
   return useQuery({
     queryKey: ['reservations', activityId, size, scheduleId, status],
     queryFn: async () => {
@@ -48,10 +53,6 @@ function ReservationDetailsModal({
   reservations,
   activityId,
 }: IReservationDetailsModal) {
-  if (!selectedDate) {
-    return null;
-  }
-
   const [activeTab, setActiveTab] = useState('requestTab');
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [label, setLabel] = useState('');
@@ -64,7 +65,7 @@ function ReservationDetailsModal({
   );
 
   const selectedSchedule = reservedSchedule.find(
-    (schedule) => schedule.scheduleId === selectedTimeSlot,
+    (schedule: any) => schedule.scheduleId === selectedTimeSlot,
   );
 
   const scheduleId = selectedSchedule ? selectedSchedule.scheduleId : null;
@@ -86,41 +87,41 @@ function ReservationDetailsModal({
 
   console.log('Reservations Data:', reservationsData);
 
-  const options = reservedSchedule.map((schedule) => ({
+  const options = reservedSchedule.map((schedule: any) => ({
     label: `${schedule.startTime} ~ ${schedule.endTime}`,
     value: schedule.scheduleId,
   }));
 
   const filteredReservations =
     reservationsData?.reservations.filter(
-      (reservation) =>
+      (reservation: any) =>
         reservation.scheduleId === scheduleId &&
         reservation.status === 'pending',
     ) || [];
 
   const approvedReservations =
     reservationsData?.reservations.filter(
-      (reservation) =>
+      (reservation: any) =>
         reservation.scheduleId === scheduleId &&
         reservation.status === 'confirmed',
     ) || [];
 
   const rejectedReservations =
     reservationsData?.reservations.filter(
-      (reservation) =>
+      (reservation: any) =>
         reservation.scheduleId === scheduleId &&
         reservation.status === 'declined',
     ) || [];
 
-  const requestCount = reservedSchedule.reduce((total, schedule) => {
+  const requestCount = reservedSchedule.reduce((total: any, schedule: any) => {
     return total + schedule.count.pending;
   }, 0);
 
-  const approvedCount = reservedSchedule.reduce((total, schedule) => {
+  const approvedCount = reservedSchedule.reduce((total: any, schedule: any) => {
     return total + schedule.count.confirmed;
   }, 0);
 
-  const rejectedCount = reservedSchedule.reduce((total, schedule) => {
+  const rejectedCount = reservedSchedule.reduce((total: any, schedule: any) => {
     return total + schedule.count.declined;
   }, 0);
 
@@ -183,9 +184,9 @@ function ReservationDetailsModal({
     setActiveTab(tab);
   };
 
-  const handleTimeSlotChange = (value) => {
+  const handleTimeSlotChange = (value: any) => {
     const selectedSchedule = reservedSchedule.find(
-      (schedule) => schedule.scheduleId === value,
+      (schedule: any) => schedule.scheduleId === value,
     );
     if (selectedSchedule) {
       setSelectedTimeSlot(selectedSchedule.scheduleId);

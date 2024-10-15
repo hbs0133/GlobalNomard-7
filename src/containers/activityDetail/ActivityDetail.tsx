@@ -312,7 +312,7 @@ function ActivityDetail() {
                 </div>
                 <div>
                   {reviewData.reviews.map((review: any) => (
-                    <ReviewCard review={review} />
+                    <ReviewCard key={review.id} review={review} />
                   ))}
                 </div>
               </div>

@@ -80,6 +80,10 @@ function MiniCalendar({ activityId, onDateSelect }: IMiniCalendarProps) {
     const times = await fetchAvailableSchedule(newSelectedDate);
 
     const filteredTimes = times.filter((time: IavailableTimes) => {
+      if (!time.date) {
+        return false;
+      }
+
       const timeDate = new Date(time.date);
       return (
         timeDate.getDate() === day &&
@@ -87,7 +91,7 @@ function MiniCalendar({ activityId, onDateSelect }: IMiniCalendarProps) {
         timeDate.getMonth() === newSelectedDate.getMonth()
       );
     });
-    console.log(filteredTimes);
+
     onDateSelect(filteredTimes);
   };
 

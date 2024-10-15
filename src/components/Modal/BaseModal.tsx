@@ -115,12 +115,16 @@ function BaseModal({
           >
             {titleContent && (
               <div className="flex items-center justify-between">
-                <span className={twMerge(`text-black ${titleStyle[tStyle]}`)}>
+                <span
+                  className={twMerge(
+                    `text-black ${tStyle ? titleStyle[tStyle] : ''}`,
+                  )}
+                >
                   {titleContent}
                 </span>
                 <button
                   className={twMerge(
-                    `cursor-pointer hover:opacity-80 ${xButtonStyle[xStyle]}`,
+                    `cursor-pointer hover:opacity-80 ${xStyle ? xButtonStyle[xStyle] : ''}`,
                   )}
                   type="button"
                   onClick={setCloseModal}
@@ -135,7 +139,7 @@ function BaseModal({
         </div>
       )}
 
-      {isNoticeModalOpen && (
+      {isNoticeModalOpen && modalPosition && (
         <div
           className="absolute left-0 top-0 flex h-full w-full items-start"
           onClick={handleOverlayClick}
@@ -153,15 +157,19 @@ function BaseModal({
           >
             {titleContent && (
               <div className="flex items-center justify-between">
-                <span className={twMerge(`text-black ${titleStyle[tStyle]}`)}>
+                <span
+                  className={twMerge(
+                    `text-black ${tStyle ? titleStyle[tStyle] : ''}`,
+                  )}
+                >
                   {titleContent}
                 </span>
                 <button
                   className={twMerge(
-                    `cursor-pointer hover:opacity-80 ${xButtonStyle[xStyle]}`,
+                    `cursor-pointer hover:opacity-80 ${xStyle ? xButtonStyle[xStyle] : ''}`,
                   )}
                   type="button"
-                  onClick={setCloseNoticeModal}
+                  onClick={setCloseModal}
                 >
                   <Image src={IconX40px} alt="닫기버튼" />
                 </button>
@@ -173,7 +181,7 @@ function BaseModal({
         </div>
       )}
 
-      {isReservationDetailModalOpen && (
+      {isReservationDetailModalOpen && modalPosition && (
         <div
           className="absolute left-0 top-0 flex h-full w-full items-start"
           onClick={handleOverlayClick}
@@ -191,12 +199,16 @@ function BaseModal({
           >
             {titleContent && (
               <div className="flex items-center justify-between">
-                <span className={twMerge(`text-black ${titleStyle[tStyle]}`)}>
+                <span
+                  className={twMerge(
+                    `text-black ${tStyle ? titleStyle[tStyle] : ''}`,
+                  )}
+                >
                   {titleContent}
                 </span>
                 <button
                   className={twMerge(
-                    `cursor-pointer hover:opacity-80 ${xButtonStyle[xStyle]}`,
+                    `cursor-pointer hover:opacity-80 ${xStyle ? xButtonStyle[xStyle] : ''}`,
                   )}
                   type="button"
                   onClick={setCloseReservationDetailModal}

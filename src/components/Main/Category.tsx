@@ -13,18 +13,24 @@ import { useRouter } from 'next/router';
 
 function Category() {
   const [categoryValue, setCategoryValue] = useState<string>('');
-  const [sortValue, setSortValue] = useState<
-    'price_asc' | 'price_desc' | 'most_reviewed' | 'latest' | undefined
-  >(undefined);
+  // const [sortValue, setSortValue] = useState<
+  //   'price_asc' | 'price_desc' | 'most_reviewed' | 'latest' | undefined
+  // >(undefined);
+  const [sortValue, setSortValue] = useState('');
   const [sortLabel, setSortLabel] = useState<string>('가격');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(8);
   const router = useRouter();
 
-  const sortOptions = [
+  const sortOptions: {
+    label: string;
+    value: 'price_asc' | 'price_desc' | 'most_reviewed' | 'latest';
+  }[] = [
     { label: '가격 낮은순', value: 'price_asc' },
     { label: '가격 높은순', value: 'price_desc' },
+    { label: '가장 많이 리뷰된', value: 'most_reviewed' },
+    { label: '최신순', value: 'latest' },
   ];
 
   const categoryOptions = [

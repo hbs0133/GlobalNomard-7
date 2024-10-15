@@ -47,8 +47,6 @@ function BaseModal({
     notice: 'w-[26px] h-[26px] mobile:mt-[30px]',
   };
 
-  let button;
-
   useEffect(() => {
     if (type === 'nonModal') {
       setIsNonModal(true);
@@ -57,14 +55,13 @@ function BaseModal({
     }
   }, [type]);
 
-  button = (
+  const button = (
     <div className="flex h-full items-end justify-end mobile:justify-center">
       <Button onClick={onConfirm} size="mediumModal">
         확인
       </Button>
-    </div >
+    </div>
   );
-
 
   const handleOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) {
@@ -87,12 +84,16 @@ function BaseModal({
           >
             {titleContent && (
               <div className="flex items-center justify-between">
-                <span className={twMerge(`text-black ${titleStyle[tStyle]}`)}>
+                <span
+                  className={twMerge(
+                    `text-black ${tStyle ? titleStyle[tStyle] : ''}`,
+                  )}
+                >
                   {titleContent}
                 </span>
                 <button
                   className={twMerge(
-                    `cursor-pointer hover:opacity-80 ${xButtonStyle[xStyle]}`,
+                    `cursor-pointer hover:opacity-80 ${xStyle ? xButtonStyle[xStyle] : ''}`,
                   )}
                   type="button"
                   onClick={setCloseModal}
@@ -120,12 +121,16 @@ function BaseModal({
           >
             {titleContent && (
               <div className="flex items-center justify-between">
-                <span className={twMerge(`text-black ${titleStyle[tStyle]}`)}>
+                <span
+                  className={twMerge(
+                    `text-black ${tStyle ? titleStyle[tStyle] : ''}`,
+                  )}
+                >
                   {titleContent}
                 </span>
                 <button
                   className={twMerge(
-                    `cursor-pointer hover:opacity-80 ${xButtonStyle[xStyle]}`,
+                    `cursor-pointer hover:opacity-80 ${xStyle ? xButtonStyle[xStyle] : ''}`,
                   )}
                   type="button"
                   onClick={setCloseModal}

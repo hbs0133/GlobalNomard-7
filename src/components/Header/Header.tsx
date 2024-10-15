@@ -31,11 +31,7 @@ function Header() {
     queryFn: fetchUserData,
   });
 
-  const {
-    data: notificationsData,
-    error: notificationsError,
-    isLoading: notificationsLoading,
-  } = useQuery({
+  const { data: notificationsData } = useQuery({
     queryKey: ['userNotifications'],
     queryFn: fetchNotifications,
   });

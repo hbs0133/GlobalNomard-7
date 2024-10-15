@@ -12,7 +12,7 @@ function RequestContent({
 }: ITabContent) {
   const dateString = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
   const reservationData = reservations.find(
-    (reservation) => reservation.date === dateString,
+    (reservation: any) => reservation.date === dateString,
   );
   return (
     <div>
@@ -30,6 +30,8 @@ function RequestContent({
               options={options}
               setValue={setValue}
               setLabel={setLabel}
+              text="black"
+              border="green"
             />
           )}
         </div>
@@ -40,7 +42,7 @@ function RequestContent({
           <div>
             <div className="max-h-72 overflow-y-auto">
               {filteredReservations.length > 0 ? (
-                filteredReservations.map((reservation) => (
+                filteredReservations.map((reservation: any) => (
                   <ReservationDetailCard
                     key={`${reservation.scheduleId}-${reservation.userId}`}
                     reservation={reservation}
