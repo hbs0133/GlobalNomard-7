@@ -5,7 +5,7 @@ import { IconEllipsePending, IconEllipseCompleted } from '@/assets/icons';
 import ReservationDetailsModal from '@/components/Modal/ReservationDetailsModal/ReservationDetailsModal';
 import { useModalStore } from '@/stores/modalStore';
 
-function Calendar({ reservations, changeMonth, currentDate, activityId }) {
+function Calendar({ reservations, changeMonth, currentDate, activityId }: any) {
   const { isReservationDetailModalOpen, setOpenReservationDetailModal } =
     useModalStore();
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
@@ -38,13 +38,13 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
     for (let i = 1; i <= daysInCurrentMonth; i++) {
       const dateString = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
       const reservationData = reservations.find(
-        (reservation) => reservation.date === dateString,
+        (reservation: any) => reservation.date === dateString,
       );
 
       days.push(
         <div
           key={i}
-          className="relative flex h-[154px] w-full cursor-pointer border border-gray-e8 bg-white p-[12px] text-xl text-gray-96"
+          className="relative flex h-[154px] w-full transform cursor-pointer border border-gray-e8 bg-white p-[12px] text-xl text-gray-96 transition-transform duration-300 ease-in-out hover:scale-105"
           onClick={(e) => {
             const target = e.currentTarget as HTMLElement;
             const rect = target.getBoundingClientRect();
@@ -107,11 +107,19 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
   return (
     <div className="mt-[30px] flex flex-col items-center">
       <div className="mb-[18px] flex w-[342px] justify-between">
-        <button type="button" onClick={() => changeMonth(-1)}>
+        <button
+          className="transform transition-transform duration-300 ease-in-out hover:scale-110"
+          type="button"
+          onClick={() => changeMonth(-1)}
+        >
           <Image src={IconCalendarPrev} alt="이전 달력 버튼" />
         </button>
         <h2 className="text-xl font-bold">{`${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월`}</h2>
-        <button type="button" onClick={() => changeMonth(1)}>
+        <button
+          className="transform transition-transform duration-300 ease-in-out hover:scale-110"
+          type="button"
+          onClick={() => changeMonth(1)}
+        >
           <Image src={IconCalendarNext} alt="이후 달력 버튼" />
         </button>
       </div>
@@ -129,7 +137,7 @@ function Calendar({ reservations, changeMonth, currentDate, activityId }) {
       {isReservationDetailModalOpen && (
         <ReservationDetailsModal
           modalPosition={modalPosition}
-          selectedDate={selectedDate}
+          selectedDate={selectedDate || new Date()}
           reservations={reservations}
           activityId={activityId}
         />

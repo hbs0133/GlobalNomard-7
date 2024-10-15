@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import starIcon from '@/assets/icons/ic_like_star.svg';
 
-function ItemCard({ item, onClick }) {
+function ItemCard({ item, onClick }: { item: any; onClick: any }) {
   return (
     <div
       className="flex h-auto w-[168px] cursor-pointer flex-col sm:w-[221px] xl:w-[283px]"

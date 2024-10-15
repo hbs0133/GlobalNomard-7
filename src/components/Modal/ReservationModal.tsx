@@ -12,6 +12,7 @@ export interface IavailableTimes {
   date: Date | null;
   startTime: string;
   endTime: string;
+  times?: any;
 }
 
 function ReservationModal({ activityId }: IReservationModal) {
@@ -106,7 +107,7 @@ function ReservationModal({ activityId }: IReservationModal) {
             <p className="text-2lg font-bold">예약 가능한 시간</p>
             <div className="mt-[14px] flex flex-wrap gap-[12px]">
               {availableTimes.map((availableTime, index) =>
-                availableTime.times.map((time, timeIndex) => (
+                availableTime.times.map((time: any, timeIndex: any) => (
                   <button
                     key={timeIndex}
                     className={`bg-black-white shrink-0 rounded-[8px] border-[1px] border-black-nomad px-[12px] py-[10px] text-black-nomad ${selectedScheduleId === time.id ? 'bg-black-nomad text-white' : ''}`}
@@ -122,11 +123,17 @@ function ReservationModal({ activityId }: IReservationModal) {
           <div className="mb-[24px]">
             <p className="text-2lg font-bold">참여 인원 수</p>
             <div className="mt-[8px] flex w-[120px] justify-between rounded-[6px] border-[1px] border-gray-e8 p-[10px]">
-              <button onClick={decreaseHeadCount}>
+              <button
+                className="transform transition-transform duration-300 ease-in-out hover:scale-110"
+                onClick={decreaseHeadCount}
+              >
                 <Image src={IconSubtract} alt="인원 수 감소 버튼" />
               </button>
               <span>{headCount}</span>
-              <button onClick={increaseHeadCount}>
+              <button
+                className="transform transition-transform duration-300 ease-in-out hover:scale-110"
+                onClick={increaseHeadCount}
+              >
                 <Image src={IconAdd} alt="인원 수 증가 버튼" />
               </button>
             </div>

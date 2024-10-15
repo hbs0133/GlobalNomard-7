@@ -14,4 +14,3 @@ function reservationSchedule() {
 }
 
 export default reservationSchedule;
-

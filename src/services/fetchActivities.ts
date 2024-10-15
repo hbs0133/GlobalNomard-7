@@ -3,7 +3,7 @@ import axiosInstance from '@/services/axios';
 export interface FetchActivitiesParams {
   method: 'offset' | 'cursor';
   category?: string;
-  sort?: 'price_asc' | 'price_desc' | 'most_reviewed' | 'latest';
+  sort?: string;
   page?: string;
   size?: string;
   cursorId?: number;

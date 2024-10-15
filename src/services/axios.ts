@@ -51,7 +51,6 @@ axiosInstance.interceptors.response.use(
         // 재시도 요청을 보냄
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        console.error('토큰 갱신 실패:', refreshError);
         return Promise.reject(refreshError);
       }
     }
